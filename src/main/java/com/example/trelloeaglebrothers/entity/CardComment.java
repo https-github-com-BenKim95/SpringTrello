@@ -5,10 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 //장원님
 @Entity
-@Table(name = "cardComments")
+@Table(name = "card_comments")
 @Getter
 @NoArgsConstructor
-public class CardComment {
+public class CardComment extends TimeStamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,11 +17,11 @@ public class CardComment {
     @Column(nullable = false)
     private String contents;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY )
     @JoinColumn(name = "user_id", nullable = false)
     private User user; 
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY )
     @JoinColumn(name = "card_id", nullable = false)
     private Card card;
 }
