@@ -6,7 +6,8 @@ import lombok.Getter;
 //동규님
 @Entity
 @Getter
-public class Card {
+@Table(name = "card")
+public class Card extends TimeStamped{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +22,9 @@ public class Card {
     @Column(nullable = false)
     private String color;
 
-//    @Column(nullable = false)
-//    private String title;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "column_list_id")
+    private ColumnList columnList;
+
+
 }

@@ -8,21 +8,20 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "user_card")
-public class UserCard {
+@Table(name = "column_list")
+public class ColumnList {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    private String contents;
+    @Column(nullable = false)
+    private String title;
 
     @ManyToOne(fetch = FetchType.LAZY )
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "board_id")
+    private Board board;
 
-    @ManyToOne(fetch = FetchType.LAZY )
-    @JoinColumn(name = "card_id")
-    private Card card;
+
+
 }
