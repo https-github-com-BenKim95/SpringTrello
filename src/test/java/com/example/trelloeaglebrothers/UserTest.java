@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.annotation.Rollback;
 
@@ -18,11 +19,14 @@ public class UserTest {
     @Autowired
     EntityManager em;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     @Test
     @Rollback(value = false)
     void saveTest() {
-        User user1 = new User("Hyun","1234", "hjchoo95@naver.com");
-        User user2 = new User("Joong","1234", "hjchoo95@naver.com");
+        User user1 = new User("Hyun", passwordEncoder.encode("1234"), "hjchoo95@naver.com");
+        User user2 = new User("Joong",passwordEncoder.encode("1234"), "hjchoo95@naver.com");
         em.persist(user1);
         em.persist(user2);
 
