@@ -21,10 +21,6 @@ public class Board extends TimeStamped{
     @Column(nullable = false)
     private String title;
 
-    public Board(String title) {
-        this.title = title;
-    }
-
     @OneToMany(mappedBy = "board")
     List<UserBoard> userBoards = new ArrayList<>();
 
@@ -32,7 +28,8 @@ public class Board extends TimeStamped{
     List<ColumnList> columnLists;
 
 
-
-
+    public Board(String title) {
+        this.title = title;
+    }
 
 }

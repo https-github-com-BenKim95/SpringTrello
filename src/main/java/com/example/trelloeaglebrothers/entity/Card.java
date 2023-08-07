@@ -2,10 +2,12 @@ package com.example.trelloeaglebrothers.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 //동규님
 @Entity
 @Getter
+@RequiredArgsConstructor
 @Table(name = "card")
 public class Card extends TimeStamped{
 
@@ -25,6 +27,4 @@ public class Card extends TimeStamped{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "column_list_id")
     private ColumnList columnList;
-
-
 }
