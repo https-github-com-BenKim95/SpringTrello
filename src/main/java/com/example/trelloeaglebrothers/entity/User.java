@@ -24,4 +24,10 @@ public class User {
     @Column(nullable = false)
     private String email;
 
+
+    public User (String username, String password, String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
 }
