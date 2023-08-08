@@ -7,6 +7,8 @@ import com.example.trelloeaglebrothers.entity.User;
 import com.example.trelloeaglebrothers.entity.UserBoard;
 import com.example.trelloeaglebrothers.entity.UserRoleEnum;
 import com.example.trelloeaglebrothers.repository.BoardRepository;
+import com.example.trelloeaglebrothers.repository.UserBoardRepository;
+import com.example.trelloeaglebrothers.repository.UserRepository;
 import com.example.trelloeaglebrothers.status.Message;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
@@ -32,13 +34,16 @@ public class BoardService {
 
     public BoardResponseDto createBoard(BoardRequestDto requestDto, User user) {
         Board board = boardRepository.save(new Board(requestDto, user));
+        UserBoard userBoard = new UserBoard(user, board);
+        userBoardRepository.save(userBoard);
+
         return new BoardResponseDto(board);
     }
 
 
     @Transactional
-    public BoardResponseDto updateBoard(Long id, BoardRequestDto requestDto, User user) {
-        Board board = findBoard(id);
+    public BoardResponseDto updateBoard(Long boardId, BoardRequestDto requestDto, User user) {
+        Board board = findBoard(boardId);
         confirmUser(board, user);
         board.update(requestDto);
         UserBoard userBoard = new UserBoard(user, board);
@@ -47,18 +52,20 @@ public class BoardService {
         return ResponseEntity.ok().body(new BoardResponseDto(board)).getBody();
     }
 
-    public ResponseEntity<Message> deleteBoard(Long id, BoardRequestDto requestDto, User user){
-        Board board = findBoard(id);
+    public ResponseEntity<Message> deleteBoard(Long boardId, User user){
+        Board board = findBoard(boardId);
         confirmUser(board, user);
 
         boardRepository.delete(board);
         String msg ="삭제 완료";
         Message message = new Message(msg, HttpStatus.OK.value());
+
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
-    private Board findBoard(Long id){
-        return boardRepository.findById(id).orElseThrow(()->
+    // 공통 로직
+    private Board findBoard(Long boardId){
+        return boardRepository.findById(boardId).orElseThrow(()->
                 new IllegalArgumentException(messageSource.getMessage(
                         "not.exist.post",
                         null,
@@ -70,7 +77,7 @@ public class BoardService {
 
     private void confirmUser(Board board, User user) {
         UserRoleEnum userRoleEnum = user.getRole();
-        if (userRoleEnum == UserRoleEnum.MEMBER && !Objects.equals(board.getUsers().toString(), user.getId())) {
+        if (userRoleEnum == UserRoleEnum.MEMBER && !Objects.equals(board.getUserBoards(), user.getId())) {
             throw new IllegalArgumentException(messageSource.getMessage(
                     "not.your.post",
                     null,

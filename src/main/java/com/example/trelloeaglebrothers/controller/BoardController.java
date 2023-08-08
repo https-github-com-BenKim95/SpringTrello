@@ -36,9 +36,9 @@ public class BoardController {
     }
 
     @DeleteMapping("/board/{id}")
-    public ResponseEntity<Message> deleteMemo(@PathVariable Long id, @RequestBody BoardRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails)
+    public ResponseEntity<Message> deleteMemo(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
-        return boardService.deleteBoard(id, requestDto, userDetails.getUser());
+        return boardService.deleteBoard(id, userDetails.getUser());
     }
 
 

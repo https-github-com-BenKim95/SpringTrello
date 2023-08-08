@@ -8,4 +8,6 @@ import lombok.Setter;
 public class BoardRequestDto {
 
     private String title;
+    private String color;
+    private String description;
 }
