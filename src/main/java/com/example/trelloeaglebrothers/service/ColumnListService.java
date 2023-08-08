@@ -10,15 +10,18 @@ import com.example.trelloeaglebrothers.repository.BoardRepository;
 import com.example.trelloeaglebrothers.repository.ColumnListRepository;
 import jakarta.transaction.Transactional;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.RejectedExecutionException;
 
 @Service
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class ColumnListService {
-    BoardRepository boardRepository;
-    ColumnListRepository columnListRepository;
+
+    private final BoardRepository boardRepository;
+
+    private final ColumnListRepository columnListRepository;
 
     //칼럼생성
     public void createColumnList(Long boardId, ColumnListRequestDto requestDto, User user) {
