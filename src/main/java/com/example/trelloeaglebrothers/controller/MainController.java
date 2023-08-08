@@ -17,4 +17,19 @@ public class MainController {
     public String signUp() {
         return "signUp";
     }
+
+    @GetMapping("/users/login")
+    public String login() {
+        return "login";
+    }
+
+    @GetMapping("/users/update")
+    public String update() {
+        return "myPage";
+    }
+
+    @GetMapping("/users/pswd")
+    public String pswd() {
+        return "password";
+    }
 }
