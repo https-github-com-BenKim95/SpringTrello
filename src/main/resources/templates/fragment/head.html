@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="userHead (param1)">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <script src="https://kit.fontawesome.com/70a41c7bda.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" th:href="@{/css/base.css}"/>
+  <title th:text="${param1}"></title>
+</head>
+</html>
