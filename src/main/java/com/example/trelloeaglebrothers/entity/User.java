@@ -26,6 +26,10 @@ public class User {
     @Column(nullable = false)
     private String email;
 
+    @Column
+    @Enumerated(value = EnumType.STRING) //enum String 형태 선언 annotaton
+    private UserRoleEnum role;
+
 
     public User(String username, String password, String email) {
         this.username = username;
@@ -33,4 +37,7 @@ public class User {
         this.email = email;
     }
 
+    public void setRole(UserRoleEnum role) {
+        this.role = role;
+    }
 }
