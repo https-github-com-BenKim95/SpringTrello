@@ -4,6 +4,7 @@ import com.example.trelloeaglebrothers.dto.BoardRequestDto;
 import com.example.trelloeaglebrothers.dto.BoardResponseDto;
 import com.example.trelloeaglebrothers.entity.Board;
 import com.example.trelloeaglebrothers.entity.User;
+import com.example.trelloeaglebrothers.entity.UserBoard;
 import com.example.trelloeaglebrothers.entity.UserRoleEnum;
 import com.example.trelloeaglebrothers.repository.BoardRepository;
 import com.example.trelloeaglebrothers.status.Message;
@@ -23,6 +24,7 @@ import java.util.Objects;
 public class BoardService {
     private final BoardRepository boardRepository;
     private final MessageSource messageSource;
+    private final UserBoardRepository userBoardRepository;
 
     public List<BoardResponseDto> getBoards() {
         return boardRepository.findAllByOrderByCreatedAtDesc().stream().map(BoardResponseDto::new).toList();
@@ -39,6 +41,9 @@ public class BoardService {
         Board board = findBoard(id);
         confirmUser(board, user);
         board.update(requestDto);
+        UserBoard userBoard = new UserBoard(user, board);
+        userBoardRepository.save(userBoard);
+
         return ResponseEntity.ok().body(new BoardResponseDto(board)).getBody();
     }
 
