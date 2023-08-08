@@ -1,4 +1,4 @@
-package com.example.trelloeaglebrothers.entity;
+package com.example.trelloeaglebrothers.entity;/*
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -23,4 +23,4 @@ public class UserBoard {
     @ManyToOne(fetch = FetchType.LAZY )
     @JoinColumn(name = "board_id")
     private Board board;
-}
+}*/
