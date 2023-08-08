@@ -39,7 +39,6 @@ public class BoardService {
         return new BoardResponseDto(board);
     }
 
-
     @Transactional
     public BoardResponseDto updateBoard(Long boardId, BoardRequestDto requestDto, User user) {
         Board board = findBoard(boardId);
