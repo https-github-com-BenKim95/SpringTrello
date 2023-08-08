@@ -1,5 +1,6 @@
 package com.example.trelloeaglebrothers.entity;
 
+import com.example.trelloeaglebrothers.dto.BoardRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

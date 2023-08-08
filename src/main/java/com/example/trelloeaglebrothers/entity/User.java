@@ -27,9 +27,8 @@ public class User {
     private String email;
 
     @Column
-    @Enumerated(value = EnumType.STRING) //enum String 형태 선언 annotaton
+    @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
-
 
     public User(String username, String password, String email) {
         this.username = username;
