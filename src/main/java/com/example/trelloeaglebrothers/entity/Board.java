@@ -1,10 +1,10 @@
 package com.example.trelloeaglebrothers.entity;
 //수정님
 
+import com.example.trelloeaglebrothers.dto.BoardRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import java.util.ArrayList;
 import java.util.List;
 
