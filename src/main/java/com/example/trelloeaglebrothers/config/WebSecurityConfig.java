@@ -60,7 +60,9 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests((authorizeHttpRequests) ->
                 authorizeHttpRequests
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() //resources 접근 허용 설정
-                        .requestMatchers("/api/user/**").permitAll() // 'post/user/'로 시작하는 요청 모두 접근 허용 //유저 관련 설정
+                        .requestMatchers("/**").permitAll() // 홈 요청 허락
+                        .requestMatchers("/users/**").permitAll() // 유저 요청 허락
+                        .requestMatchers("/api/users/**").permitAll() // 'post/user/'로 시작하는 요청 모두 접근 허용 //유저 관련 설정
                         .anyRequest().authenticated() // 그 외 모든 요청 인증처리
         );
 
