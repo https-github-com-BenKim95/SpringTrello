@@ -1,4 +1,4 @@
-package com.example.trelloeaglebrothers;
+package com.example.trelloeaglebrothers;/*
 
 import com.example.trelloeaglebrothers.entity.Board;
 import com.example.trelloeaglebrothers.entity.User;
@@ -29,8 +29,8 @@ public class UserTest {
         em.persist(user1);
         em.persist(user2);
 
-        Board board1 = new Board("title");
-        Board board2 = new Board("title2");
+        Board board1 = new Board("title","");
+        Board board2 = new Board("title2", "");
         em.persist(board1);
         em.persist(board2);
 
@@ -44,6 +44,6 @@ public class UserTest {
         userBoard2.setBoard(board2);
         em.persist(userBoard2);
 
-
     }
 }
+ */

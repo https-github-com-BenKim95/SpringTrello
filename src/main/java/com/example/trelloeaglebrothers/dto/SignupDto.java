@@ -30,4 +30,6 @@ public class SignupDto {
     @Email
     private String email;
 
+
+
 }
