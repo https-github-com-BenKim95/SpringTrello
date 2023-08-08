@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -15,7 +17,11 @@ public class BoardResponseDto {
 
     private String title;
 
-    private String username;
+    private List<UserResponseDto> userList = new ArrayList<>();
+
+    private String color;
+
+    private String description;
 
     private LocalDateTime createdAt;
 
