@@ -7,15 +7,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 
 @Slf4j
-@Controller
-@RequestMapping("/api/users")
+@RestController
+@RequestMapping("/api/user")
 public class UserController {
 
     UserService userService;
@@ -27,21 +28,21 @@ public class UserController {
 
     //회원가입
     @PostMapping("/signup")
-    public String signup(@Validated @ModelAttribute  SignupDto signupDto, BindingResult bindingResult) {
+    public ResponseEntity<String> signup(@RequestBody @Valid SignupDto signupDto, BindingResult bindingResult) {
         log.info("signup={}", signupDto);
 
         if(bindingResult.hasErrors()) {
             log.info("bindingResult={}", bindingResult);
-            return "signUp";
+            return new ResponseEntity<>("회원가입 형식에 맞지 않습니다.", HttpStatus.NOT_ACCEPTABLE);
         }
 
         try {
             userService.signup(signupDto);
         } catch (Exception e) {
-            return "signUp";
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
 
         }
 
-        return "index";
+        return new ResponseEntity<>("회원가입 성공", HttpStatus.OK);
     }
 }
