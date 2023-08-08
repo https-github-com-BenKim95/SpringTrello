@@ -12,9 +12,6 @@ import jakarta.transaction.Transactional;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
 
 @Service
@@ -31,8 +28,8 @@ public class ColumnListService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 보드가 존재하지 않습니다."));
 
         //보드 멤버인지 확인
-        User memberCheck = null;
-        if (user.getRole().equals(UserRoleEnum.MANAGER) || user.getRole().equals(UserRoleEnum.MEMBER)) {
+//        User memberCheck = null;
+//        if (user.getRole().equals(UserRoleEnum.MANAGER) || user.getRole().equals(UserRoleEnum.MEMBER)) {
 
             //보드가 존재 한다면 칼럼 생성
             ColumnList columnList = new ColumnList(board, requestDto);
@@ -40,7 +37,7 @@ public class ColumnListService {
             //저장
             columnListRepository.save(columnList);
 
-        } else throw new RejectedExecutionException("접근 권한이 없습니다.");
+//        } else throw new RejectedExecutionException("접근 권한이 없습니다.");
 
 
     }
@@ -95,7 +92,7 @@ public class ColumnListService {
     }
 
 
-    //컬럼 순선 변경
+    //컬럼 순서 변경
     @Transactional
     public ColumnListResponseDto orderSwap(Long boardId, User user, Long forwardOrder, Long backwardOrder) {
         //보드가 존재 하는지 체크

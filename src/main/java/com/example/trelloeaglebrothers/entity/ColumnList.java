@@ -19,7 +19,7 @@ public class ColumnList {
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
+    @Column
     private int orderNum;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,7 +30,7 @@ public class ColumnList {
     public ColumnList(Board board, ColumnListRequestDto requestDto) {
         this.board = board;
         this.title = requestDto.getTitle();
-        this.orderNum++;
+//        this.orderNum++;
     }
 
     public void update(String title, Board board){

@@ -2,6 +2,7 @@ package com.example.trelloeaglebrothers.dto;
 
 import com.example.trelloeaglebrothers.entity.Board;
 import com.example.trelloeaglebrothers.entity.User;
+import com.example.trelloeaglebrothers.entity.UserBoard;
 import lombok.Getter;
 import lombok.Setter;
 
