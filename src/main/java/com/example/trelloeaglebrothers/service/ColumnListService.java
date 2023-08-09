@@ -32,8 +32,8 @@ public class ColumnListService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 보드가 존재하지 않습니다."));
 
         //보드 멤버인지 확인
-        User memberCheck = null;
-        if (user.getRole().equals(UserRoleEnum.MANAGER) || user.getRole().equals(UserRoleEnum.MEMBER)) {
+//        User memberCheck = null;
+//        if (user.getRole().equals(UserRoleEnum.MANAGER) || user.getRole().equals(UserRoleEnum.MEMBER)) {
 
             //보드가 존재 한다면 칼럼 생성
             ColumnList columnList = new ColumnList(board, requestDto);
@@ -50,7 +50,7 @@ public class ColumnListService {
             columnListRepository.save(columnList);
 
 
-        } else throw new RejectedExecutionException("접근 권한이 없습니다.");
+//        } else throw new RejectedExecutionException("접근 권한이 없습니다.");
 
 
     }
@@ -71,14 +71,14 @@ public class ColumnListService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 칼럼이 존재하지 않습니다."));
 
         //보드 멤버인지 확인
-        User memberCheck = null;
-        if (user.getRole().equals(UserRoleEnum.MANAGER) || user.getRole().equals(UserRoleEnum.MEMBER)) {
+//        User memberCheck = null;
+//        if (user.getRole().equals(UserRoleEnum.MANAGER) || user.getRole().equals(UserRoleEnum.MEMBER)) {
 
 
             columnList.update(requestDto.getTitle(), board);
             return new ColumnListResponseDto("컬럼이 변경되었습니다.");
 
-        } else throw new RejectedExecutionException("접근 권한이 없습니다.");
+//        } else throw new RejectedExecutionException("접근 권한이 없습니다.");
     }
 
     //칼럼 삭제
@@ -94,12 +94,12 @@ public class ColumnListService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 칼럼이 존재하지 않습니다."));
 
         //보드 멤버인지 확인
-        User memberCheck = null;
-        if (user.getRole().equals(UserRoleEnum.MANAGER) || user.getRole().equals(UserRoleEnum.MEMBER)) {
+//        User memberCheck = null;
+//        if (user.getRole().equals(UserRoleEnum.MANAGER) || user.getRole().equals(UserRoleEnum.MEMBER)) {
 
             columnListRepository.delete(columnList);
 
-        } else throw new RejectedExecutionException("삭제 권한이 없습니다.");
+//        } else throw new RejectedExecutionException("삭제 권한이 없습니다.");
 
 
     }
