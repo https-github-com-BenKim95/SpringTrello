@@ -3,6 +3,7 @@ package com.example.trelloeaglebrothers.service;
 import com.example.trelloeaglebrothers.dto.ApiResponseDto;
 import com.example.trelloeaglebrothers.dto.CardCommentRequestDto;
 import com.example.trelloeaglebrothers.dto.CardRequestDto;
+import com.example.trelloeaglebrothers.dto.CardResponseDto;
 import com.example.trelloeaglebrothers.entity.*;
 import com.example.trelloeaglebrothers.repository.*;
 import jakarta.transaction.Transactional;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -45,7 +47,7 @@ public class CardService {
 
     //카드 수정
     @Transactional
-    public ResponseEntity<ApiResponseDto> editCard(Long boardId, Long columnListId, Long cardId, CardRequestDto cardRequestDto, User user) {
+    public CardResponseDto editCard(Long boardId, Long columnListId, Long cardId, CardRequestDto cardRequestDto, User user) {
         String title = cardRequestDto.getTitle();
         String description = cardRequestDto.getDescription();
         String color = cardRequestDto.getColor();
@@ -62,11 +64,11 @@ public class CardService {
         Optional<Card> card = cardRepository.findById(cardId);
 
         if (columnList.isEmpty()) {
-            return ResponseEntity.status(400).body(new ApiResponseDto(HttpStatus.BAD_REQUEST, "해당 컬럼리스트는 존재하지 않습니다."));
+            throw new IllegalArgumentException("해당 컬럼리스트는 존재하지 않습니다.");
         } else if (card.isEmpty()) {
-            return ResponseEntity.status(400).body(new ApiResponseDto(HttpStatus.BAD_REQUEST, "해당 카드는 존재하지 않습니다."));
+            throw new IllegalArgumentException("해당 카드는 존재하지 않습니다.");
         } else if (dueDate.isBefore(LocalDateTime.now())) { // 현재시간보다 전으로 설정 X
-            return ResponseEntity.status(400).body(new ApiResponseDto(HttpStatus.BAD_REQUEST, "마감일은 현재 시간보다 이전일 수 없습니다."));
+            throw new IllegalArgumentException("마감일은 현재 시간보다 이전일 수 없습니다.");
         }
 
         card.get().setTitle(title);
@@ -77,7 +79,7 @@ public class CardService {
 
         cardRepository.save(card.get());
         userCardRepository.save(new UserCard(user, card.get()));
-        return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK, "카드가 수정되었습니다."));
+        return new CardResponseDto(card.get());
     }
 
     //카드 삭제

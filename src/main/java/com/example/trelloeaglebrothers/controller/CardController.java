@@ -5,6 +5,7 @@ import com.example.trelloeaglebrothers.security.UserDetailsImpl;
 import com.example.trelloeaglebrothers.service.CardService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -25,9 +26,9 @@ public class CardController {
 
     // 카드 수정
     @PutMapping("/api/board/{board_id}/column_list/{column_list_id}/card/{card_id}")
-    public ResponseEntity<ApiResponseDto> editCard(@PathVariable Long board_id, @PathVariable Long column_list_id, @PathVariable Long card_id,
+    public ResponseEntity<CardResponseDto> editCard(@PathVariable Long board_id, @PathVariable Long column_list_id, @PathVariable Long card_id,
                                                    @RequestBody CardRequestDto cardRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return cardService.editCard(board_id, column_list_id, card_id, cardRequestDto, userDetails.getUser());
+        return ResponseEntity.status(HttpStatus.OK).body(cardService.editCard(board_id, column_list_id, card_id, cardRequestDto, userDetails.getUser()));
     }
 
     // 카드 위치 옮기기
