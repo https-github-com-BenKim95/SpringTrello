@@ -19,8 +19,8 @@ public class ColumnList {
     @Column(nullable = false)
     private String title;
 
-    @Column
-    private int orderNum;
+    @Column(nullable = false)
+    private Long orderNum;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
@@ -30,15 +30,19 @@ public class ColumnList {
     public ColumnList(Board board, ColumnListRequestDto requestDto) {
         this.board = board;
         this.title = requestDto.getTitle();
-        this.orderNum++;
+
     }
 
-    public void update(String title, Board board){
-        this.title = title;
+    public void update(String title, Board board) {
         this.board = board;
+        this.title = title;
+
     }
 
-    public void setOrderNum(int orderNum) {
+    public void setOrderNum(Long orderNum) {
+
         this.orderNum = orderNum;
     }
+
+
 }
