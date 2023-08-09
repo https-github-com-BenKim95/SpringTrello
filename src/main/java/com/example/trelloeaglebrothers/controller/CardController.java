@@ -1,9 +1,11 @@
 package com.example.trelloeaglebrothers.controller;
 
-import com.example.trelloeaglebrothers.dto.*;
+import com.example.trelloeaglebrothers.dto.ApiResponseDto;
+import com.example.trelloeaglebrothers.dto.CardCommentRequestDto;
+import com.example.trelloeaglebrothers.dto.CardRequestDto;
+import com.example.trelloeaglebrothers.dto.CardResponseDto;
 import com.example.trelloeaglebrothers.security.UserDetailsImpl;
 import com.example.trelloeaglebrothers.service.CardService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,14 +52,14 @@ public class CardController {
     }
 
     // 카드 댓글 수정
-    @PutMapping("/board/{board_id}/column_list/{column_list_id}/card/{card_id}/comment{card_comment_id}")
+    @PutMapping("/board/{board_id}/column_list/{column_list_id}/card/{card_id}/comment/{card_comment_id}")
     public ResponseEntity<ApiResponseDto> editCardComments(@PathVariable Long board_id, @PathVariable Long column_list_id, @PathVariable Long card_id, @PathVariable Long card_comment_id,
                                                            @RequestBody CardCommentRequestDto cardCommentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return cardService.editCardComments(board_id, column_list_id, card_id, card_comment_id, cardCommentRequestDto, userDetails.getUser());
     }
 
     // 카드 댓글 삭제
-    @DeleteMapping("/board/{board_id}/column_list/{column_list_id}/card/{card_id}/comment{card_comment_id}")
+    @DeleteMapping("/board/{board_id}/column_list/{column_list_id}/card/{card_id}/comment/{card_comment_id}")
     public ResponseEntity<ApiResponseDto> createCardComments(@PathVariable Long board_id, @PathVariable Long column_list_id, @PathVariable Long card_id, @PathVariable Long card_comment_id,
                                                              @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return cardService.deleteCardComments(board_id, column_list_id, card_id, card_comment_id, userDetails.getUser());
