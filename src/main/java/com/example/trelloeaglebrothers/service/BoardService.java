@@ -39,16 +39,12 @@ public class BoardService {
 
     @Transactional
     public BoardResponseDto createBoard(BoardRequestDto requestDto, User user) {
-
+        UserRoleEnum role = UserRoleEnum.MANAGER;
         Board board = boardRepository.save(new Board(requestDto, user));
-
         // 매니저 권한 부여
-        user.setRole(UserRoleEnum.MANAGER);
 
-        userRepository.save(user);
 
-        UserBoard userBoard = new UserBoard(user, board);
-
+        UserBoard userBoard = new UserBoard(user, board, role);
 
         userBoardRepository.save(userBoard);
 
@@ -91,7 +87,9 @@ public class BoardService {
     }
 
     private void confirmUser(Board board, User user) {
-        if (!Objects.equals(board.getAuthor().getId(), user.getId())) { // 보드 값 받아오고 있는 부분 수정
+//        UserRoleEnum userRoleEnum = user.getRole();
+//        if (userRoleEnum == UserRoleEnum.MEMBER && !Objects.equals(board.getAuthor().getId(), user.getId())) {
+        if (!Objects.equals(board.getAuthor().getId(), user.getId())) {
             throw new IllegalArgumentException(messageSource.getMessage(
                     "not.your.post",
                     null,

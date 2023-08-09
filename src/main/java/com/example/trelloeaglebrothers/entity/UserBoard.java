@@ -26,6 +26,9 @@ public class UserBoard {
 //    this.user = user;
 //    this.board = board;
 //}
+    @Column
+    @Enumerated(value = EnumType.STRING)
+    private UserRoleEnum role;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "collaborator_id", nullable = false)
@@ -35,9 +38,11 @@ public class UserBoard {
     @JoinColumn(name = "board_id", nullable = false)
     private Board board;
 
-    public UserBoard(User collaborator, Board board) {
+    public UserBoard(User collaborator, Board board,
+                     UserRoleEnum role) {
         this.collaborator = collaborator;
         this.board = board;
+        this.role = role;
     }
 
 
