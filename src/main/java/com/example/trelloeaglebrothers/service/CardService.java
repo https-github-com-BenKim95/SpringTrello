@@ -13,7 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 @RequiredArgsConstructor
 @Service
@@ -33,7 +35,14 @@ public class CardService {
         if (columnList.isEmpty()) {
             return ResponseEntity.status(400).body(new ApiResponseDto(HttpStatus.BAD_REQUEST, "해당 컬럼리스트는 존재하지 않습니다."));
         }
-        Card card = new Card(cardRequestDto, null, columnList.get());
+
+        // cardList가 생성될 때 마다 orDerNum이 1씩 증가
+        // 조회했을때 null이면 1을 넣고
+        // 값이 있으면 그 값에 +1을 한다.
+        List<Card> cardList = cardRepository.findAllByOrderByOrderNumAsc();
+        Long newOrderNum = cardList.isEmpty() ? 1 : cardList.get(cardList.size() - 1).getOrderNum() + 1;
+
+        Card card = new Card(cardRequestDto, newOrderNum, null, columnList.get());
         cardRepository.save(card);
         userCardRepository.save(new UserCard(user, card));
         return ResponseEntity.status(201).body(new ApiResponseDto(HttpStatus.CREATED, "카드가 작성되었습니다."));
@@ -58,6 +67,28 @@ public class CardService {
             throw new IllegalArgumentException("마감일은 현재 시간보다 이전일 수 없습니다.");
         }
         return new CardResponseDto(card.get());
+    }
+
+    //카드 위치 변경
+    @Transactional
+    public ResponseEntity<ApiResponseDto> orderSwap(Long boardId, Long columnListId, Long forwardOrder, Long backwardOrder, User user) {
+        Optional<ColumnList> columnList = columnListRepository.findByBoardIdAndId(boardId, columnListId);
+        Optional<Card> forwardOrderCard = cardRepository.findById(forwardOrder);
+        Optional<Card> backwardOrderCard = cardRepository.findById(backwardOrder);
+
+        if (columnList.isEmpty()) {
+            return ResponseEntity.status(400).body(new ApiResponseDto(HttpStatus.BAD_REQUEST, "해당 컬럼리스트는 존재하지 않습니다."));
+        } else if (forwardOrderCard.isEmpty()) {
+            return ResponseEntity.status(400).body(new ApiResponseDto(HttpStatus.BAD_REQUEST, "해당 카드는 존재하지 않습니다."));
+        } else if (backwardOrderCard.isEmpty()) {
+            return ResponseEntity.status(400).body(new ApiResponseDto(HttpStatus.BAD_REQUEST, "해당 카드는 존재하지 않습니다."));
+        }
+
+        long flag = forwardOrderCard.get().getOrderNum();
+        forwardOrderCard.get().setOrderNum(backwardOrderCard.get().getOrderNum());
+        backwardOrderCard.get().setOrderNum(flag);
+
+        return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK, "카드 순서가 변경되었습니다."));
     }
 
     //카드 삭제
@@ -135,5 +166,6 @@ public class CardService {
         cardCommentRepository.delete(cardComment.get());
         return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK, "카드 댓글이 삭제되었습니다."));
     }
+
 
 }
