@@ -42,8 +42,6 @@ public class Board extends TimeStamped {
     @OneToMany(mappedBy = "board",cascade = CascadeType.REMOVE)
     List<ColumnList> columnLists;
 
-
-
     public Board(BoardRequestDto requestDto, User author) {
         this.title = requestDto.getTitle();
         this.color = requestDto.getColor();
@@ -51,6 +49,7 @@ public class Board extends TimeStamped {
         this.userBoards = new ArrayList<>();
         this.author = author;
     }
+
 
     public void update(BoardRequestDto requestDto) {
         this.title = requestDto.getTitle();
