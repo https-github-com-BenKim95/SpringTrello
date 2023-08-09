@@ -12,4 +12,9 @@ public interface UserBoardRepository extends JpaRepository<UserBoard, Long> {
     void deleteAllByCollaborator(User user);
 
     Optional<UserBoard> findById(Long id);
+
+
+    Optional<UserBoard> findUserBoardByCollaborator_Id (Long id);
+
+    Optional<UserBoard> findUserBoardByCollaborator_IdAndRole(Long id, UserRoleEnum userRoleEnum);
 }
