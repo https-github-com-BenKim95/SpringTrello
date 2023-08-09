@@ -1,7 +1,7 @@
 package com.example.trelloeaglebrothers.dto;
 
 import com.example.trelloeaglebrothers.entity.Board;
-import com.example.trelloeaglebrothers.entity.User;
+import com.example.trelloeaglebrothers.entity.UserBoard;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,7 +27,6 @@ public class BoardResponseDto {
 
     private LocalDateTime modifiedAt;
 
-
     public BoardResponseDto(Board board){
         this.board_id = board.getId();
         this.title = board.getTitle();
@@ -37,7 +36,7 @@ public class BoardResponseDto {
         this.modifiedAt = board.getModifiedAt();
 
         for (UserBoard userBoard : board.getUserBoards()) {
-            userList.add(new UserResponseDto(userBoard.getUser())); // Assuming UserBoard has a 'User' field
+            userList.add(new UserResponseDto(userBoard.getCollaborator())); // Assuming UserBoard has a 'User' field
         }
     }
 }
