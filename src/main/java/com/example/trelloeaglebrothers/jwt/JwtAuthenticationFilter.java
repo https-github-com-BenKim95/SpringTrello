@@ -22,26 +22,20 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     public JwtAuthenticationFilter(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
-        setFilterProcessesUrl("/user/login");
+        setFilterProcessesUrl("/api/users/login");
     }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         log.info("로그인 시도");
-        try {
-            LoginRequestDto requestDto = new ObjectMapper().readValue(request.getInputStream(), LoginRequestDto.class);
 
-            return getAuthenticationManager().authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            requestDto.getUsername(),
-                            requestDto.getPassword(),
-                            null
-                    )
-            );
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-        return null;
+        return getAuthenticationManager().authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getParameter("username"),
+                        request.getParameter("password"),
+                        null
+                )
+        );
     }
 
     @Override
@@ -51,11 +45,14 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         String token = jwtUtil.createToken(username);
         jwtUtil.addJwtToCookie(token, response);
+
+        response.sendRedirect("/");
     }
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
         log.info("로그인 실패");
-        response.sendError(401, "닉네임 또는 패스워드를 확인해주세요.");
+        // response.getWriter().write("아이디 또는 비밀번호가 틀립니다."); // 에러 메시지 전송
+        response.sendRedirect("/users/login?error=true");
     }
 }

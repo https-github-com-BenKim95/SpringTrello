@@ -5,31 +5,27 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Setter
 @Getter
+@NoArgsConstructor
 public class SignupDto {
 
-    @NotBlank
-    @Size(min=3, max=15)
-    @Pattern(regexp = "^[A-Za-z0-9]+$")
+    @Pattern(regexp = "^[A-Za-z0-9]{4,15}$", message = "아이디는 4~15 글자의 영문 숫자 조합이어야 합니다.")
     private String username;
 
-    @NotBlank
-    @Size(min=8, max=15)
-    @Pattern(regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+$")
+    @Pattern(regexp = "^[A-Za-z0-9]{4,15}$", message = "비밀번호는 4~15 글자의 영문 숫자 조합이어야 합니다.")
     private String password;
 
     //비밀번호 확인
-    @NotBlank
-    @Size(min=4, max=15)
-    @Pattern(regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+$")
+    @Pattern(regexp = "^[A-Za-z0-9]{4,15}$", message = "비밀번호는 4~15 글자의 영문 숫자 조합이어야 합니다.")
     private String checkPassword;
 
     @Email
     private String email;
 
-
+    private String nickName;
 
 }
