@@ -1,7 +1,6 @@
 package com.example.trelloeaglebrothers.dto;
 
 import com.example.trelloeaglebrothers.entity.Board;
-import com.example.trelloeaglebrothers.entity.User;
 import com.example.trelloeaglebrothers.entity.UserBoard;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +26,8 @@ public class BoardResponseDto {
     private LocalDateTime createdAt;
 
     private LocalDateTime modifiedAt;
+
+
 
 
     public BoardResponseDto(Board board){
