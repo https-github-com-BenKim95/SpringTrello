@@ -4,16 +4,14 @@ import com.example.trelloeaglebrothers.dto.ColumnListRequestDto;
 import com.example.trelloeaglebrothers.dto.ColumnListResponseDto;
 import com.example.trelloeaglebrothers.security.UserDetailsImpl;
 import com.example.trelloeaglebrothers.service.ColumnListService;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.RejectedExecutionException;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class ColumListController {
@@ -77,8 +75,8 @@ public class ColumListController {
     public ColumnListResponseDto orderSwap(@PathVariable Long board_id,
                                            @PathVariable Long forward_order,
                                            @PathVariable Long backward_order,
-                                           @AuthenticationPrincipal UserDetailsImpl userDetails){
-       return columnListService.orderSwap(board_id, userDetails.getUser(), forward_order, backward_order);
+                                           @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return columnListService.orderSwap(board_id, userDetails.getUser(), forward_order, backward_order);
 
     }
 }

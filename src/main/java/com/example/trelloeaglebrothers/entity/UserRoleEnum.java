@@ -1,10 +1,9 @@
 package com.example.trelloeaglebrothers.entity;
 
 public enum UserRoleEnum {
+    MANAGER(Authority.MANAGER),  // 매니저 권한
+    MEMBER(Authority.MEMBER);  // 멤버 권한
 
-
-    MEMBER(Authority.MEMBER),
-    MANAGER(Authority.MANAGER);
 
     private final String authority;
 
@@ -17,8 +16,8 @@ public enum UserRoleEnum {
     }
 
     public static class Authority {
-        public static final String MEMBER = "ROLE_MEMBER";
-        public static final String MANAGER = "ROLE_MANAGER";
+
+        public static final String MANAGER = "MANAGER";
+        public static final String MEMBER = "MEMBER";
     }
 }
-

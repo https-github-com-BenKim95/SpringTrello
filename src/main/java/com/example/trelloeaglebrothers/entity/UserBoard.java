@@ -1,31 +1,45 @@
 package com.example.trelloeaglebrothers.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Getter
-@Setter
-@NoArgsConstructor
-@Table(name = "userBoard")
+@Table(name = "user_board")
 public class UserBoard {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "user_id", nullable = false)
+//    private User user;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "board_id", nullable = false)
+//    private Board board;
+//public UserBoard(User user, Board board) {
+//    this.user = user;
+//    this.board = board;
+//}
 
-    @ManyToOne(fetch = FetchType.LAZY )
-    @JoinColumn(name = "user_id")
-    private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "collaborator_id", nullable = false)
+    private User collaborator;
 
-    @ManyToOne(fetch = FetchType.LAZY )
-    @JoinColumn(name = "board_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "board_id", nullable = false)
     private Board board;
 
-    public UserBoard(User user, Board board) {
-        this.user = user;
+    public UserBoard(User collaborator, Board board) {
+        this.collaborator = collaborator;
         this.board = board;
     }
+
+
+
 }

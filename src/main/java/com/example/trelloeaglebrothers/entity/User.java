@@ -1,11 +1,11 @@
 package com.example.trelloeaglebrothers.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,9 +26,13 @@ public class User {
     @Column(nullable = false)
     private String email;
 
-    @Column
-    @Enumerated(value = EnumType.STRING)
-    private UserRoleEnum role;
+//    @Builder.Default
+    @OneToMany(mappedBy = "collaborator", orphanRemoval = true)
+    private List<UserBoard> boardUsers = new ArrayList<>();
+
+//    @Builder.Default
+    @OneToMany(mappedBy = "author", orphanRemoval = true)
+    private List<Board> boards = new ArrayList<>();
 
     public User(String username, String password, String email) {
         this.username = username;
@@ -36,7 +40,4 @@ public class User {
         this.email = email;
     }
 
-    public void setRole(UserRoleEnum role) {
-        this.role = role;
-    }
 }
