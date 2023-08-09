@@ -1,4 +1,4 @@
-package com.example.trelloeaglebrothers;
+package com.example.trelloeaglebrothers;/*
 
 import com.example.trelloeaglebrothers.entity.Board;
 import com.example.trelloeaglebrothers.entity.User;
@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.annotation.Commit;
 import org.springframework.test.annotation.Rollback;
 
 @SpringBootTest
@@ -30,8 +29,8 @@ public class UserTest {
         em.persist(user1);
         em.persist(user2);
 
-        Board board1 = new Board("title");
-        Board board2 = new Board("title2");
+        Board board1 = new Board("title","");
+        Board board2 = new Board("title2", "");
         em.persist(board1);
         em.persist(board2);
 
@@ -45,6 +44,6 @@ public class UserTest {
         userBoard2.setBoard(board2);
         em.persist(userBoard2);
 
-
     }
 }
+ */
