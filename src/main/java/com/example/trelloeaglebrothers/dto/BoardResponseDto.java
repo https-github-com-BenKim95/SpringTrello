@@ -28,6 +28,8 @@ public class BoardResponseDto {
     private LocalDateTime modifiedAt;
 
 
+
+
     public BoardResponseDto(Board board){
         this.board_id = board.getId();
         this.title = board.getTitle();

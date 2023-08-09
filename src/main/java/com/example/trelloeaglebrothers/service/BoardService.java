@@ -59,6 +59,7 @@ public class BoardService {
         return new BoardResponseDto(board);
     }
 
+
     @Transactional
     public ResponseEntity<Message> deleteBoard(Long boardId, User user){
         Board board = findBoard(boardId);
