@@ -39,13 +39,16 @@ public class BoardService {
 
     @Transactional
     public BoardResponseDto createBoard(BoardRequestDto requestDto, User user) {
-        UserRoleEnum role = UserRoleEnum.MANAGER;
-//        if (requestDto.isManager()) {
-//            role = UserRoleEnum.MANAGER;
-//        }
-        Board board = boardRepository.save(new Board(requestDto, user, role));
+
+        Board board = boardRepository.save(new Board(requestDto, user));
+
+        // 매니저 권한 부여
+        user.setRole(UserRoleEnum.MANAGER);
+
+        userRepository.save(user);
 
         UserBoard userBoard = new UserBoard(user, board);
+
 
         userBoardRepository.save(userBoard);
 
@@ -63,19 +66,19 @@ public class BoardService {
 
 
     @Transactional
-    public ResponseEntity<Message> deleteBoard(Long boardId, User user){
+    public ResponseEntity<Message> deleteBoard(Long boardId, User user) {
         Board board = confirmBoard(boardId);
         confirmUser(board, user);
 
         boardRepository.delete(board);
-        String msg ="삭제 완료";
+        String msg = "삭제 완료";
         Message message = new Message(msg, HttpStatus.OK.value());
 
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     // 공통 로직
-    public Board confirmBoard(Long boardId){
+    public Board confirmBoard(Long boardId) {
         return boardRepository.findById(boardId)
                 .orElseThrow(() ->
                         new IllegalArgumentException(messageSource.getMessage(
@@ -86,6 +89,7 @@ public class BoardService {
                         ))
                 );
     }
+
     private void confirmUser(Board board, User user) {
         if (!Objects.equals(board.getAuthor().getId(), user.getId())) { // 보드 값 받아오고 있는 부분 수정
             throw new IllegalArgumentException(messageSource.getMessage(
