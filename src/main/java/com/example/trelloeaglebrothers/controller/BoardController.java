@@ -25,7 +25,8 @@ public class BoardController {
     }
 
     @PostMapping("/board")
-    public BoardResponseDto createBoard(@RequestBody BoardRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public BoardResponseDto createBoard(@RequestBody BoardRequestDto requestDto,
+                                        @AuthenticationPrincipal UserDetailsImpl userDetails){
         return boardService.createBoard(requestDto, userDetails.getUser());
     }
 

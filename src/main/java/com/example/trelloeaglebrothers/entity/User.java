@@ -1,8 +1,11 @@
 package com.example.trelloeaglebrothers.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 
 @Entity
 @Getter
@@ -32,12 +35,8 @@ public class User {
         this.password = password;
         this.email = email;
     }
-    /*
-    public User(String username, String password, String email, UserRoleEnum role) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
+
+    public void setRole(UserRoleEnum role) {
         this.role = role;
     }
-    */
 }
