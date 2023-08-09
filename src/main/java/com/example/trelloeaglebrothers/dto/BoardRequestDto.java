@@ -1,6 +1,5 @@
 package com.example.trelloeaglebrothers.dto;
 
-import com.example.trelloeaglebrothers.entity.UserRoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
