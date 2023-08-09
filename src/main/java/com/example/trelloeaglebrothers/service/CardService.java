@@ -13,10 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -31,15 +28,12 @@ public class CardService {
     //카드 생성
     @Transactional
     public ResponseEntity<ApiResponseDto> createCard(Long boardId, Long columnListId, CardRequestDto cardRequestDto, User user) {
-        String title = cardRequestDto.getTitle();
 
         Optional<ColumnList> columnList = columnListRepository.findByBoardIdAndId(boardId, columnListId);
         if (columnList.isEmpty()) {
             return ResponseEntity.status(400).body(new ApiResponseDto(HttpStatus.BAD_REQUEST, "해당 컬럼리스트는 존재하지 않습니다."));
         }
-        Card card = new Card();
-        card.setTitle(title);
-        card.setColumnList(columnList.get());
+        Card card = new Card(cardRequestDto, null, columnList.get());
         cardRepository.save(card);
         userCardRepository.save(new UserCard(user, card));
         return ResponseEntity.status(201).body(new ApiResponseDto(HttpStatus.CREATED, "카드가 작성되었습니다."));
@@ -48,17 +42,6 @@ public class CardService {
     //카드 수정
     @Transactional
     public CardResponseDto editCard(Long boardId, Long columnListId, Long cardId, CardRequestDto cardRequestDto, User user) {
-        String title = cardRequestDto.getTitle();
-        String description = cardRequestDto.getDescription();
-        String color = cardRequestDto.getColor();
-        LocalDateTime dueDate = cardRequestDto.getDueDate();
-        List<String> userList = cardRequestDto.getUserList();
-
-        List<UserCard> userCardList = new ArrayList<>();
-        for (String username : userList) {
-            List<UserCard> foundUserCards = userCardRepository.findByUserUsername(username);
-            userCardList.addAll(foundUserCards);
-        }
 
         Optional<ColumnList> columnList = columnListRepository.findByBoardIdAndId(boardId, columnListId);
         Optional<Card> card = cardRepository.findById(cardId);
@@ -67,18 +50,13 @@ public class CardService {
             throw new IllegalArgumentException("해당 컬럼리스트는 존재하지 않습니다.");
         } else if (card.isEmpty()) {
             throw new IllegalArgumentException("해당 카드는 존재하지 않습니다.");
-        } else if (dueDate.isBefore(LocalDateTime.now())) { // 현재시간보다 전으로 설정 X
-            throw new IllegalArgumentException("마감일은 현재 시간보다 이전일 수 없습니다.");
         }
 
-        card.get().setTitle(title);
-        card.get().setDescription(description);
-        card.get().setColor(color);
-        card.get().setDueDate(dueDate);
-        card.get().setUserCardList(userCardList);
+        card.get().update(cardRequestDto, userCardRepository,userRepository, cardId);
 
-        cardRepository.save(card.get());
-        userCardRepository.save(new UserCard(user, card.get()));
+        if (cardRequestDto.getDueDate().isBefore(LocalDateTime.now())) {
+            throw new IllegalArgumentException("마감일은 현재 시간보다 이전일 수 없습니다.");
+        }
         return new CardResponseDto(card.get());
     }
 
@@ -97,8 +75,8 @@ public class CardService {
             return ResponseEntity.status(400).body(new ApiResponseDto(HttpStatus.BAD_REQUEST, "해당 카드는 존재하지 않습니다."));
         }
 
+        CardComment cardComment = new CardComment();
         cardRepository.delete(card.get());
-        userCardRepository.delete(userCard.get());
         return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK, "카드가 삭제되었습니다."));
     }
 
@@ -108,7 +86,6 @@ public class CardService {
     public ResponseEntity<ApiResponseDto> createCardComments(Long boardId, Long columnListId, Long cardId, CardCommentRequestDto cardCommentRequestDto, User user) {
         Optional<ColumnList> columnList = columnListRepository.findByBoardIdAndId(boardId, columnListId);
         Optional<Card> card = cardRepository.findById(cardId);
-        String comments = cardCommentRequestDto.getComments();
 
         if (columnList.isEmpty()) {
             return ResponseEntity.status(400).body(new ApiResponseDto(HttpStatus.BAD_REQUEST, "해당 컬럼리스트는 존재하지 않습니다."));
@@ -116,13 +93,13 @@ public class CardService {
             return ResponseEntity.status(400).body(new ApiResponseDto(HttpStatus.BAD_REQUEST, "해당 카드는 존재하지 않습니다."));
         }
 
-        cardCommentRepository.save(new CardComment(comments, user, card.get()));
+        cardCommentRepository.save(new CardComment(cardCommentRequestDto, user, card.get()));
         return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK, "카드 댓글이 작성되었습니다."));
     }
 
     //카드 댓글 수정
     public ResponseEntity<ApiResponseDto> editCardComments(Long boardId, Long columnListId, Long cardId, Long cardCommentId, CardCommentRequestDto cardCommentRequestDto, User user) {
-        String comments = cardCommentRequestDto.getComments();
+        String comments = cardCommentRequestDto.getComment();
         Optional<ColumnList> columnList = columnListRepository.findByBoardIdAndId(boardId, columnListId);
         Optional<Card> card = cardRepository.findById(cardId);
         Optional<CardComment> cardComment = cardCommentRepository.findByIdAndUserId(cardCommentId, user.getId());
@@ -135,7 +112,7 @@ public class CardService {
             return ResponseEntity.status(400).body(new ApiResponseDto(HttpStatus.BAD_REQUEST, "해당 댓글이 존재하지 않습니다."));
         }
 
-        cardComment.get().setComments(comments);
+        cardComment.get().setComment(comments);
         cardCommentRepository.save(cardComment.get());
         return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK, "카드 댓글이 수정되었습니다."));
     }

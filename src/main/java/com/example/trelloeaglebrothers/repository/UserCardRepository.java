@@ -9,6 +9,6 @@ import java.util.Optional;
 
 public interface UserCardRepository extends JpaRepository<UserCard,Long> {
     List<UserCard> findAllByCardId (Long id);
-    List<UserCard> findByUserUsername(String username);
-    Optional<UserCard> findByUserIdAndCardId(Long userID,Long cardID);
+    Optional<UserCard> findByUserUsernameAndCard_Id(String username, Long id);
+    Optional<UserCard> findByUserIdAndCardId(Long userID, Long cardID);
 }

@@ -1,5 +1,6 @@
 package com.example.trelloeaglebrothers.entity;
 
+import com.example.trelloeaglebrothers.dto.CardCommentRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,7 @@ public class CardComment extends TimeStamped {
     private Long id;
 
     @Column(nullable = false)
-    private String comments;
+    private String comment;
 
     @ManyToOne(fetch = FetchType.LAZY )
     @JoinColumn(name = "user_id", nullable = false)
@@ -30,8 +31,8 @@ public class CardComment extends TimeStamped {
     private Card card;
 
 
-    public CardComment (String comments, User user, Card card) {
-        this.comments = comments;
+    public CardComment (CardCommentRequestDto cardCommentRequestDto, User user, Card card) {
+        this.comment = cardCommentRequestDto.getComment();
         this.user = user;
         this.card = card;
     }

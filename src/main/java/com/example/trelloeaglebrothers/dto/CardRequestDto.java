@@ -11,5 +11,6 @@ public class CardRequestDto {
     private String description;
     private String color;
     private LocalDateTime dueDate;
-    private List<String> userList;
+    private List<String> members;
+
 }

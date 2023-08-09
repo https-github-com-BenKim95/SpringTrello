@@ -10,6 +10,4 @@ import java.util.Optional;
 
 @Repository
 public interface CardRepository extends JpaRepository <Card, Long> {
-//    List<Card> findAllByColumnList(ColumnList columnList);
-    Optional<Card> findByColumnListId (Long columListId);
 }

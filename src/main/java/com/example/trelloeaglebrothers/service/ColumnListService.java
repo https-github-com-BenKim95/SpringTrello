@@ -10,15 +10,17 @@ import com.example.trelloeaglebrothers.repository.BoardRepository;
 import com.example.trelloeaglebrothers.repository.ColumnListRepository;
 import jakarta.transaction.Transactional;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.RejectedExecutionException;
 
 @Service
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class ColumnListService {
-    BoardRepository boardRepository;
-    ColumnListRepository columnListRepository;
+
+    private final BoardRepository boardRepository;
+    private final ColumnListRepository columnListRepository;
 
     //칼럼생성
     public void createColumnList(Long boardId, ColumnListRequestDto requestDto, User user) {
@@ -31,11 +33,11 @@ public class ColumnListService {
 //        User memberCheck = null;
 //        if (user.getRole().equals(UserRoleEnum.MANAGER) || user.getRole().equals(UserRoleEnum.MEMBER)) {
 
-            //보드가 존재 한다면 칼럼 생성
-            ColumnList columnList = new ColumnList(board, requestDto);
+        //보드가 존재 한다면 칼럼 생성
+        ColumnList columnList = new ColumnList(board, requestDto);
 
-            //저장
-            columnListRepository.save(columnList);
+        //저장
+        columnListRepository.save(columnList);
 
 //        } else throw new RejectedExecutionException("접근 권한이 없습니다.");
 

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -16,14 +17,28 @@ public class CardResponseDto {
     private String description;
     private String color;
     private LocalDateTime dueDate;
-    List<UserCard> userCardList;
+    private LocalDateTime createdAt;
+    private LocalDateTime modifiedAt;
+    private List<String> workerList;
 
-    public CardResponseDto (Card card) {
+
+    public CardResponseDto(Card card) {
         this.card_id = card.getId();
         this.title = card.getTitle();
         this.description = card.getDescription();
         this.color = card.getColor();
         this.dueDate = card.getDueDate();
-        this.userCardList = card.getUserCardList();
+        this.createdAt = card.getCreatedAt();
+        this.modifiedAt = card.getModifiedAt();
+        this.workerList = workerLists(card.getUserCardList());
+    }
+
+    // List<UserCard>를 Response에서 Username만 나오게함
+    private List<String> workerLists(List<UserCard> userCardList) {
+        List<String> usernames = new ArrayList<>();
+        for (UserCard userCard : userCardList) {
+            usernames.add(userCard.getUser().getUsername());
+        }
+        return usernames;
     }
 }

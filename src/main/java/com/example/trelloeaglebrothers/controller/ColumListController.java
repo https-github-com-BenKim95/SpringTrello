@@ -5,6 +5,7 @@ import com.example.trelloeaglebrothers.dto.ColumnListResponseDto;
 import com.example.trelloeaglebrothers.security.UserDetailsImpl;
 import com.example.trelloeaglebrothers.service.ColumnListService;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -13,14 +14,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.concurrent.RejectedExecutionException;
 
 @Controller
-@NoArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/api")
 public class ColumListController {
 
     //칼럼 생성
     //보드 내부에 컬럼을 생성할 수 있어야 한다
     // 컬림에는 ex) backlong in progress done
-    ColumnListService columnListService;
+    private final ColumnListService columnListService;
 
     @PostMapping("/board/{board_id}/column_list")
     public ResponseEntity<ColumnListResponseDto> createColumnList(@PathVariable Long board_id,
