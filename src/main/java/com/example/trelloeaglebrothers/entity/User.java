@@ -49,6 +49,7 @@ public class User {
         this.password = password;
         this.email = email;
         this.nickName = nickName;
+
     }
 
 //    public User(UserRoleEnum userRoleEnum) {
