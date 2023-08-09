@@ -92,7 +92,7 @@ public class UserService {
 
     @Transactional
     public void delete(User user) {
-        userBoardRepository.deleteAllByUser(user);
+        userBoardRepository.deleteAllByCollaborator(user);
         userRepository.delete(user);
     }
 }
