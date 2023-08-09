@@ -43,6 +43,10 @@ public class Card extends TimeStamped{
     @OneToMany(mappedBy = "card", cascade = CascadeType.REMOVE)
     private List<UserCard> userCardList = new ArrayList<>();
 
+    // 카드 삭제시 카드 커맨트 모두 삭제하게끔 구현
+    @OneToMany(mappedBy = "card", cascade = CascadeType.REMOVE)
+    private List<CardComment> cardComments = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "column_list_id")
     private ColumnList columnList;
