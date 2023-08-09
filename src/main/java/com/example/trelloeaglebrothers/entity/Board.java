@@ -34,17 +34,23 @@ public class Board extends TimeStamped {
     @OneToMany(mappedBy = "board",cascade = CascadeType.REMOVE)
     List<ColumnList> columnLists;
 
-    public Board(BoardRequestDto requestDto, User user) {
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private UserRoleEnum role;
+
+    public Board(BoardRequestDto requestDto, User user, UserRoleEnum role) {
         this.title = requestDto.getTitle();
         this.color = requestDto.getColor();
         this.description = requestDto.getDescription();
         this.userBoards = new ArrayList<>();
+        this.role = role;
     }
 
     public void update(BoardRequestDto requestDto) {
         this.title = requestDto.getTitle();
         this.color = requestDto.getColor();
         this.description = requestDto.getDescription();
+        this.role = role;
     }
 
 }

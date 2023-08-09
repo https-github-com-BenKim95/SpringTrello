@@ -27,13 +27,24 @@ public class BoardService {
     private final MessageSource messageSource;
     private final UserBoardRepository userBoardRepository;
 
+    @Transactional(readOnly = true)
     public List<BoardResponseDto> getBoards() {
-        return boardRepository.findAllByOrderByCreatedAtDesc().stream().map(BoardResponseDto::new).toList();
+        return boardRepository.findAllByOrderByCreatedAtDesc()
+                .stream()
+                .map(BoardResponseDto::new)
+                .toList();
     }
 
+    @Transactional
     public BoardResponseDto createBoard(BoardRequestDto requestDto, User user) {
-        Board board = boardRepository.save(new Board(requestDto, user));
+        UserRoleEnum role = UserRoleEnum.MANAGER;
+        if (requestDto.isManager()) {
+            role = UserRoleEnum.MANAGER;
+        }
+        Board board = boardRepository.save(new Board(requestDto, user, role));
+
         UserBoard userBoard = new UserBoard(user, board);
+
         userBoardRepository.save(userBoard);
 
         return new BoardResponseDto(board);
@@ -48,6 +59,7 @@ public class BoardService {
         return new BoardResponseDto(board);
     }
 
+    @Transactional
     public ResponseEntity<Message> deleteBoard(Long boardId, User user){
         Board board = findBoard(boardId);
         confirmUser(board, user);
@@ -60,20 +72,19 @@ public class BoardService {
     }
 
     // 공통 로직
-    private Board findBoard(Long boardId){
-        return boardRepository.findById(boardId).orElseThrow(()->
-                new IllegalArgumentException(messageSource.getMessage(
-                        "not.exist.post",
-                        null,
-                        "해당 게시물이 존재하지 않습니다",
-                        Locale.getDefault()
-                ))
-        );
+    public Board findBoard(Long boardId){
+        return boardRepository.findById(boardId)
+                .orElseThrow(() ->
+                        new IllegalArgumentException(messageSource.getMessage(
+                                "not.exist.post",
+                                null,
+                                "해당 게시물이 존재하지 않습니다",
+                                Locale.getDefault()
+                        ))
+                );
     }
-
     private void confirmUser(Board board, User user) {
-        UserRoleEnum userRoleEnum = user.getRole();
-        if (userRoleEnum == UserRoleEnum.MEMBER && !Objects.equals(board.getUserBoards(), user.getId())) {
+        if (!Objects.equals(board.getUserBoards(), user.getId())) {
             throw new IllegalArgumentException(messageSource.getMessage(
                     "not.your.post",
                     null,
