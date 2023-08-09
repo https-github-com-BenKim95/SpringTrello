@@ -41,7 +41,6 @@ public class UserController {
 
         if(bindingResult.hasErrors()) {
             log.info("bindingResult={}", bindingResult);
-            bindingResult.reject("totalMin", "aaaaaaaaaa");
             return "signUp";
         }
 
