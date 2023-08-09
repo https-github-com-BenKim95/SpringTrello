@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 //추현중
 @Entity
 @Getter
@@ -26,6 +29,8 @@ public class ColumnList {
     @JoinColumn(name = "board_id")
     private Board board;
 
+    @OneToMany(mappedBy = "columnList", cascade = CascadeType.REMOVE)
+    private List<Card> cards = new ArrayList<>();
 
     public ColumnList(Board board, ColumnListRequestDto requestDto) {
         this.board = board;
