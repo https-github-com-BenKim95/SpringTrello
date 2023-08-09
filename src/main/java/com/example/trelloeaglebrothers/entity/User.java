@@ -23,6 +23,9 @@ public class User {
     @Column(nullable = false)
     private String email;
 
+    @Enumerated(value = EnumType.STRING)
+    private UserRoleEnum role;
+
     public User(String username, String password, String email) {
         this.username = username;
         this.password = password;
