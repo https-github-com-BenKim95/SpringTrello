@@ -5,6 +5,9 @@ import com.example.trelloeaglebrothers.entity.Board;
 import com.example.trelloeaglebrothers.entity.User;
 import com.example.trelloeaglebrothers.repository.BoardRepository;
 import com.example.trelloeaglebrothers.security.UserDetailsImpl;
+import com.example.trelloeaglebrothers.service.BoardService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +18,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
+@Slf4j
+@RequiredArgsConstructor
 public class MainController {
+
+    private final BoardRepository boardRepository;
+    private final BoardService boardService;
 
     // 메인페이지
     @GetMapping("/")

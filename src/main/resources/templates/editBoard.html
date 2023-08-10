@@ -6,7 +6,7 @@
   <div th:replace="~{fragment/nav :: useNav}">insert</div>
   <div class="container">
     <div class="row mt-4">
-      <div class="col-md-12">
+      <div class="col-md-12" id="board-id" th:value="${board.board_id}">
           <input type="text" id="title" class="form-control shadow mt-2 border-0 p-3" placeholder="보드 제목을 입력하세요.">
           <input type="text" id="color" class="form-control shadow mt-2 border-0 p-3" placeholder="보드 배경색을 입력해주세요."></input>
           <input type="text" id ="description" class="form-control col-sm-5 mt-2 shadow border-0 p-3" placeholder="보드 설명을 입력해주세요">
@@ -15,8 +15,12 @@
     <div class="row my-5">
       <div class="col-md-12 d-flex justify-content-end">
         <div class="align-items-center d-flex">
-            <button class="btn btn-dark" value="updatePost" id="btn-newPost">Submit</button>
-            <button class="btn btn-outline-dark ms-2" value="deletePost" id="btn-deletePost">Delete</button>
+            <button class="btn btn-dark" value="updatePost" id="btn-newPost" onclick="Edite()">Submit</button>
+            <button class="btn btn-outline-dark ms-2" value="deletePost" id="btn-deletePost" onclick="Delete()">Delete</button>
+<!--  <button th:if="${post.id} != null" onclick="onUpdate()" type="button" id="modify-btn" class="btn btn-primary btn-sm">수정</button>
+         <button th:if="${post.id} == null" onclick="onCreate()" type="button" id="create-btn" class="btn btn-primary btn-sm">등록</button>
+         <button onclick="onDelete()">글 삭제</button> -->
+
         </div>
       </div>
     </div>
