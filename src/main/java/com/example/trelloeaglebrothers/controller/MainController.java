@@ -1,11 +1,18 @@
 package com.example.trelloeaglebrothers.controller;
 
+import com.example.trelloeaglebrothers.dto.BoardResponseDto;
+import com.example.trelloeaglebrothers.entity.Board;
 import com.example.trelloeaglebrothers.entity.User;
+import com.example.trelloeaglebrothers.repository.BoardRepository;
 import com.example.trelloeaglebrothers.security.UserDetailsImpl;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class MainController {
@@ -20,12 +27,20 @@ public class MainController {
         return "index";
     }
 
+    //    @GetMapping("/memberMain")
+    //    public String newBoard(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
+    //        if (userDetails != null) {
+    //            List<BoardResponseDto> boardResponseDtos = boardRepository.findAll().stream().map(BoardResponseDto::new).toList();
+    //            model.addAttribute("boardResponseDtos", boardResponseDtos);
+    //        }
+    //        return "memberMain";
+    //    }
+
     @GetMapping("/memberMain")
     public String memberMain(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
-        if (userDetails != null) {
-            User user = userDetails.getUser();
-            model.addAttribute("nickName", user.getNickName());
-        }
+        List<BoardResponseDto> boardResponseDtos = boardService.getBoards(); // boardService에서 리스트를 가져옴
+        model.addAttribute("boards", boardResponseDtos); // 변환된 리스트를 저장
+
         return "memberMain";
     }
 
@@ -38,21 +53,36 @@ public class MainController {
         return "card";
     }
 
+//    @GetMapping("/newBoard")
+//    public String newBoard(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestParam(required=false) Long id, Model model) {
+//        if (userDetails != null) {
+//            List<BoardResponseDto> boardResponseDtos = boardRepository.findAll().stream().map(BoardResponseDto::new).toList();
+//            model.addAttribute("boardResponseDtos", boardResponseDtos);
+//        }
+//        return "newBoard";
+//    }
+
     @GetMapping("/newBoard")
-    public String newBoard(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
-        if (userDetails != null) {
-            User user = userDetails.getUser();
-            model.addAttribute("nickName", user.getNickName());
-        }
-        return "newBoard";
+    public String newBoard(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestParam(required = false) Long id, Model model) {
+        return handleBoardPage(userDetails, id, model, "새 게시글");
     }
 
     @GetMapping("/editBoard")
     public String editBoard(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
+        return handleBoardPage(userDetails, null, model, "수정");
+    }
+
+    private String handleBoardPage(UserDetailsImpl userDetails, Long id, Model model, String logMessage) {
         if (userDetails != null) {
-            User user = userDetails.getUser();
-            model.addAttribute("nickName", user.getNickName());
+            if (id == null) {
+                log.info(logMessage);
+                model.addAttribute("board", new BoardResponseDto());
+            } else {
+                log.info(logMessage);
+                Board board = boardService.findBoard(id); // 수정된 부분
+                model.addAttribute("board", new BoardResponseDto(board));
+            }
         }
-        return "editBoard";
+        return "newBoard";
     }
 }
