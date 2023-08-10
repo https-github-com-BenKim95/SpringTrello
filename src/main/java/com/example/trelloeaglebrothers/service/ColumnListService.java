@@ -2,10 +2,7 @@ package com.example.trelloeaglebrothers.service;
 
 import com.example.trelloeaglebrothers.dto.ColumnListRequestDto;
 import com.example.trelloeaglebrothers.dto.ColumnListResponseDto;
-import com.example.trelloeaglebrothers.entity.Board;
-import com.example.trelloeaglebrothers.entity.ColumnList;
-import com.example.trelloeaglebrothers.entity.User;
-import com.example.trelloeaglebrothers.entity.UserBoard;
+import com.example.trelloeaglebrothers.entity.*;
 import com.example.trelloeaglebrothers.repository.BoardRepository;
 import com.example.trelloeaglebrothers.repository.ColumnListRepository;
 import com.example.trelloeaglebrothers.repository.UserBoardRepository;
@@ -25,30 +22,9 @@ public class ColumnListService {
 
     private final UserBoardRepository userBoardRepository;
 
-
-    //칼럼 단건 조회 할 때 카드 내용이 나와야 한다.
-    public ColumnListResponseDto getColumn(User user, Long boardId, Long column_list_id){
-
-        //보드가 존재 하는지 확인
-        Board board = boardRepository.findById(boardId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 보드가 존재하지 않습니다."));
-
-
-        //보드 멤버인지 확인
-        UserBoard userBoard = userBoardRepository.findUserBoardByCollaborator_IdAndBoard_Id(user.getId(),boardId)
-                .orElseThrow(() -> new IllegalArgumentException("보드 멤버가 아닙니다."));
-
-       ColumnList columnList = columnListRepository.findById(column_list_id)
-               .orElseThrow(()-> new IllegalArgumentException("해당 컬럼이 존재하지 않음"));
-
-
-        return new ColumnListResponseDto(columnList);
-
-    }
-
     //칼럼생성
     @Transactional
-    public void createColumnList(Long boardId, User user, ColumnListRequestDto requestDto) {
+    public void createColumnList(Long boardId, ColumnListRequestDto requestDto, User user) {
 
         //보드가 존재 하는지 확인
         Board board = boardRepository.findById(boardId)
@@ -56,7 +32,7 @@ public class ColumnListService {
 
 
         //보드 멤버인지 확인
-        UserBoard userBoard = userBoardRepository.findUserBoardByCollaborator_IdAndBoard_Id(user.getId(),boardId)
+        UserBoard userBoard = userBoardRepository.findUserBoardByCollaborator_Id(user.getId())
                 .orElseThrow(() -> new IllegalArgumentException("보드 멤버가 아닙니다."));
 
 
@@ -93,13 +69,14 @@ public class ColumnListService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 칼럼이 존재하지 않습니다."));
 
         //보드 멤버인지 확인
-        UserBoard userBoard = userBoardRepository.findUserBoardByCollaborator_IdAndBoard_Id(user.getId(),boardId)
-                .orElseThrow(() -> new IllegalArgumentException("보드 멤버가 아닙니다."));
+//        User memberCheck = null;
+//        if (user.getRole().equals(UserRoleEnum.MANAGER) || user.getRole().equals(UserRoleEnum.MEMBER)) {
 
 
         columnList.update(requestDto.getTitle(), board);
         return new ColumnListResponseDto("컬럼이 변경되었습니다.");
 
+//        } else throw new RejectedExecutionException("접근 권한이 없습니다.");
     }
 
     //칼럼 삭제
@@ -115,11 +92,12 @@ public class ColumnListService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 칼럼이 존재하지 않습니다."));
 
         //보드 멤버인지 확인
-        UserBoard userBoard = userBoardRepository.findUserBoardByCollaborator_IdAndBoard_Id(user.getId(),boardId)
-                .orElseThrow(() -> new IllegalArgumentException("보드 멤버가 아닙니다."));
+//        User memberCheck = null;
+//        if (user.getRole().equals(UserRoleEnum.MANAGER) || user.getRole().equals(UserRoleEnum.MEMBER)) {
 
         columnListRepository.delete(columnList);
 
+//        } else throw new RejectedExecutionException("삭제 권한이 없습니다.");
 
 
     }
