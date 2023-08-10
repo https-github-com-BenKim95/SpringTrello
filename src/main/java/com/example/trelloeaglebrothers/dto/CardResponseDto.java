@@ -19,7 +19,7 @@ public class CardResponseDto {
     private LocalDateTime dueDate;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    private List<String> workerList;
+    private List<String> memberList;
 
 
     public CardResponseDto(Card card) {
@@ -30,11 +30,11 @@ public class CardResponseDto {
         this.dueDate = card.getDueDate();
         this.createdAt = card.getCreatedAt();
         this.modifiedAt = card.getModifiedAt();
-        this.workerList = workerLists(card.getUserCardList());
+        this.memberList = memberList(card.getUserCardList());
     }
 
     // List<UserCard>를 Response에서 Username만 나오게함
-    private List<String> workerLists(List<UserCard> userCardList) {
+    private List<String> memberList(List<UserCard> userCardList) {
         List<String> usernames = new ArrayList<>();
         for (UserCard userCard : userCardList) {
             usernames.add(userCard.getUser().getUsername());
