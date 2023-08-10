@@ -1,5 +1,6 @@
 package com.example.trelloeaglebrothers.dto;
 
+import com.example.trelloeaglebrothers.entity.ColumnList;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
