@@ -1,5 +1,5 @@
 /* 반응형 */
-.container.form-group {width: 600px;}
+.container .form-group {width: 600px;}
 .none {display: none;}
 /* 폼 그룹 지정공간 over시 말줄임 */
 textarea {width: -webkit-fill-available; height: fit-content; overflow-wrap: anywhere;}
@@ -9,4 +9,13 @@ textarea {width: -webkit-fill-available; height: fit-content; overflow-wrap: any
 /* index.html 카드 그림자 */
 .feed {-webkit-box-shadow: 1px 1px 15px 1px rgba(0,0,0,0.17); box-shadow: 1px 1px 15px 1px rgba(0,0,0,0.17);}
 .feed:hover {transition : 0.5s; -webkit-box-shadow: 5px 5px 20px 5px rgba(0,0,0,0.25); box-shadow: 5px 5px 20px 5px rgba(0,0,0,0.25);}
+.card {
+    display: inline-block;
+    width: 200px;
+    height: 150px;
+    background-color: lightgray;
+    border: 1px solid gray;
+    margin: 5px;
+    padding: 10px;
+}
 

@@ -1,6 +1,7 @@
 $(document).ready(function () {
   getBoards();
 });
+
 function getBoards() {
   fetch('/api/board', {
     method: 'GET',
@@ -8,25 +9,51 @@ function getBoards() {
   })
       .then(response => response.json())
       .then(data => {
-        $('#board-list').empty()
-        for (let i = data.length - 1; i >= 0; i--) {
-          console.log([data[i]])
-          let title = data[i].title;
-          let color = data[i].color;
-          let description = data[i].description;
-          let modifiedAt = data[i].modifiedAt;
+        $('#board-list').empty();
 
-          let temp_html = `<a href=/api/board class="col">
-                                        <div class="card feed border-0">
-                                            <div class="card-body">
-                                                <h5 class="card-title fw-bold">${title}</h5>
-                                                <p class="card-text text-truncate">${color}</p>
-                                                <p class="card-text fw-bold">${description}</p>
-                                                <p class="card-text text-muted">${modifiedAt}</p>
-                                            </div>
-                                        </div>
-                                      </a>`
-          $('#board-list').append(temp_html)
-        }
-      })
+        data.forEach(board => {
+          let title = board.title;
+          let color = board.color;
+          let description = board.description;
+          let userList = board.userList;
+
+          let boardId = board.board_id;
+          let columnListId = board.column_list_id;
+
+          // Create a unique ID for the card
+          let cardId = `card-${boardId}-${columnListId}`;
+
+          let temp_html = `
+                        <a href="/board/${boardId}/column/column_list/${columnListId}" class="col">
+                            <div class="card feed border-0 h-100 text-black" id="${cardId}">
+                                <div class="card-body bg-light bg-gradient rounded">
+                                    <h5 class="card-title fw-bold">${title}</h5>
+                                    <p class="card-text none">${color}</p>
+                                    <p class="card-text fw-bold">${description}</p>
+                                    <p class="card-text fw-bold">${userList}</p>
+                                </div>
+                            </div>
+                        </a>
+                    `;
+
+          $('#board-list').append(temp_html);
+
+          const hexColor = color;
+          const card = document.getElementById(cardId);
+          card.style.backgroundColor = hexColor;
+        });
+      });
 }
+// 드래그앤드롭
+$(document).ready(function () {
+  $("#board-list").sortable({
+    axis: "x",
+    handle: ".card",
+    update: function (event, ui) {
+      const cardOrder = $("#board-list").sortable("toArray");
+
+      console.log("Updated card order:", cardOrder);
+    }
+  });
+  $("#board-list").disableSelection();
+});
