@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragment/head :: userHead ('보드상세페이지')}"></head>
+
+<body>
+<div class="container-eagle container-fluid">
+    <div th:replace="~{fragment/nav :: useNav}">insert</div>
+    <div class="main">
+        <h1>Hard work pays off</h1>
+    </div>
+    <div class="container" id="post-detail">
+        <!-- post 동적 데이터 삽입 -->
+        <div id="post-box">
+            <!-- <div class="mb-5 fs-3 fw-bold" id = "post-title">카드 제목</div> -->
+            <!-- 글 번호로 조회 -->
+            <div class="d-flex ms-3" id="follow">
+                <div class="fw-bold fs-5 ms-2" id="userName">카드 작성자</div>
+            </div>
+            <!-- 글 작성  -->
+            <div class="container my-5" id="post-container">
+                <div class="card mb-3 border border-0">
+                    <div class="row">
+                        <div class="">
+                            <div class="card-body border border-0 shadow h-100">
+                                <p class="card-text text-wrap" id = "post-content">카드 내용을 작성합니다</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 좋아요 -->
+                <div class="like-button d-flex justify-content-end">
+                    <button type="submit" class="btn btn-sm btn-dark" id="btn-like" onclick="like()">
+                        Edit
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-dark ms-2" onclick="unlike()">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 댓글 머리글 start -->
+    <div class="container my-3" id="comment-count">
+        <button type="button" class="btn bg-transparent position-relative fs-4 fw-bold">
+            댓글
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+    3+
+    <span class="visually-hidden">댓글 수</span>
+    </span>
+        </button>
+        <hr class="border border-3">
+    </div>
+    <!-- 댓글 목록 start -->
+    <div class="container" id="comment-list">
+        <!-- comment 동적 데이터 삽입 -->
+        <div class="row comment-base-box px-4">
+            <div class="d-flex p-3">
+                <div class="d-none">${commentId}</div>
+                <div class="comment-board col-md-7 border border-0 justify-content-start text-wrap" id="edit-box-${commentId}">
+                    <div class="comment-board form-control border border-0" id="comment-text-${commentId}">댓글 내용을 입력</div>
+                    <textarea class="comment-board border border-0 border-bottom none" row="1" id="comment-input-${commentId}">${comment}</textarea>
+                </div>
+                <div class="col-md-2 text-center">댓글작성자</div>
+                <div class="col-md-1 text-center mb-2">
+                    <button type="button" class="btn pt-0" onclick="commentLike(${commentId})">
+                        <i class="fa-regular fa-thumbs-up fa-beat fa-lg"></i>
+                        <span class="fs-6">3</span>
+                    </button>
+                </div>
+                <div class="btn-group col-md-2 justify-content-end pe-4">
+                    <div class="d-flex">
+                        <button type="submit" class="btn btn-dark btn-sm" id="comment-update-btn-${commentId}" onclick="updateComment(${commentId})">Edit</button>
+                        <button type="submit" class="btn btn-outline-dark btn-sm ms-2" id="comment-delete-btn-${commentId}" onclick="deleteComment(${commentId})">Delete</button>
+                        <button type="submit" class="btn btn-dark btn-sm none" id="comment-edit-btn-${commentId}" onclick="editComment(${commentId})">Confirm</button>
+                        <button type="submit" class="btn btn-outline-dark btn-sm none ms-2" id="comment-edit-cancel-btn-${commentId}" onclick="cancelEditBtn(${commentId})">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            <hr class="border border-1">
+        </div>
+    </div>
+    <!-- 댓글 작성 start -->
+    <div class="container my-5">
+        <textarea class="container rounded p-2 border border-0 shadow" rows="3" id="input-comment"></textarea>
+        <button type="button" class="float-end btn btn-dark mt-2 mb-5" onclick="newComment()">Submit</button>
+    </div>
+    <!-- footer -->
+    <footer style="height: 200px; border-top: solid 1px #d9d9d9;" class="container-fluid footer fw-bold fs-3 justify-content-center d-flex p-5">footer</footer>
+</div>
+</body>
+</html>
