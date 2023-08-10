@@ -22,4 +22,13 @@ public class MainController {
         return "index";
     }
 
+    @GetMapping("/boardDetails")
+    public String boardDetail(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
+        if (userDetails != null) {
+            User user = userDetails.getUser();
+            model.addAttribute("nickName", user.getNickName());
+        }
+        return "boardDetails";
+    }
+
 }
