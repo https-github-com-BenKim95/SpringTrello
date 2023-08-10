@@ -4,7 +4,6 @@ import com.example.trelloeaglebrothers.dto.ApiResponseDto;
 import com.example.trelloeaglebrothers.dto.CardCommentRequestDto;
 import com.example.trelloeaglebrothers.dto.CardRequestDto;
 import com.example.trelloeaglebrothers.dto.CardResponseDto;
-import com.example.trelloeaglebrothers.entity.User;
 import com.example.trelloeaglebrothers.security.UserDetailsImpl;
 import com.example.trelloeaglebrothers.service.CardService;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
