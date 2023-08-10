@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.OptionalInt;
 
 @RequiredArgsConstructor
 @Service
@@ -33,7 +32,7 @@ public class CardService {
     @Transactional
     public ResponseEntity<ApiResponseDto> createCard(Long boardId, Long columnListId, CardRequestDto cardRequestDto, User user) {
         checkRole(boardId, user);
-        Optional<ColumnList> columnList = columnListRepository.findByBoardIdAndId(boardId, columnListId);
+        Optional<ColumnList> columnList = columnListRepository.findColumnListByBoard_IdAndId(boardId, columnListId);
         if (columnList.isEmpty()) {
             return ResponseEntity.status(400).body(new ApiResponseDto(HttpStatus.BAD_REQUEST, "해당 컬럼리스트는 존재하지 않습니다."));
         }
@@ -53,8 +52,8 @@ public class CardService {
     //카드 조회
     public CardResponseDto getCard(Long boardId, Long columnListId, Long cardId, User user) {
         checkRole(boardId, user);
-        Optional<ColumnList> columnList = columnListRepository.findByBoardIdAndId(boardId, columnListId);
-        Optional<Card> card = cardRepository.findByColumnListIdAndId(columnListId,cardId);
+        Optional<ColumnList> columnList = columnListRepository.findColumnListByBoard_IdAndId(boardId, columnListId);
+        Optional<Card> card = cardRepository.findByColumnListIdAndId(columnListId, cardId);
         if (columnList.isEmpty()) {
             throw new IllegalArgumentException("해당 컬럼리스트는 존재하지 않습니다.");
         } else if (card.isEmpty()) {
@@ -67,8 +66,8 @@ public class CardService {
     @Transactional
     public CardResponseDto editCard(Long boardId, Long columnListId, Long cardId, CardRequestDto cardRequestDto, User user) {
         checkRole(boardId, user);
-        Optional<ColumnList> columnList = columnListRepository.findByBoardIdAndId(boardId, columnListId);
-        Optional<Card> card = cardRepository.findById(cardId);
+        Optional<ColumnList> columnList = columnListRepository.findColumnListByBoard_IdAndId(boardId, columnListId);
+        Optional<Card> card = cardRepository.findByColumnListIdAndId(columnListId, cardId);
 
         if (columnList.isEmpty()) {
             throw new IllegalArgumentException("해당 컬럼리스트는 존재하지 않습니다.");
@@ -87,9 +86,9 @@ public class CardService {
     @Transactional
     public ResponseEntity<ApiResponseDto> orderSwap(Long boardId, Long columnListId, Long forwardOrder, Long backwardOrder, User user) {
         checkRole(boardId, user);
-        Optional<ColumnList> columnList = columnListRepository.findByBoardIdAndId(boardId, columnListId);
-        Optional<Card> forwardOrderCard = cardRepository.findById(forwardOrder);
-        Optional<Card> backwardOrderCard = cardRepository.findById(backwardOrder);
+        Optional<ColumnList> columnList = columnListRepository.findColumnListByBoard_IdAndId(boardId, columnListId);
+        Optional<Card> forwardOrderCard = cardRepository.findByColumnListIdAndId(columnListId, forwardOrder);
+        Optional<Card> backwardOrderCard = cardRepository.findByColumnListIdAndId(columnListId, backwardOrder);
 
         if (columnList.isEmpty()) {
             return ResponseEntity.status(400).body(new ApiResponseDto(HttpStatus.BAD_REQUEST, "해당 컬럼리스트는 존재하지 않습니다."));
@@ -110,8 +109,8 @@ public class CardService {
     @Transactional
     public ResponseEntity<ApiResponseDto> deleteCard(Long boardId, Long columnListId, Long cardId, User user) {
         checkRole(boardId, user);
-        Optional<ColumnList> columnList = columnListRepository.findByBoardIdAndId(boardId, columnListId);
-        Optional<Card> card = cardRepository.findById(cardId);
+        Optional<ColumnList> columnList = columnListRepository.findColumnListByBoard_IdAndId(boardId, columnListId);
+        Optional<Card> card = cardRepository.findByColumnListIdAndId(columnListId, cardId);
         Optional<UserCard> userCard = userCardRepository.findByUserIdAndCardId(user.getId(), cardId);
 
         if (columnList.isEmpty()) {
@@ -132,7 +131,7 @@ public class CardService {
     @Transactional
     public ResponseEntity<ApiResponseDto> createCardComments(Long boardId, Long columnListId, Long cardId, CardCommentRequestDto cardCommentRequestDto, User user) {
         checkRole(boardId, user);
-        Optional<ColumnList> columnList = columnListRepository.findByBoardIdAndId(boardId, columnListId);
+        Optional<ColumnList> columnList = columnListRepository.findColumnListByBoard_IdAndId(boardId, columnListId);
         Optional<Card> card = cardRepository.findById(cardId);
 
         if (columnList.isEmpty()) {
@@ -150,7 +149,7 @@ public class CardService {
     public ResponseEntity<ApiResponseDto> editCardComments(Long boardId, Long columnListId, Long cardId, Long cardCommentId, CardCommentRequestDto cardCommentRequestDto, User user) {
         checkRole(boardId, user);
         String comments = cardCommentRequestDto.getComment();
-        Optional<ColumnList> columnList = columnListRepository.findByBoardIdAndId(boardId, columnListId);
+        Optional<ColumnList> columnList = columnListRepository.findColumnListByBoard_IdAndId(boardId, columnListId);
         Optional<Card> card = cardRepository.findById(cardId);
         Optional<CardComment> cardComment = cardCommentRepository.findById(cardCommentId);
 
@@ -172,7 +171,7 @@ public class CardService {
     @Transactional
     public ResponseEntity<ApiResponseDto> deleteCardComments(Long boardId, Long columnListId, Long cardId, Long cardCommentId, User user) {
         checkRole(boardId, user);
-        Optional<ColumnList> columnList = columnListRepository.findByBoardIdAndId(boardId, columnListId);
+        Optional<ColumnList> columnList = columnListRepository.findColumnListByBoard_IdAndId(boardId, columnListId);
         Optional<Card> card = cardRepository.findById(cardId);
         Optional<CardComment> cardComment = cardCommentRepository.findById(cardCommentId);
 
@@ -196,9 +195,6 @@ public class CardService {
         Optional<UserBoard> checkUserAndBoardId = userBoardRepository.findUserBoardByCollaborator_IdAndBoard(user.getId(), checkBoard.get());
         if (checkUserAndBoardId.isEmpty()) {
             throw new IllegalArgumentException("보드에 초대되지 않은 사용자입니다.");
-//        } else if (checkUserAndBoardId.get().getRole().equals(UserRoleEnum.MANAGER) || checkUserAndBoardId.get().getRole().equals(UserRoleEnum.MEMBER)) {
-//            return ResponseEntity.status(400).body(new ApiResponseDto(HttpStatus.BAD_REQUEST, "매니저 또는 멤버 권한이 없습니다."));
-//        }
         }
     }
 }
