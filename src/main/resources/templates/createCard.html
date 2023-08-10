@@ -29,9 +29,9 @@
   createCardForm.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    // const formData = new FormData(createCardForm);
-    // const boardId = /* 여기에 보드 ID 입력 */;
-    // const columnListId = /* 여기에 컬럼리스트 ID 입력 */;
+    const formData = new FormData(createCardForm);
+    const boardId = /* 여기에 보드 ID 입력 */;
+    const columnListId = /* 여기에 컬럼리스트 ID 입력 */;
 
     const cardData = {
       title: formData.get('title'),
