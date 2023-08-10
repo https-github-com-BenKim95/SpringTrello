@@ -50,6 +50,19 @@ public class CardService {
         return ResponseEntity.status(201).body(new ApiResponseDto(HttpStatus.CREATED, "카드가 작성되었습니다."));
     }
 
+    //카드 조회
+    public CardResponseDto getCard(Long boardId, Long columnListId, Long cardId, User user) {
+        checkRole(boardId, user);
+        Optional<ColumnList> columnList = columnListRepository.findByBoardIdAndId(boardId, columnListId);
+        Optional<Card> card = cardRepository.findByColumnListIdAndId(columnListId,cardId);
+        if (columnList.isEmpty()) {
+            throw new IllegalArgumentException("해당 컬럼리스트는 존재하지 않습니다.");
+        } else if (card.isEmpty()) {
+            throw new IllegalArgumentException("해당 카드는 존재하지 않습니다.");
+        }
+        return new CardResponseDto(card.get());
+    }
+
     //카드 수정
     @Transactional
     public CardResponseDto editCard(Long boardId, Long columnListId, Long cardId, CardRequestDto cardRequestDto, User user) {

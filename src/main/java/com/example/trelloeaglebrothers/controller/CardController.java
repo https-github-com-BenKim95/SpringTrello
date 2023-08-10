@@ -12,10 +12,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@RequiredArgsConstructor
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/api")
 public class CardController {
 
@@ -28,17 +29,18 @@ public class CardController {
         return cardService.createCard(board_id, column_list_id, cardRequestDto, userDetails.getUser());
     }
 
+
     // 카드 수정
     @PutMapping("/board/{board_id}/column_list/{column_list_id}/card/{card_id}")
     public ResponseEntity<CardResponseDto> editCard(@PathVariable Long board_id, @PathVariable Long column_list_id, @PathVariable Long card_id,
-                                                   @RequestBody CardRequestDto cardRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+                                                    @RequestBody CardRequestDto cardRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return ResponseEntity.status(HttpStatus.OK).body(cardService.editCard(board_id, column_list_id, card_id, cardRequestDto, userDetails.getUser()));
     }
 
     // 카드 위치 변경
     @PutMapping("/board/{board_id}/column_list/{column_list_id}/card/{forward_order}/{backward_order}")
-    public ResponseEntity<ApiResponseDto> orderSwap (@PathVariable Long board_id, @PathVariable Long column_list_id, @PathVariable Long forward_order, @PathVariable Long backward_order,
-                                                     @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseEntity<ApiResponseDto> orderSwap(@PathVariable Long board_id, @PathVariable Long column_list_id, @PathVariable Long forward_order, @PathVariable Long backward_order,
+                                                    @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return cardService.orderSwap(board_id, column_list_id, forward_order, backward_order, userDetails.getUser());
     }
 
