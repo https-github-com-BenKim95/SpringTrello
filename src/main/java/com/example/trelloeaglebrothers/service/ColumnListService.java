@@ -1,5 +1,6 @@
 package com.example.trelloeaglebrothers.service;
 
+import com.example.trelloeaglebrothers.dto.CardResponseDto;
 import com.example.trelloeaglebrothers.dto.ColumnListRequestDto;
 import com.example.trelloeaglebrothers.dto.ColumnListResponseDto;
 import com.example.trelloeaglebrothers.entity.*;
@@ -22,9 +23,30 @@ public class ColumnListService {
 
     private final UserBoardRepository userBoardRepository;
 
+
+    //칼럼 단건 조회 할 때 카드 내용이 나와야 한다.
+    public ColumnListResponseDto getColumn(User user, Long boardId, Long column_list_id){
+
+        //보드가 존재 하는지 확인
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 보드가 존재하지 않습니다."));
+
+
+        //보드 멤버인지 확인
+        UserBoard userBoard = userBoardRepository.findUserBoardByCollaborator_Id(user.getId())
+                .orElseThrow(() -> new IllegalArgumentException("보드 멤버가 아닙니다."));
+
+       ColumnList columnList = columnListRepository.findById(column_list_id)
+               .orElseThrow(()-> new IllegalArgumentException("해당 컬럼이 존재하지 않음"));
+
+
+        return new ColumnListResponseDto(columnList);
+
+    }
+
     //칼럼생성
     @Transactional
-    public void createColumnList(Long boardId, User user) {
+    public void createColumnList(Long boardId, User user, ColumnListRequestDto requestDto) {
 
         //보드가 존재 하는지 확인
         Board board = boardRepository.findById(boardId)
@@ -37,7 +59,7 @@ public class ColumnListService {
 
 
         //칼럼 생성
-        ColumnList columnList = new ColumnList(board);
+        ColumnList columnList = new ColumnList(board, requestDto);
 
         // columnList가 생성 될 때 마다 orderNUm +1 씩 증가
         //조회를 했을 때 null 이면 1은 넣고

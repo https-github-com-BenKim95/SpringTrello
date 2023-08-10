@@ -51,7 +51,7 @@
 </head>
 <body>
 <div class="board">
-    <div class="add-list" onclick="addList()">Add List</div>
+    <button class="add-list" onclick="addList(board_id)">Add List</button>
 </div>
 <script>
     function addList() {
@@ -60,7 +60,7 @@
         };
 
         $.ajax({
-            url: `/api/board/${boardId}/column_list`,
+            url: `/api/board/${board_id}/column_list`,
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(requestData),
@@ -75,8 +75,8 @@
                     };
 
                     $.ajax({
-                        url: `/api/board/{board_id}/column_list/{column_list_id}}`,
-                        type: 'PUT', // 업데이트에는 PATCH 사용
+                        url: `/api/board/${boardId}/column_list/${column_list_id}}`,
+                        type: 'PUT', // 업데이트에는 PUT 사용
                         contentType: 'application/json',
                         data: JSON.stringify(updateData),
                         success: function(responseData) {
