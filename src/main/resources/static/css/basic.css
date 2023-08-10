@@ -1,0 +1,12 @@
+/* 반응형 */
+.container.form-group {width: 600px;}
+.none {display: none;}
+/* 폼 그룹 지정공간 over시 말줄임 */
+textarea {width: -webkit-fill-available; height: fit-content; overflow-wrap: anywhere;}
+.text-wrap { overflow-wrap: anywhere;}
+/* 버튼 그룹 움직임 */
+.btn-group, .btn-group-vertical {position: relative; display: inline-flex; vertical-align: middle; flex-direction: row; flex-wrap: nowrap; height: fit-content;}
+/* index.html 카드 그림자 */
+.feed {-webkit-box-shadow: 1px 1px 15px 1px rgba(0,0,0,0.17); box-shadow: 1px 1px 15px 1px rgba(0,0,0,0.17);}
+.feed:hover {transition : 0.5s; -webkit-box-shadow: 5px 5px 20px 5px rgba(0,0,0,0.25); box-shadow: 5px 5px 20px 5px rgba(0,0,0,0.25);}
+

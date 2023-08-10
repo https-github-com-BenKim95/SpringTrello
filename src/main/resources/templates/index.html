@@ -1,22 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="~{fragment/head :: userHead ('메인페이지')}">
-
-
-</head>
-
+<head th:replace="~{fragment/head :: userHead ('메인페이지')}"></head>
 <body>
-<div class="container">
-        <div th:replace="~{fragment/nav :: useNav}">insert</div>
-        <div class="main">
-                <h1>Hard work pays off</h1>
-                <p>When you put effort and passion into it, you will achieve your desired goals and find success
-                </p>
-                <form action="/search">
-                        <input type="text" id="search" name="text" placeholder="Search for anything">
-                        <button><i class="fa-solid fa-magnifying-glass"></i></button>
-                </form>
-        </div>
+<div class="container-eagle">
+    <div th:replace="~{fragment/nav :: useNav}">insert</div>
+    <div class="main">
+        <h1>Hard work pays off</h1>
+        <p>When you put effort and passion into it, you will achieve your desired goals and find success
+        </p>
+        <form action="/search">
+            <input type="text" id="search" name="text" placeholder="Search for anything">
+            <button id="searchButton"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </form>
+    </div>
 </div>
 </body>
 </html>

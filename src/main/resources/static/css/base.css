@@ -1,52 +1,53 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
-*{font-family: 'Noto Sans KR', sans-serif;}
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+*{font-family: 'GmarketSansMedium', sans-serif;}
+/* 폰트굵기는 300, 500, 700 있습니다. */
 body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-.container {
+.container-eagle {
     width: 100%;
     height: 100vh;
     background-image: linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.8)), url("../images/test2.jpg");
     background-size: cover;
 }
-.sub-visual {
-    padding: 100px;
-}
-/* 전체 검색 */
+
+/* 전체 링크 */
 a {
-    text-decoration: none;
-}
-
-/* header 시작 */
-.header{
-    width: 80%;
-    height: 80px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* 로고 */
-.header h1 a {
-    color:white;
-}
-
-/* 네비게이션 */
-.nav ul li{
-    display: inline-block;
-    margin: 0 10px;
-}
-
-.nav ul li a {
     text-decoration: none;
     color: white;
 }
 
-.nav ul li a:hover {
+/* header 시작 */
+.header-eagle{
+    width: 80%;
+    height: 80px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between; /*양쪽 정렬*/
+    align-items: center;
+}
+
+/* 로고 */
+.header-eagle h1 a {
+    color:white;
+    font-weight: 700;
+}
+
+/* 네비게이션 */
+.nav-eagle ul li{
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.nav-eagle ul li a:hover {
     color: #1fd;
 }
 
@@ -60,6 +61,7 @@ a {
     transform : translate(-50%, -50%);
     color: white;
     text-align: center;
+    font-family: Verdana;
 }
 
 /* 메인 검색 폼 */
@@ -71,7 +73,7 @@ a {
 }
 
 /* 검색 버튼*/
-.main form button{
+#searchButton {
     width: 30px;
     height: 30px;
     border-radius: 10px;
@@ -95,10 +97,6 @@ a {
 
     background-color: darkseagreen;
     text-align: center;
-}
-
-.submit a {
-    color: white;
 }
 
 

@@ -26,20 +26,17 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+
     @Column(nullable = false)
     private String email;
 
     private String nickName;
 
-//    @Column
-//    @Enumerated(value = EnumType.STRING)
-//    private UserRoleEnum role;
 
-//    @Builder.Default
     @OneToMany(mappedBy = "collaborator", orphanRemoval = true)
     private List<UserBoard> boardUsers = new ArrayList<>();
 
-//    @Builder.Default
+
     @OneToMany(mappedBy = "author", orphanRemoval = true)
     private List<Board> boards = new ArrayList<>();
 
@@ -52,9 +49,6 @@ public class User {
 
     }
 
-//    public User(UserRoleEnum userRoleEnum) {
-//        this.role = userRoleEnum;
-//    }
 
     public void update(SignupDto signupDto) {
         this.email = signupDto.getEmail();
