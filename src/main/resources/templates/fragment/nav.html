@@ -12,7 +12,6 @@
                 <li><a th:href="@{/users/checkPassword}" sec:authorize="isAuthenticated()">마이페이지</a></li>
                 <li><a th:href="@{/users/signout}" sec:authorize="isAuthenticated()">로그아웃</a></li>
                 <li><a th:href="@{/newBoard}" sec:authorize="isAuthenticated()">보드작성</a></li>
-                <li><a th:href="@{/editBoard}" sec:authorize="isAuthenticated()">보드수정</a></li>
                 <li><a th:href="@{/card}" sec:authorize="isAuthenticated()">카드상세</a></li> <!-- 카드 누르면 나와야댐-->
                 <li><a th:href="@{/memberMain}" sec:authorize="isAuthenticated()">메인페이지</a></li>
 

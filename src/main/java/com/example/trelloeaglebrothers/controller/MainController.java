@@ -34,24 +34,7 @@ public class MainController {
         }
         return "index";
     }
-
-    //    @GetMapping("/memberMain")
-    //    public String newBoard(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
-    //        if (userDetails != null) {
-    //            List<BoardResponseDto> boardResponseDtos = boardRepository.findAll().stream().map(BoardResponseDto::new).toList();
-    //            model.addAttribute("boardResponseDtos", boardResponseDtos);
-    //        }
-    //        return "memberMain";
-    //    }
-
-    @GetMapping("/memberMain")
-    public String memberMain(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
-        List<BoardResponseDto> boardResponseDtos = boardService.getBoards(); // boardService에서 리스트를 가져옴
-        model.addAttribute("boards", boardResponseDtos); // 변환된 리스트를 저장
-
-        return "memberMain";
-    }
-
+    
     @GetMapping("/card")
     public String card(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
         if (userDetails != null) {
@@ -60,15 +43,6 @@ public class MainController {
         }
         return "card";
     }
-
-//    @GetMapping("/newBoard")
-//    public String newBoard(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestParam(required=false) Long id, Model model) {
-//        if (userDetails != null) {
-//            List<BoardResponseDto> boardResponseDtos = boardRepository.findAll().stream().map(BoardResponseDto::new).toList();
-//            model.addAttribute("boardResponseDtos", boardResponseDtos);
-//        }
-//        return "newBoard";
-//    }
 
     @GetMapping("/newBoard")
     public String newBoard(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestParam(required = false) Long id, Model model) {
@@ -92,5 +66,13 @@ public class MainController {
             }
         }
         return "newBoard";
+    }
+
+    @GetMapping("/memberMain")
+    public String memberMain(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
+        List<BoardResponseDto> boardResponseDtos = boardService.getBoards();
+        model.addAttribute("boards", boardResponseDtos);
+
+        return "memberMain";
     }
 }

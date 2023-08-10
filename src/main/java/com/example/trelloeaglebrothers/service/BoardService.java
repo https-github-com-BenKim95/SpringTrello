@@ -44,7 +44,7 @@ public class BoardService {
     @Transactional
     public BoardResponseDto createBoard(BoardRequestDto requestDto, User user) {
         UserRoleEnum role = UserRoleEnum.MANAGER;
-        Board board = boardRepository.save(new Board(requestDto, user));
+        Board board = boardRepository.save(new Board(requestDto, null, user));
         // 매니저 권한 부여
 
 
