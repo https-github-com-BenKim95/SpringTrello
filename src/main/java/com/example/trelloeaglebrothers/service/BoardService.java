@@ -157,26 +157,28 @@ public class BoardService {
 
     @Transactional
     public ResponseEntity<Message> addCollaborator(Long boardId, CollaboratorRequestDto collaboratorRequestDto, User user) {
-        // 매니저 권한 체크
-        UserBoard managerUserBoard = userBoardRepository.findUserBoardByCollaborator_Id(collaboratorRequestDto.getId())
-                .orElseThrow(() -> new IllegalArgumentException("매니저 권한이 아닙니다."));
-
-        // 보드 조회 및 협업자 정보 확인
+        // 유저의 게시글 권한을 확인하고,
         Board board = findBoard(boardId);
         User collaborator = userRepository.findById(collaboratorRequestDto.getId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다."));
-        Optional<UserBoard> userBoard = userBoardRepository.findUserBoardByCollaborator_Id(collaborator.getId());
 
-
-        // 이미 초대된 사용자인지 확인
-        if (userBoard.isPresent() && userBoard.get().getRole() != null) {
-            return ResponseEntity.badRequest().body(new Message("이미 초대된 사용자입니다.", 400));
+        // 글의 매니저 권한을 확인해서 둘이 같으면 아래 내용이 가능함
+        Optional<UserBoard> currentUserBoard = userBoardRepository.findUserBoardByCollaborator_IdAndBoard(user.getId(), board);
+        if (currentUserBoard.isEmpty() || !currentUserBoard.get().getRole().equals(UserRoleEnum.MANAGER)) {
+            throw new IllegalArgumentException("매니저 권한이 아닙니다.");
         }
 
-        // 초대 처리
+        // 이미 초대된 사용자인지 확인
+        Optional<UserBoard> userBoard = userBoardRepository.findUserBoardByCollaborator_IdAndBoard(collaborator.getId(), board);
         if (userBoard.isPresent()) {
-            // 이미 회원인 경우 권한 변경
-            userBoard.get().setRole(UserRoleEnum.MEMBER);
+            UserRoleEnum existingRole = userBoard.get().getRole();
+            if (existingRole != null) {
+                if (existingRole == UserRoleEnum.MANAGER) {
+                    return ResponseEntity.badRequest().body(new Message("이미 매니저로 초대된 사용자입니다.", 400));
+                } else if (existingRole == UserRoleEnum.MEMBER) {
+                    return ResponseEntity.badRequest().body(new Message("이미 멤버로 초대된 사용자입니다.", 400));
+                }
+            }
         } else {
             // 초대되지 않은 사용자인 경우 추가
             UserBoard newUserBoard = new UserBoard(collaborator, board, UserRoleEnum.MEMBER);
