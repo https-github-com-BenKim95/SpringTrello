@@ -103,26 +103,6 @@ public class BoardService {
         }
     }
 
-//    @Transactional
-//    public void addCollaborator(Board board, User collaborator) {
-//        if (board.getUserBoards().stream().anyMatch(boardUser -> boardUser.getCollaborator().equals(collaborator))) {
-//            throw new IllegalArgumentException("칸반 보드에 이미 협업자로 등록된 사용자입니다.");
-//        }
-//
-//        UserBoard userBoard = new UserBoard(collaborator, board);
-//        board.getUserBoards().add(userBoard);
-//    }
-
-
-//    @Transactional
-//    public void updateCollaborator(UserBoard boardUser, User newCollaborator) {
-//        if (boardUser.getBoard().getUserBoards().stream().anyMatch(user -> user.getCollaborator().equals(newCollaborator))) {
-//            throw new IllegalArgumentException("이미 협업자로 할당된 사용자입니다.");
-//        }
-//
-//        boardUser.updateCollaborator(newCollaborator);
-//    }
-
 
     public Board findBoard(Long id) {
         return boardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 칸반 보드입니다."));
@@ -133,28 +113,8 @@ public class BoardService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 칸반 보드에 존재하지 않는 협업자입니다."));
     }
 
-//    @Transactional
-//    public ResponseEntity<Message> addCollaborator(Long boardId, CollaboratorRequestDto collaboratorRequestDto, User user) {
-//
-//        //매니저 체크
-//        Optional<UserBoard> checkManager = userBoardRepository.findUserBoardByCollaborator_Id(user.getId());
-//        if (checkManager.isEmpty() || !checkManager.get().getRole().equals(UserRoleEnum.MANAGER)) {
-//            throw new IllegalArgumentException("매니저 권한이 아닙니다.");
-//        }
-//
-//
-//            //보드에 회원 유무 확인
-//            Optional<UserBoard> userBoard = userBoardRepository.findUserBoardByCollaborator_Id(collaboratorRequestDto.getId());
-//            if (userBoard.get().getRole() == null) {
-//                // 회원 초대
-//                userBoard.get().setRole(UserRoleEnum.MEMBER);
-//                userBoardRepository.save(userBoard.get());
-//            } else {
-//                    return ResponseEntity.badRequest().body(new Message("초대 불가", 400));
-//                }
-//        return ResponseEntity.ok().body(new Message("멤버으로 초대 성공", 200));
-//    }
 
+    //초대한 회원에게 멤버 권한 부여하기
     @Transactional
     public ResponseEntity<Message> addCollaborator(Long boardId, CollaboratorRequestDto collaboratorRequestDto, User user) {
         // 유저의 게시글 권한을 확인하고,
