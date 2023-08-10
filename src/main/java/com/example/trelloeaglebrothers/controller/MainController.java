@@ -67,4 +67,12 @@ public class MainController {
         }
         return "newBoard";
     }
+
+    @GetMapping("/memberMain")
+    public String memberMain(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
+        List<BoardResponseDto> boardResponseDtos = boardService.getBoards();
+        model.addAttribute("boards", boardResponseDtos);
+
+        return "memberMain";
+    }
 }
