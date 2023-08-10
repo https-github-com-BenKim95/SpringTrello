@@ -1,13 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="~{fragment/head :: userHead ('보드상세페이지')}"></head>
-
+<head th:replace="~{fragment/head :: userHead ('카드상세페이지')}"></head>
 <body>
 <div class="container-eagle container-fluid">
     <div th:replace="~{fragment/nav :: useNav}">insert</div>
-    <div class="main">
-        <h1>Hard work pays off</h1>
-    </div>
     <div class="container" id="post-detail">
         <!-- post 동적 데이터 삽입 -->
         <div id="post-box">
@@ -84,8 +80,8 @@
         <textarea class="container rounded p-2 border border-0 shadow" rows="3" id="input-comment"></textarea>
         <button type="button" class="float-end btn btn-dark mt-2 mb-5" onclick="newComment()">Submit</button>
     </div>
-    <!-- footer -->
-    <footer style="height: 200px; border-top: solid 1px #d9d9d9;" class="container-fluid footer fw-bold fs-3 justify-content-center d-flex p-5">footer</footer>
 </div>
+<link rel="stylesheet" th:href="@{/css/basic.css}">
+<script th:src="@{/js/basic.js}"></script>
 </body>
 </html>

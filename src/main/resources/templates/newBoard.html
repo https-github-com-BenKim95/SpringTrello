@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragment/head :: userHead ('보드작성페이지')}"></head>
+<body>
+<div class="container-eagle container-fluid">
+  <div th:replace="~{fragment/nav :: useNav}">insert</div>
+    <div class="container">
+      <div class="row mt-4">
+        <div class="col-md-12">
+            <input type="text" id="title" class="form-control shadow mt-2 border-0 p-3" placeholder="보드 제목을 입력하세요.">
+            <input type="text" id="color" class="form-control shadow mt-2 border-0 p-3" placeholder="보드 배경색을 입력해주세요."></input>
+            <input type="text" id ="description" class="form-control col-sm-5 mt-2 shadow border-0 p-3" placeholder="보드 설명을 입력해주세요">
+        </div>
+      </div>
+      <div class="row my-5">
+        <div class="col-md-12 d-flex justify-content-end">
+          <div class="align-items-center d-flex">
+              <button class="btn btn-dark" value="updatePost" id="btn-newPost">Submit</button>
+              <button class="btn btn-outline-dark ms-2" value="deletePost" id="btn-deletePost">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+<link rel="stylesheet" th:href="@{/css/basic.css}">
+<script th:src="@{/js/basic.js}"></script>
+</body>
+</html>
