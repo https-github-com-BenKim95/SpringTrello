@@ -40,14 +40,15 @@ public class Board extends TimeStamped {
     List<UserBoard> userBoards = new ArrayList<>(); // 보드 참여자(매니저, 멤버)
 
     @OneToMany(mappedBy = "board",cascade = CascadeType.REMOVE)
-    List<ColumnList> columnLists;
+    List<ColumnList> columnLists = new ArrayList<>();
 
-    public Board(BoardRequestDto requestDto, User author) {
+    public Board(BoardRequestDto requestDto, List<ColumnList> columnLists, User author) {
         this.title = requestDto.getTitle();
         this.color = requestDto.getColor();
         this.description = requestDto.getDescription();
         this.userBoards = new ArrayList<>();
         this.author = author;
+        this.columnLists = columnLists;
     }
 
 
