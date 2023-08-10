@@ -1,5 +1,6 @@
 package com.example.trelloeaglebrothers.repository;
 
+import com.example.trelloeaglebrothers.entity.Board;
 import com.example.trelloeaglebrothers.entity.User;
 import com.example.trelloeaglebrothers.entity.UserBoard;
 import com.example.trelloeaglebrothers.entity.UserRoleEnum;
@@ -13,8 +14,5 @@ public interface UserBoardRepository extends JpaRepository<UserBoard, Long> {
 
     Optional<UserBoard> findById(Long id);
 
-
-    Optional<UserBoard> findUserBoardByCollaborator_Id (Long id);
-
-    Optional<UserBoard> findUserBoardByCollaborator_IdAndRole(Long id, UserRoleEnum userRoleEnum);
+    Optional<UserBoard> findUserBoardByCollaborator_IdAndBoard(Long id, Board board);
 }
