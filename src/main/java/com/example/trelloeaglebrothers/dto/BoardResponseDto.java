@@ -3,6 +3,7 @@ package com.example.trelloeaglebrothers.dto;
 import com.example.trelloeaglebrothers.entity.Board;
 import com.example.trelloeaglebrothers.entity.UserBoard;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
+@RequiredArgsConstructor
 public class BoardResponseDto {
 
     private Long board_id;
