@@ -21,14 +21,14 @@ public class ColumListController {
     // 컬림에는 ex) backlong in progress done
     private final ColumnListService columnListService;
 
+
     @PostMapping("/board/{board_id}/column_list")
     public ResponseEntity<ColumnListResponseDto> createColumnList(@PathVariable Long board_id,
-                                                                  @RequestBody ColumnListRequestDto requestDto,
                                                                   @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
 
         try {
-            columnListService.createColumnList(board_id, requestDto, userDetails.getUser());
+            columnListService.createColumnList(board_id, userDetails.getUser());
             return ResponseEntity.ok().body(new ColumnListResponseDto("칼럼 생성 완료"));
         } catch (RejectedExecutionException e) {
             return ResponseEntity.badRequest().body(new ColumnListResponseDto("컬럼 생성에 실패했습니다."));

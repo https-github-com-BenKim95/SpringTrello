@@ -19,7 +19,7 @@ public class ColumnList {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column
     private String title;
 
     @Column(nullable = false)
@@ -32,9 +32,8 @@ public class ColumnList {
     @OneToMany(mappedBy = "columnList", cascade = CascadeType.REMOVE)
     private List<Card> cards = new ArrayList<>();
 
-    public ColumnList(Board board, ColumnListRequestDto requestDto) {
+    public ColumnList(Board board) {
         this.board = board;
-        this.title = requestDto.getTitle();
 
     }
 

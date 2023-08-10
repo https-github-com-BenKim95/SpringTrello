@@ -1,6 +1,6 @@
-package com.example.trelloeaglebrothers;/*
-
+package com.example.trelloeaglebrothers;
 import com.example.trelloeaglebrothers.entity.Board;
+import com.example.trelloeaglebrothers.entity.ColumnList;
 import com.example.trelloeaglebrothers.entity.User;
 import com.example.trelloeaglebrothers.entity.UserBoard;
 import jakarta.persistence.EntityManager;
@@ -33,21 +33,31 @@ public class UserTest {
         em.persist(user3);
         em.persist(user4);
 
+
+
         Board board1 = new Board("title","");
-        Board board2 = new Board("title2", "");
-        em.persist(board1);
-        em.persist(board2);
 
-        UserBoard userBoard1 = new UserBoard();
-        userBoard1.setUser(user1);
-        userBoard1.setBoard(board1);
-        em.persist(userBoard1);
+        ColumnList columnList = new ColumnList(new Board());
+        columnList.setOrderNum(1L);
+        em.persist(columnList);
 
-        UserBoard userBoard2 = new UserBoard();
-        userBoard2.setUser(user1);
-        userBoard2.setBoard(board2);
-        em.persist(userBoard2);
+
+
+//
+//        Board board2 = new Board("title2", "");
+//        em.persist(board1);
+//        em.persist(board2);
+//
+//        UserBoard userBoard1 = new UserBoard();
+//        userBoard1.setUser(user1);
+//        userBoard1.setBoard(board1);
+//        em.persist(userBoard1);
+//
+//        UserBoard userBoard2 = new UserBoard();
+//        userBoard2.setUser(user1);
+//        userBoard2.setBoard(board2);
+//        em.persist(userBoard2);
 
     }
 }
- */
+
