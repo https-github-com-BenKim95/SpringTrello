@@ -24,7 +24,7 @@ public class ColumnListService {
 
     //칼럼생성
     @Transactional
-    public void createColumnList(Long boardId, ColumnListRequestDto requestDto, User user) {
+    public void createColumnList(Long boardId, User user) {
 
         //보드가 존재 하는지 확인
         Board board = boardRepository.findById(boardId)
@@ -37,7 +37,7 @@ public class ColumnListService {
 
 
         //칼럼 생성
-        ColumnList columnList = new ColumnList(board, requestDto);
+        ColumnList columnList = new ColumnList(board);
 
         // columnList가 생성 될 때 마다 orderNUm +1 씩 증가
         //조회를 했을 때 null 이면 1은 넣고
