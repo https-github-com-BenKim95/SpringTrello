@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MainController {
 
-    private final BoardRepository boardRepository;
     private final BoardService boardService;
 
     // 메인페이지
@@ -33,15 +32,6 @@ public class MainController {
             model.addAttribute("nickName", user.getNickName());
         }
         return "index";
-    }
-    
-    @GetMapping("/card")
-    public String card(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
-        if (userDetails != null) {
-            User user = userDetails.getUser();
-            model.addAttribute("nickName", user.getNickName());
-        }
-        return "card";
     }
 
     @GetMapping("/newBoard")
@@ -68,11 +58,4 @@ public class MainController {
         return "newBoard";
     }
 
-    @GetMapping("/memberMain")
-    public String memberMain(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
-        List<BoardResponseDto> boardResponseDtos = boardService.getBoards();
-        model.addAttribute("boards", boardResponseDtos);
-
-        return "memberMain";
-    }
 }

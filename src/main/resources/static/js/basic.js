@@ -16,13 +16,20 @@ function getBoards() {
           let description = data[i].description;
           let modifiedAt = data[i].modifiedAt;
 
-          let temp_html = `<a href=/api/board class="col">
+          let columList = data[i].columList;
+
+          let boardId = data[i].id;
+
+          let temp_html = `<a href=/api/board/${boardId}/column_list class="col">
                                         <div class="card feed border-0">
                                             <div class="card-body">
                                                 <h5 class="card-title fw-bold">${title}</h5>
                                                 <p class="card-text text-truncate">${color}</p>
                                                 <p class="card-text fw-bold">${description}</p>
                                                 <p class="card-text text-muted">${modifiedAt}</p>
+                                                
+                                                <p class="card-text text-truncate">${columList}</p>
+                                                
                                             </div>
                                         </div>
                                       </a>`
