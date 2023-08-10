@@ -21,8 +21,10 @@ import java.util.OptionalInt;
 @Service
 public class CardService {
 
+    private final BoardRepository boardRepository;
     private final CardRepository cardRepository;
     private final ColumnListRepository columnListRepository;
+    private final UserBoardRepository userBoardRepository;
     private final UserCardRepository userCardRepository;
     private final CardCommentRepository cardCommentRepository;
     private final UserRepository userRepository;
@@ -30,7 +32,7 @@ public class CardService {
     //카드 생성
     @Transactional
     public ResponseEntity<ApiResponseDto> createCard(Long boardId, Long columnListId, CardRequestDto cardRequestDto, User user) {
-
+        checkRole(boardId, user);
         Optional<ColumnList> columnList = columnListRepository.findByBoardIdAndId(boardId, columnListId);
         if (columnList.isEmpty()) {
             return ResponseEntity.status(400).body(new ApiResponseDto(HttpStatus.BAD_REQUEST, "해당 컬럼리스트는 존재하지 않습니다."));
@@ -44,14 +46,14 @@ public class CardService {
 
         Card card = new Card(cardRequestDto, newOrderNum, null, columnList.get());
         cardRepository.save(card);
-        userCardRepository.save(new UserCard(user, card));
+//        userCardRepository.save(new UserCard(user, card)); -> 안쓸 확률 높음
         return ResponseEntity.status(201).body(new ApiResponseDto(HttpStatus.CREATED, "카드가 작성되었습니다."));
     }
 
     //카드 수정
     @Transactional
     public CardResponseDto editCard(Long boardId, Long columnListId, Long cardId, CardRequestDto cardRequestDto, User user) {
-
+        checkRole(boardId, user);
         Optional<ColumnList> columnList = columnListRepository.findByBoardIdAndId(boardId, columnListId);
         Optional<Card> card = cardRepository.findById(cardId);
 
@@ -60,8 +62,7 @@ public class CardService {
         } else if (card.isEmpty()) {
             throw new IllegalArgumentException("해당 카드는 존재하지 않습니다.");
         }
-
-        card.get().update(cardRequestDto, userCardRepository,userRepository, cardId);
+        card.get().update(cardRequestDto, userCardRepository, userRepository, cardId);
 
         if (cardRequestDto.getDueDate().isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException("마감일은 현재 시간보다 이전일 수 없습니다.");
@@ -72,6 +73,7 @@ public class CardService {
     //카드 위치 변경
     @Transactional
     public ResponseEntity<ApiResponseDto> orderSwap(Long boardId, Long columnListId, Long forwardOrder, Long backwardOrder, User user) {
+        checkRole(boardId, user);
         Optional<ColumnList> columnList = columnListRepository.findByBoardIdAndId(boardId, columnListId);
         Optional<Card> forwardOrderCard = cardRepository.findById(forwardOrder);
         Optional<Card> backwardOrderCard = cardRepository.findById(backwardOrder);
@@ -94,6 +96,7 @@ public class CardService {
     //카드 삭제
     @Transactional
     public ResponseEntity<ApiResponseDto> deleteCard(Long boardId, Long columnListId, Long cardId, User user) {
+        checkRole(boardId, user);
         Optional<ColumnList> columnList = columnListRepository.findByBoardIdAndId(boardId, columnListId);
         Optional<Card> card = cardRepository.findById(cardId);
         Optional<UserCard> userCard = userCardRepository.findByUserIdAndCardId(user.getId(), cardId);
@@ -106,7 +109,6 @@ public class CardService {
             return ResponseEntity.status(400).body(new ApiResponseDto(HttpStatus.BAD_REQUEST, "해당 카드는 존재하지 않습니다."));
         }
 
-        CardComment cardComment = new CardComment();
         cardRepository.delete(card.get());
         return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK, "카드가 삭제되었습니다."));
     }
@@ -114,7 +116,9 @@ public class CardService {
     // 하나의 메서드에서 여러 레포지토리 메서드를 호출하여 데이터를 생성, 수정 또는 삭제하는 경우에 트랜잭션을 사용하여 데이터의 일관성과 무결성을 보장
     // 단일 레포지토리 메서드를 호출하여 데이터를 생성 또는 삭제하는 작업만 수행하므로, 추가적인 트랜잭션 처리가 필요하지 않음
     //카드 댓글 작성
+    @Transactional
     public ResponseEntity<ApiResponseDto> createCardComments(Long boardId, Long columnListId, Long cardId, CardCommentRequestDto cardCommentRequestDto, User user) {
+        checkRole(boardId, user);
         Optional<ColumnList> columnList = columnListRepository.findByBoardIdAndId(boardId, columnListId);
         Optional<Card> card = cardRepository.findById(cardId);
 
@@ -129,17 +133,19 @@ public class CardService {
     }
 
     //카드 댓글 수정
+    @Transactional
     public ResponseEntity<ApiResponseDto> editCardComments(Long boardId, Long columnListId, Long cardId, Long cardCommentId, CardCommentRequestDto cardCommentRequestDto, User user) {
+        checkRole(boardId, user);
         String comments = cardCommentRequestDto.getComment();
         Optional<ColumnList> columnList = columnListRepository.findByBoardIdAndId(boardId, columnListId);
         Optional<Card> card = cardRepository.findById(cardId);
-        Optional<CardComment> cardComment = cardCommentRepository.findByIdAndUserId(cardCommentId, user.getId());
+        Optional<CardComment> cardComment = cardCommentRepository.findById(cardCommentId);
 
         if (columnList.isEmpty()) {
             return ResponseEntity.status(400).body(new ApiResponseDto(HttpStatus.BAD_REQUEST, "해당 컬럼리스트는 존재하지 않습니다."));
         } else if (card.isEmpty()) {
             return ResponseEntity.status(400).body(new ApiResponseDto(HttpStatus.BAD_REQUEST, "해당 카드는 존재하지 않습니다."));
-        }else if (cardComment.isEmpty()) {
+        } else if (cardComment.isEmpty()) {
             return ResponseEntity.status(400).body(new ApiResponseDto(HttpStatus.BAD_REQUEST, "해당 댓글이 존재하지 않습니다."));
         }
 
@@ -150,10 +156,12 @@ public class CardService {
 
 
     //카드 댓글 삭제
+    @Transactional
     public ResponseEntity<ApiResponseDto> deleteCardComments(Long boardId, Long columnListId, Long cardId, Long cardCommentId, User user) {
+        checkRole(boardId, user);
         Optional<ColumnList> columnList = columnListRepository.findByBoardIdAndId(boardId, columnListId);
         Optional<Card> card = cardRepository.findById(cardId);
-        Optional<CardComment> cardComment = cardCommentRepository.findByIdAndUserId(cardCommentId, user.getId());
+        Optional<CardComment> cardComment = cardCommentRepository.findById(cardCommentId);
 
         if (columnList.isEmpty()) {
             return ResponseEntity.status(400).body(new ApiResponseDto(HttpStatus.BAD_REQUEST, "해당 컬럼리스트는 존재하지 않습니다."));
@@ -167,5 +175,17 @@ public class CardService {
         return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK, "카드 댓글이 삭제되었습니다."));
     }
 
-
+    public void checkRole(Long boardId, User user) {
+        Optional<Board> checkBoard = boardRepository.findById(boardId);
+        if (checkBoard.isEmpty()) {
+            throw new IllegalArgumentException("해당 보드는 존재하지 않습니다.");
+        }
+        Optional<UserBoard> checkUserAndBoardId = userBoardRepository.findUserBoardByCollaborator_IdAndBoard(user.getId(), checkBoard.get());
+        if (checkUserAndBoardId.isEmpty()) {
+            throw new IllegalArgumentException("보드에 초대되지 않은 사용자입니다.");
+//        } else if (checkUserAndBoardId.get().getRole().equals(UserRoleEnum.MANAGER) || checkUserAndBoardId.get().getRole().equals(UserRoleEnum.MEMBER)) {
+//            return ResponseEntity.status(400).body(new ApiResponseDto(HttpStatus.BAD_REQUEST, "매니저 또는 멤버 권한이 없습니다."));
+//        }
+        }
+    }
 }
