@@ -3,16 +3,12 @@ package com.example.trelloeaglebrothers.controller;
 import com.example.trelloeaglebrothers.dto.BoardRequestDto;
 import com.example.trelloeaglebrothers.dto.BoardResponseDto;
 import com.example.trelloeaglebrothers.dto.CollaboratorRequestDto;
-import com.example.trelloeaglebrothers.entity.Board;
-import com.example.trelloeaglebrothers.entity.User;
-import com.example.trelloeaglebrothers.entity.UserBoard;
 import com.example.trelloeaglebrothers.security.UserDetailsImpl;
 import com.example.trelloeaglebrothers.service.BoardService;
 import com.example.trelloeaglebrothers.service.UserService;
 import com.example.trelloeaglebrothers.status.Message;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +22,6 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
-    private final UserService userService;
 
     @GetMapping("/board")
     public List<BoardResponseDto> getBoards() {
@@ -83,7 +78,7 @@ public class BoardController {
                                                    @RequestBody CollaboratorRequestDto collaboratorRequestDto,
                                                    @AuthenticationPrincipal UserDetailsImpl userDetails){
 
-      return   boardService.addCollaborator(boardId, collaboratorRequestDto ,userDetails.getUser());
+        return   boardService.addCollaborator(boardId, collaboratorRequestDto ,userDetails.getUser());
     }
 
 }
