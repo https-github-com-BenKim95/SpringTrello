@@ -71,14 +71,13 @@ public class ColumnListService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 칼럼이 존재하지 않습니다."));
 
         //보드 멤버인지 확인
-//        User memberCheck = null;
-//        if (user.getRole().equals(UserRoleEnum.MANAGER) || user.getRole().equals(UserRoleEnum.MEMBER)) {
+        UserBoard userBoard = userBoardRepository.findUserBoardByCollaborator_Id(user.getId())
+                .orElseThrow(() -> new IllegalArgumentException("보드 멤버가 아닙니다."));
 
 
         columnList.update(requestDto.getTitle(), board);
         return new ColumnListResponseDto("컬럼이 변경되었습니다.");
 
-//        } else throw new RejectedExecutionException("접근 권한이 없습니다.");
     }
 
     //칼럼 삭제
@@ -94,12 +93,11 @@ public class ColumnListService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 칼럼이 존재하지 않습니다."));
 
         //보드 멤버인지 확인
-//        User memberCheck = null;
-//        if (user.getRole().equals(UserRoleEnum.MANAGER) || user.getRole().equals(UserRoleEnum.MEMBER)) {
+        UserBoard userBoard = userBoardRepository.findUserBoardByCollaborator_Id(user.getId())
+                .orElseThrow(() -> new IllegalArgumentException("보드 멤버가 아닙니다."));
 
         columnListRepository.delete(columnList);
 
-//        } else throw new RejectedExecutionException("삭제 권한이 없습니다.");
 
 
     }
