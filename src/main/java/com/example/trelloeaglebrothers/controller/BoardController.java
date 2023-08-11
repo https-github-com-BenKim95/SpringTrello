@@ -61,4 +61,5 @@ public class BoardController {
         return   boardService.addCollaborator(boardId, collaboratorRequestDto ,userDetails.getUser());
     }
 
+
 }
