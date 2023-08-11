@@ -13,8 +13,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@RequiredArgsConstructor
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/api")
 public class CardController {
 
@@ -26,6 +26,7 @@ public class CardController {
                                                      @RequestBody CardRequestDto cardRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return cardService.createCard(board_id, column_list_id, cardRequestDto, userDetails.getUser());
     }
+
 
     // 카드 수정
     @PutMapping("/board/{board_id}/column_list/{column_list_id}/card/{card_id}")
@@ -68,6 +69,4 @@ public class CardController {
                                                              @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return cardService.deleteCardComments(board_id, column_list_id, card_id, card_comment_id, userDetails.getUser());
     }
-
-
 }

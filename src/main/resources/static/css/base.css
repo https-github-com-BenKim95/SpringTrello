@@ -28,12 +28,11 @@ a {
 /* header 시작 */
 .header-eagle{
     width: 80%;
-    height: 150px;
+    height: 80px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between; /*양쪽 정렬*/
     align-items: center;
-    margin-bottom: 150px;
 }
 
 /* 로고 */

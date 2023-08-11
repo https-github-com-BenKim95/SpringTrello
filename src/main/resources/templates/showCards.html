@@ -1,42 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Show Card</title>
+  <meta charset="UTF-8">
+  <title>Show Card</title>
 </head>
 <body>
 <h1>Card Details</h1>
 <div id="cardDetails">
-    <!-- 여기에 카드 상세 정보를 동적으로 채우는 JavaScript 코드를 추가하세요. -->
+  <!-- 여기에 카드 상세 정보를 동적으로 채우는 JavaScript 코드를 추가하세요. -->
 </div>
 
 <script>
-    // 카드 정보를 가져오는 함수를 호출하고 화면에 표시하는 코드를 작성하세요.
-    async function fetchAndDisplayCard() {
-        const boardId = 1/* 여기에 보드 ID 입력 */;
-        const columnListId = 1/* 여기에 컬럼리스트 ID 입력 */;
-        const cardId = 1/* 여기에 카드 ID 입력 */;
+  // 카드 정보를 가져오는 함수를 호출하고 화면에 표시하는 코드를 작성하세요.
+  async function fetchAndDisplayCard() {
+    // const boardId = /* 여기에 보드 ID 입력 */;
+    // const columnListId = /* 여기에 컬럼리스트 ID 입력 */;
+    // const cardId = /* 여기에 카드 ID 입력 */;
 
-        try {
-            const response = await fetch(`/api/board/${boardId}/column_list/${columnListId}/card/${cardId}`);
-            const cardData = await response.json();
+    try {
+      const response = await fetch(`/api/board/${boardId}/column_list/${columnListId}/card/${cardId}`);
+      const cardData = await response.json();
 
-            const cardDetailsDiv = document.getElementById('cardDetails');
-            cardDetailsDiv.innerHTML = `
+      const cardDetailsDiv = document.getElementById('cardDetails');
+      cardDetailsDiv.innerHTML = `
                     <h2>${cardData.title}</h2>
                     <p>Description: ${cardData.description}</p>
                     <p>Color: <span style="background-color: ${cardData.color};">${cardData.color}</span></p>
                     <p>Due Date: ${cardData.dueDate}</p>
                 `;
 
-            // 여기에 댓글 정보를 표시하는 코드를 추가하세요.
-        } catch (error) {
-            console.error('Error:', error);
-        }
+      // 여기에 댓글 정보를 표시하는 코드를 추가하세요.
+    } catch (error) {
+      console.error('Error:', error);
     }
+  }
 
-    // 페이지 로드 시 카드 정보를 가져오고 표시하는 함수를 호출합니다.
-    fetchAndDisplayCard();
+  // 페이지 로드 시 카드 정보를 가져오고 표시하는 함수를 호출합니다.
+  fetchAndDisplayCard();
 </script>
 </body>
 </html>

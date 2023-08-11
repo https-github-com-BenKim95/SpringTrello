@@ -30,36 +30,36 @@ public class BoardController {
         return boardService.getBoards();
     }
 
-//    //보드 단건 조회
-//    @GetMapping("/board/{id}")
-//    public AllResponseDto getBoard(@PathVariable Long id) {
-//        return boardService.getBoard(id);
-//    }
-
     @PostMapping("/board")
-    public BoardResponseDto createBoard(@RequestBody @Valid BoardRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public BoardResponseDto createBoard(@RequestBody @Valid BoardRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return boardService.createBoard(requestDto, userDetails.getUser());
     }
 
     @PutMapping("/board/{id}")
-    public BoardResponseDto updateBoard(@PathVariable Long id, @RequestBody BoardRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails)
-    {
+    public BoardResponseDto updateBoard(@PathVariable Long id, @RequestBody BoardRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return boardService.updateBoard(id, requestDto, userDetails.getUser());
     }
 
     @DeleteMapping("/board/{id}")
-    public ResponseEntity<Message> deleteBoard(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails)
-    {
+    public ResponseEntity<Message> deleteBoard(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return boardService.deleteBoard(id, userDetails.getUser());
     }
 
     @PostMapping("/board/collaborator/{boardId}")
     public ResponseEntity<Message> addCollaborator(@PathVariable Long boardId,
                                                    @RequestBody CollaboratorRequestDto collaboratorRequestDto,
-                                                   @AuthenticationPrincipal UserDetailsImpl userDetails){
+                                                   @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        return   boardService.addCollaborator(boardId, collaboratorRequestDto ,userDetails.getUser());
+        return boardService.addCollaborator(boardId, collaboratorRequestDto, userDetails.getUser());
     }
 
-
+    //보드 단건 조회
+//    @GetMapping("/board/{id}")
+//    public AllResponseDto getBoard(@PathVariable Long id) {
+//        return boardService.getBoard(id);
+//    }
+//    }
 }
+
+
+

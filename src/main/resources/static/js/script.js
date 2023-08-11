@@ -7,17 +7,17 @@ const boards = [
 
 // 보드 목록을 생성하여 화면에 표시
 function renderBoardList() {
-  boardListElement.innerHTML = '';
-  boards.forEach(board => {
-    const boardElement = document.createElement('li');
-    boardElement.className = 'board';
-    boardElement.innerHTML = `
+    boardListElement.innerHTML = '';
+    boards.forEach(board => {
+        const boardElement = document.createElement('li');
+        boardElement.className = 'board';
+        boardElement.innerHTML = `
             <h2>${board.title}</h2>
             <p>${board.description}</p>
 
         `;
-    boardListElement.appendChild(boardElement);
-  });
+        boardListElement.appendChild(boardElement);
+    });
 }
 
 // 보드 목록을 렌더링

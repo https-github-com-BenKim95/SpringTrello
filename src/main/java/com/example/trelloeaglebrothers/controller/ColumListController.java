@@ -17,17 +17,20 @@ import java.util.concurrent.RejectedExecutionException;
 public class ColumListController {
 
 
+
+
 //    //칼럼 조회
-//    @GetMapping("/board/{board_id}/column/column_list/{column_list_id}")
-//    public ColumnListResponseDto getColumns(@PathVariable Long board_id,
-//                                            @PathVariable Long column_list_id,
-//                                            @AuthenticationPrincipal UserDetailsImpl userDetails
-//    ) {
-//
-//        return columnListService.getColumn(userDetails.getUser(), board_id, column_list_id);
-//
-//
-//    }
+
+    @GetMapping("/board/{board_id}/column/column_list/{column_list_id}")
+    public ColumnListResponseDto getColumns(@PathVariable Long board_id,
+                                            @PathVariable Long column_list_id,
+                                            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
+
+        return columnListService.getColumn(userDetails.getUser(), board_id, column_list_id);
+
+
+    }
 
     //칼럼 생성
     //보드 내부에 컬럼을 생성할 수 있어야 한다

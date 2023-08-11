@@ -4,13 +4,16 @@ import com.example.trelloeaglebrothers.entity.Board;
 import com.example.trelloeaglebrothers.entity.ColumnList;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
+@Setter
 @RequiredArgsConstructor
 public class AllResponseDto {
+
     String title;
     private List<ColumnListResponseDto> columnLists;
 

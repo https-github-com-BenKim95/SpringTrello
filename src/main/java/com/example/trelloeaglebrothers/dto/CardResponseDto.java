@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @RequiredArgsConstructor
@@ -20,8 +19,7 @@ public class CardResponseDto {
     private LocalDateTime dueDate;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    private List<String> memberList;
-    private List<CardCommentResponseDto> cardCommentList;
+    private List<String> workerList;
 
 
     public CardResponseDto(Card card) {
@@ -32,12 +30,11 @@ public class CardResponseDto {
         this.dueDate = card.getDueDate();
         this.createdAt = card.getCreatedAt();
         this.modifiedAt = card.getModifiedAt();
-        this.memberList = memberList(card.getUserCardList());
-        this.cardCommentList = card.getCardComments().stream().map(CardCommentResponseDto::new).collect(Collectors.toList());
+        this.workerList = workerLists(card.getUserCardList());
     }
 
     // List<UserCard>를 Response에서 Username만 나오게함
-    private List<String> memberList(List<UserCard> userCardList) {
+    private List<String> workerLists(List<UserCard> userCardList) {
         List<String> usernames = new ArrayList<>();
         for (UserCard userCard : userCardList) {
             usernames.add(userCard.getUser().getUsername());
