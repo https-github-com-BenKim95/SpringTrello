@@ -34,30 +34,27 @@
         const boardId = document.getElementById('boardId').value;
         const collaboratorId = document.getElementById('collaboratorId').value;
 
-
         const data = {
             id: collaboratorId
         };
 
-        fetch(`/board/collaborator/${boardId}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-            .then(response => response.json())
-            .then(data => {
+        $.ajax({
+            type: 'POST',
+            url: `/board/collaborator/${boardId}`,
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function(data) {
                 const resultMessage = document.getElementById('resultMessage');
                 if (data.status === 200) {
                     resultMessage.textContent = data.message;
                 } else {
                     resultMessage.textContent = 'Failed to invite collaborator: ' + data.message;
                 }
-            })
-            .catch(error => {
+            },
+            error: function(error) {
                 console.error('Error inviting collaborator:', error);
-            });
+            }
+        });
     }
 </script>
 </body>

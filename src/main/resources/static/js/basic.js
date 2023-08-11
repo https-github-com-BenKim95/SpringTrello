@@ -34,9 +34,9 @@ function getBoards() {
                             </div>
                           </div>
                           <div class="d-grid gap-2 d-md-flex justify-content-md-center my-3">
-                            <button th:if="${board.board_id} != null" class="btn btn-light btn-sm" type="button">Member</button>
-                            <button th:if="${board.board_id} != null" class="btn btn-light btn-sm" type="button">Edit</button>
-                            <button th:if="${board.board_id} != null" class="btn btn-outline-light btn-sm" type="button" onclick="Delete()">Delete</button>
+                            <button id="member" th:if="${boardId} != null" class="btn btn-light btn-sm" type="button">Member</button>
+                            <button th:if="${boardId} != null" class="btn btn-light btn-sm" type="button">Edit</button>
+                            <button th:if="${boardId} != null" class="btn btn-outline-light btn-sm" type="button" onclick="Delete()">Delete</button>
                           </div>
                         </a>
                         
@@ -63,3 +63,4 @@ $(document).ready(function () {
   });
   $("#board-list").disableSelection();
 });
+
