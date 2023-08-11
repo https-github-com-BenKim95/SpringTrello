@@ -1,5 +1,6 @@
 package com.example.trelloeaglebrothers.controller;
 
+import com.example.trelloeaglebrothers.dto.AllResponseDto;
 import com.example.trelloeaglebrothers.dto.BoardRequestDto;
 import com.example.trelloeaglebrothers.dto.BoardResponseDto;
 import com.example.trelloeaglebrothers.dto.CollaboratorRequestDto;
@@ -27,6 +28,12 @@ public class BoardController {
     @GetMapping("/board")
     public List<BoardResponseDto> getBoards() {
         return boardService.getBoards();
+    }
+
+    //보드 단건 조회
+    @GetMapping("/board/{id}")
+    public AllResponseDto getBoard(@PathVariable Long id) {
+        return boardService.getBoard(id);
     }
 
     @PostMapping("/board")

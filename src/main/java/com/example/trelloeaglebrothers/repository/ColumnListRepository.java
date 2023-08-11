@@ -12,5 +12,6 @@ import java.util.Optional;
 public interface ColumnListRepository extends JpaRepository<ColumnList, Long> {
 
     List<ColumnList> findAllByOrderByOrderNumAsc();
+    List<ColumnList> findByBoard_Id(Long BoardId);
     Optional<ColumnList> findColumnListByBoard_IdAndId(Long BoardId, Long columnListId);
 }

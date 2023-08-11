@@ -24,11 +24,5 @@ public class ColumnsViewController {
     ){
 
         return columnListService.getColumn(userDetails.getUser(), board_id, column_list_id);
-
-
-
     }
-
-
-
 }

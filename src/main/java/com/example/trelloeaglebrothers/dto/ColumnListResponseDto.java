@@ -15,10 +15,7 @@ import java.util.stream.Collectors;
 @Setter
 public class ColumnListResponseDto {
 
-    private Long id;
-    private Long postId;
     private String msg;
-
     private String title;
     private List<CardResponseDto> cardLists = new ArrayList<>();
 
@@ -28,7 +25,6 @@ public class ColumnListResponseDto {
 
 
     public ColumnListResponseDto(ColumnList columnList) {
-//        this.postId = postId;
         this.title = columnList.getTitle();
         this.cardLists = columnList.getCards().stream()
                 .map(CardResponseDto::new)
