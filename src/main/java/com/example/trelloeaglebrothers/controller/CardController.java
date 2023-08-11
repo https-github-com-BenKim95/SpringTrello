@@ -34,8 +34,12 @@ public class CardController {
         return ResponseEntity.status(HttpStatus.OK).body(cardService.editCard(board_id, column_list_id, card_id, cardRequestDto, userDetails.getUser()));
     }
 
-    // 카드 위치 옮기기
-
+    // 카드 위치 변경
+    @PutMapping("/board/{board_id}/column_list/{column_list_id}/card/{forward_order}/{backward_order}")
+    public ResponseEntity<ApiResponseDto> orderSwap(@PathVariable Long board_id, @PathVariable Long column_list_id, @PathVariable Long forward_order, @PathVariable Long backward_order,
+                                                    @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return cardService.orderSwap(board_id, column_list_id, forward_order, backward_order, userDetails.getUser());
+    }
 
     // 카드 삭제
     @DeleteMapping("/board/{board_id}/column_list/{column_list_id}/card/{card_id}")
