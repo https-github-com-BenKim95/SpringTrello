@@ -1,13 +1,12 @@
 package com.example.trelloeaglebrothers.service;
 
+import com.example.trelloeaglebrothers.dto.AllResponseDto;
 import com.example.trelloeaglebrothers.dto.BoardRequestDto;
 import com.example.trelloeaglebrothers.dto.BoardResponseDto;
 import com.example.trelloeaglebrothers.dto.CollaboratorRequestDto;
-import com.example.trelloeaglebrothers.entity.Board;
-import com.example.trelloeaglebrothers.entity.User;
-import com.example.trelloeaglebrothers.entity.UserBoard;
-import com.example.trelloeaglebrothers.entity.UserRoleEnum;
+import com.example.trelloeaglebrothers.entity.*;
 import com.example.trelloeaglebrothers.repository.BoardRepository;
+import com.example.trelloeaglebrothers.repository.ColumnListRepository;
 import com.example.trelloeaglebrothers.repository.UserBoardRepository;
 import com.example.trelloeaglebrothers.repository.UserRepository;
 import com.example.trelloeaglebrothers.status.Message;
@@ -32,6 +31,7 @@ public class BoardService {
     private final UserBoardRepository userBoardRepository;
     private final MessageSource messageSource;
     private final UserRepository userRepository;
+    private final ColumnListRepository columnListRepository;
 
     @Transactional(readOnly = true)
     public List<BoardResponseDto> getBoards() {
@@ -148,11 +148,13 @@ public class BoardService {
         return ResponseEntity.ok().body(new Message("멤버로 초대 성공", 200));
     }
 
+    public AllResponseDto getBoard(Long id) {
+        Optional<Board> board = boardRepository.findById(id);
+
+        List<ColumnList> columnLists = columnListRepository.findByBoard_Id(id);
+        return new AllResponseDto(board.get(), columnLists);
+    }
+
 }
 
-//  for(int i = 0; i <= collaborator.getBoards().size(); i++) {
-//          if (collaborator.getBoards().get(i).equals(boardId)) {
-//          throw new IllegalArgumentException("해당 회원 가입 할 수 없습니다");
-//          }
-//          }
 
