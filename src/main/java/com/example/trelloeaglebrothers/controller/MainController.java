@@ -49,7 +49,7 @@ public class MainController {
         return handleBoardPage(userDetails, id, model, "새 게시글");
     }
 
-    @GetMapping("/editBoard")
+    @GetMapping("/Board/edit")
     public String editBoard(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
         return handleBoardPage(userDetails, null, model, "수정");
     }
@@ -76,9 +76,9 @@ public class MainController {
         return "memberMain";
     }
 
-    @GetMapping("/inviteMember")
+    @GetMapping("/invite")
     public String inviteMember(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
-        if (userDetails != null) {
+        log.info("페이지 로드");
             // 필요한 로직 및 데이터 처리
             // 예: User user = userDetails.getUser();
             // model.addAttribute("user", user);
