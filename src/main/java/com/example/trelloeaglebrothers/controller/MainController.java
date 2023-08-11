@@ -34,7 +34,7 @@ public class MainController {
         }
         return "index";
     }
-
+    
     @GetMapping("/card")
     public String card(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
         if (userDetails != null) {
