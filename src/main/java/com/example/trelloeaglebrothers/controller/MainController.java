@@ -34,7 +34,7 @@ public class MainController {
         }
         return "index";
     }
-    
+
     @GetMapping("/card")
     public String card(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
         if (userDetails != null) {
@@ -75,4 +75,15 @@ public class MainController {
 
         return "memberMain";
     }
+
+    @GetMapping("/inviteMember")
+    public String inviteMember(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
+        if (userDetails != null) {
+            // 필요한 로직 및 데이터 처리
+            // 예: User user = userDetails.getUser();
+            // model.addAttribute("user", user);
+        }
+        return "invitemember";
+    }
+
 }
