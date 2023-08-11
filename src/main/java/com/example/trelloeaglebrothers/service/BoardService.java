@@ -155,3 +155,4 @@ public class BoardService {
 //          throw new IllegalArgumentException("해당 회원 가입 할 수 없습니다");
 //          }
 //          }
+

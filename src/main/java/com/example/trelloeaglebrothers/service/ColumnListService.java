@@ -33,12 +33,11 @@ public class ColumnListService {
 
 
         //보드 멤버인지 확인
-        UserBoard userBoard = userBoardRepository.findUserBoardByCollaborator_IdAndBoard_Id(user.getId(), boardId)
+        UserBoard userBoard = userBoardRepository.findUserBoardByCollaborator_Id(user.getId())
                 .orElseThrow(() -> new IllegalArgumentException("보드 멤버가 아닙니다."));
 
-
-        ColumnList columnList = columnListRepository.findById(column_list_id)
-                .orElseThrow(()-> new IllegalArgumentException("해당 컬럼이 존재하지 않음"));
+       ColumnList columnList = columnListRepository.findById(column_list_id)
+               .orElseThrow(()-> new IllegalArgumentException("해당 컬럼이 존재하지 않음"));
 
 
         return new ColumnListResponseDto(columnList);
@@ -46,7 +45,6 @@ public class ColumnListService {
     }
 
     //칼럼생성
-
     @Transactional
     public void createColumnList(Long boardId, User user, ColumnListRequestDto requestDto) {
 
@@ -56,7 +54,7 @@ public class ColumnListService {
 
 
         //보드 멤버인지 확인
-        UserBoard userBoard = userBoardRepository.findUserBoardByCollaborator_IdAndBoard_Id(user.getId(), boardId)
+        UserBoard userBoard = userBoardRepository.findUserBoardByCollaborator_Id(user.getId())
                 .orElseThrow(() -> new IllegalArgumentException("보드 멤버가 아닙니다."));
 
 
@@ -93,7 +91,7 @@ public class ColumnListService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 칼럼이 존재하지 않습니다."));
 
         //보드 멤버인지 확인
-        UserBoard userBoard = userBoardRepository.findUserBoardByCollaborator_IdAndBoard_Id(user.getId(), boardId)
+        UserBoard userBoard = userBoardRepository.findUserBoardByCollaborator_Id(user.getId())
                 .orElseThrow(() -> new IllegalArgumentException("보드 멤버가 아닙니다."));
 
 
@@ -115,7 +113,7 @@ public class ColumnListService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 칼럼이 존재하지 않습니다."));
 
         //보드 멤버인지 확인
-        UserBoard userBoard = userBoardRepository.findUserBoardByCollaborator_IdAndBoard_Id(user.getId(), boardId)
+        UserBoard userBoard = userBoardRepository.findUserBoardByCollaborator_Id(user.getId())
                 .orElseThrow(() -> new IllegalArgumentException("보드 멤버가 아닙니다."));
 
         columnListRepository.delete(columnList);
