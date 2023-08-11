@@ -1,0 +1,38 @@
+/* 반응형 */
+.container .form-group {width: 600px;}
+.none {display: none;}
+/* 폼 그룹 지정공간 over시 말줄임 */
+textarea {width: -webkit-fill-available; height: fit-content; overflow-wrap: anywhere;}
+.text-wrap { overflow-wrap: anywhere;}
+/* 버튼 그룹 움직임 */
+.btn-group, .btn-group-vertical {position: relative; display: inline-flex; vertical-align: middle; flex-direction: row; flex-wrap: nowrap; height: fit-content;}
+/* index.html 카드 그림자 */
+@keyframes neon-glow {
+    0% {
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+    }
+    50% {
+        box-shadow: 0 0 15px rgb(183, 183, 183);
+    }
+    100% {
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+    }
+}
+
+.card {
+    display: inline-block;
+    width: 200px;
+    height: 150px;
+    background-color: lightgray;
+    border: 1px solid gray;
+    margin: 5px;
+    padding: 10px;
+
+    animation: neon-glow 2s infinite;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.card:hover {
+    animation: none;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 1); /* 원하는 색상과 값에 맞게 조절하세요 */
+}

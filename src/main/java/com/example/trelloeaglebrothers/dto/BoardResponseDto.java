@@ -32,6 +32,8 @@ public class BoardResponseDto {
 
     private List<BoardColumnListResponseDto> columList;
 
+
+
     public BoardResponseDto(Board board){
         this.board_id = board.getId();
         this.title = board.getTitle();
