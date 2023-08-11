@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 @Setter
 public class ColumnListResponseDto {
 
+    private Long id;
     private String msg;
 
     private String title;
