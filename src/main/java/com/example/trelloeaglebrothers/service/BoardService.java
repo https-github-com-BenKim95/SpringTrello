@@ -1,6 +1,9 @@
 package com.example.trelloeaglebrothers.service;
 
-import com.example.trelloeaglebrothers.dto.*;
+import com.example.trelloeaglebrothers.dto.AllResponseDto;
+import com.example.trelloeaglebrothers.dto.BoardRequestDto;
+import com.example.trelloeaglebrothers.dto.BoardResponseDto;
+import com.example.trelloeaglebrothers.dto.CollaboratorRequestDto;
 import com.example.trelloeaglebrothers.entity.*;
 import com.example.trelloeaglebrothers.repository.BoardRepository;
 import com.example.trelloeaglebrothers.repository.ColumnListRepository;

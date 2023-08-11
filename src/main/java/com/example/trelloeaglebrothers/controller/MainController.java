@@ -49,7 +49,7 @@ public class MainController {
         return handleBoardPage(userDetails, id, model, "새 게시글");
     }
 
-    @GetMapping("/Board/edit")
+    @GetMapping("/editBoard")
     public String editBoard(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
         return handleBoardPage(userDetails, null, model, "수정");
     }
