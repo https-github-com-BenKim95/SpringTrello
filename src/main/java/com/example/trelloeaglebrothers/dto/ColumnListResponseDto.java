@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 public class ColumnListResponseDto {
 
     private String msg;
-
     private String title;
     private List<CardResponseDto> cardLists = new ArrayList<>();
 
