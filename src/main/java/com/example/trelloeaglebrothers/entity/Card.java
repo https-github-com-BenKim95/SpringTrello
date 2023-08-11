@@ -38,9 +38,6 @@ public class Card extends TimeStamped{
     @Column
     private LocalDateTime dueDate;
 
-    @Column(nullable = false)
-    private Long orderNum;
-
     // 다대다 관계를 중간 엔티티인 UserCard를 통해 설정하여 불러오기
     // 작업자 설정
     @OneToMany(mappedBy = "card", cascade = CascadeType.REMOVE)
@@ -55,12 +52,11 @@ public class Card extends TimeStamped{
     private ColumnList columnList;
 
 
-    public Card (CardRequestDto cardRequestDto, Long orderNum, List<UserCard> userCardList, ColumnList columnList) {
+    public Card (CardRequestDto cardRequestDto, List<UserCard> userCardList, ColumnList columnList) {
         this.title = cardRequestDto.getTitle();
         this.description = cardRequestDto.getDescription();
         this.color = cardRequestDto.getColor();
         this.dueDate = cardRequestDto.getDueDate();
-        this.orderNum = orderNum;
         this.userCardList = userCardList;
         this.columnList = columnList;
     }
@@ -89,7 +85,7 @@ public class Card extends TimeStamped{
             }
         }
 
-        // cardRequestDto에 username이 들어오지 않으면 UserCard 레파지토리에서 삭제
+        // cardRequestDto에 username이 들어오지 않으면 레파지토리에서 삭제
         List<UserCard> userCardsToRemove = new ArrayList<>(userCardList);
         userCardsToRemove.removeAll(updatedUserCardList);
         userCardList.removeAll(userCardsToRemove);
