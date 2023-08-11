@@ -31,7 +31,7 @@ public class CardController {
     // 카드 수정
     @PutMapping("/board/{board_id}/column_list/{column_list_id}/card/{card_id}")
     public ResponseEntity<CardResponseDto> editCard(@PathVariable Long board_id, @PathVariable Long column_list_id, @PathVariable Long card_id,
-                                                   @RequestBody CardRequestDto cardRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+                                                    @RequestBody CardRequestDto cardRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return ResponseEntity.status(HttpStatus.OK).body(cardService.editCard(board_id, column_list_id, card_id, cardRequestDto, userDetails.getUser()));
     }
 
