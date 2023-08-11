@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Card</title>
+</head>
+<body>
+<h1>Edit Card</h1>
+<form id="editCardForm">
+  <input type="hidden" id="cardIdToEdit" name="cardIdToEdit">
+
+  <label for="title">Title:</label>
+  <input type="text" id="title" name="title" required><br>
+
+  <label for="description">Description:</label>
+  <textarea id="description" name="description"></textarea><br>
+
+  <label for="color">Color:</label>
+  <input type="color" id="color" name="color"><br>
+
+  <label for="dueDate">Due Date:</label>
+  <input type="datetime-local" id="dueDate" name="dueDate"><br>
+
+  <label for="workers">Workers (comma-separated):</label>
+  <input type="text" id="workers" name="workers"><br>
+
+  <button type="submit">Save Changes</button>
+  <button type="button" id="cancelButton">Cancel</button>
+</form>
+
+<script>
+  const editCardForm = document.getElementById('editCardForm');
+  const cancelButton = document.getElementById('cancelButton');
+
+  cancelButton.addEventListener('click', () => {
+    // 이 부분에서 취소 버튼을 눌렀을 때의 처리를 구현할 수 있습니다.
+    // 팝업 창을 닫거나 초기화 등의 동작을 수행할 수 있습니다.
+    // 예: editCardForm.reset();
+  });
+
+  editCardForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(editCardForm);
+    const cardIdToEdit = formData.get('cardIdToEdit');
+
+    const cardData = {
+      title: formData.get('title'),
+      description: formData.get('description'),
+      color: formData.get('color'),
+      dueDate: formData.get('dueDate'),
+      workers: formData.get('workers').split(',').map(worker => worker.trim())
+    };
+
+    try {
+      const response = await fetch(`/api/board/${boardId}/column_list/${columnListId}/card/${cardIdToEdit}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(cardData)
+      });
+
+      if (response.ok) {
+        alert('Card updated successfully!');
+        // 여기에 페이지 이동 또는 추가 작업을 수행할 수 있습니다.
+      } else {
+        alert('Error updating card.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  });
+</script>
+</body>
+</html>
