@@ -19,15 +19,15 @@ public class ColumnsViewController {
 
     @GetMapping("/board/{board_id}/column/column_list/{column_list_id}")
     public ColumnListResponseDto getColumns(@PathVariable Long board_id,
-                          @PathVariable Long column_list_id,
-                          @AuthenticationPrincipal UserDetailsImpl userDetails
-                          ){
+                                            @PathVariable Long column_list_id,
+                                            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ){
 
         return columnListService.getColumn(userDetails.getUser(), board_id, column_list_id);
 
 
 
-        }
+    }
 
 
 
