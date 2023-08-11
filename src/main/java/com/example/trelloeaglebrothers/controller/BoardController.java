@@ -58,11 +58,13 @@ public class BoardController {
         return   boardService.addCollaborator(boardId, collaboratorRequestDto ,userDetails.getUser());
     }
 
-    @GetMapping("/board/{board_id}")
-    public ResponseEntity<BoardResponseDto> getBoard(@PathVariable Long board_id) {
-        BoardResponseDto boardResponseDto = boardService.getBoard(board_id);
-        return ResponseEntity.ok().body(boardResponseDto);
-    }
+//    @GetMapping("/board/{board_id}")
+//    public ResponseEntity<BoardResponseDto> getBoard(@PathVariable Long board_id) {
+//        BoardResponseDto boardResponseDto = boardService.getBoard(board_id);
+//        return ResponseEntity.ok().body(boardResponseDto);
+//    }
+
+
 
 
     @GetMapping("/myboards")
