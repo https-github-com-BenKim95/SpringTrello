@@ -30,6 +30,12 @@ public class BoardController {
         return boardService.getBoards();
     }
 
+    //보드 단건 조회
+    @GetMapping("/board/{id}")
+    public AllResponseDto getBoard(@PathVariable Long id) {
+        return boardService.getBoard(id);
+    }
+
     @PostMapping("/board")
     public BoardResponseDto createBoard(@RequestBody @Valid BoardRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return boardService.createBoard(requestDto, userDetails.getUser());

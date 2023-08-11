@@ -13,9 +13,9 @@
 <script>
     // 카드 정보를 가져오는 함수를 호출하고 화면에 표시하는 코드를 작성하세요.
     async function fetchAndDisplayCard() {
-        const boardId = /* 여기에 보드 ID 입력 */;
-        const columnListId = /* 여기에 컬럼리스트 ID 입력 */;
-        const cardId = /* 여기에 카드 ID 입력 */;
+        const boardId = 1/* 여기에 보드 ID 입력 */;
+        const columnListId = 1/* 여기에 컬럼리스트 ID 입력 */;
+        const cardId = 1/* 여기에 카드 ID 입력 */;
 
         try {
             const response = await fetch(`/api/board/${boardId}/column_list/${columnListId}/card/${cardId}`);
