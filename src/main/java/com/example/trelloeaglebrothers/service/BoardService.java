@@ -42,6 +42,7 @@ public class BoardService {
                 .toList();
     }
 
+    //보드 단건 조회
     public AllResponseDto getBoard(Long id) {
       Optional<Board> board = boardRepository.findById(id);
 
