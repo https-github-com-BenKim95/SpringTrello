@@ -66,10 +66,10 @@ public class WebSecurityConfig {
                         .anyRequest().authenticated() // 그 외 모든 요청 인증처리
         );
 
-        http.formLogin((formLogin) ->
-                formLogin
-                        .loginPage("/users/login").permitAll() //로그인 페이지
-        );
+//        http.formLogin((formLogin) ->
+//                formLogin
+//                        .loginPage("/users/login").permitAll() //로그인 페이지
+//        );
 
         // 필터 관리
         http.addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class);

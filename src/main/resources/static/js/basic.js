@@ -1,8 +1,18 @@
 $(document).ready(function () {
   getBoards();
+
+  // 버튼 요소 가져오기
+  const button = document.getElementById('member');
+
+  // 버튼 클릭 이벤트 리스너 등록
+  button.addEventListener('click', () => {
+    console.log("test");
+    // window.location.href = 'http://localhost:8080/invite';
+  });
 });
 
 function getBoards() {
+
   fetch('/api/myboards', {
     method: 'GET',
     headers: {'Content-Type': 'application/json'}
@@ -20,12 +30,17 @@ function getBoards() {
           let boardId = board.board_id;
           let columnListId = board.column_list_id;
 
+          function gotoboard() {
+            window.location.href = `http://localhost:8080/board/${boardId}`;
+          }
+
           // Create a unique ID for the card
           let cardId = `card-${boardId}-${columnListId}`;
 
+          // href="/board/${boardId}/column/column_list/${columnListId}"
           let temp_html = `
-                        <a class="col mb-5" href="/board/${boardId}/column/column_list/${columnListId}">
-                          <div class="card feed border-0 h-100 text-black" id="${cardId}">
+                        <a class="col mb-5"> 
+                          <div class="card feed border-0 h-100 text-black" id="${cardId}" data-board-id="${boardId}">
                             <div class="card-body bg-light bg-gradient rounded h-100">
                               <p class="card-title fw-bold fs-5">보드명: ${title}</p>
                               <p class="card-text none">${color}</p>
@@ -39,14 +54,25 @@ function getBoards() {
                             <button th:if="${boardId} != null" class="btn btn-outline-light btn-sm" type="button" onclick="Delete()">Delete</button>
                           </div>
                         </a>
-                        
                     `;
 
-          $('#board-list').append(temp_html);
 
+
+          $('#board-list').append(temp_html);
           const hexColor = color;
           const card = document.getElementById(cardId);
           card.style.backgroundColor = hexColor;
+        });
+
+        // 버튼 요소 가져오기
+        const memberButtons = document.querySelectorAll('.member-button');
+
+        // 버튼 클릭 이벤트 리스너 등록
+        memberButtons.forEach(button => {
+          button.addEventListener('click', function() {
+            const boardId = this.getAttribute('data-board-id');
+            window.location.href = `http://localhost:8080/board/${boardId}`;
+          });
         });
       });
 }

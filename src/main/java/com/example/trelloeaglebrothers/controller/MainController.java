@@ -82,7 +82,6 @@ public class MainController {
             // 필요한 로직 및 데이터 처리
             // 예: User user = userDetails.getUser();
             // model.addAttribute("user", user);
-        }
         return "invitemember";
     }
 
