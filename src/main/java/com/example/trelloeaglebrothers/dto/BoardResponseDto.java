@@ -32,8 +32,6 @@ public class BoardResponseDto {
 
     private List<BoardColumnListResponseDto> columList;
 
-
-
     public BoardResponseDto(Board board){
         this.board_id = board.getId();
         this.title = board.getTitle();
@@ -43,9 +41,6 @@ public class BoardResponseDto {
         this.createdAt = board.getCreatedAt();
         this.modifiedAt = board.getModifiedAt();
 
-//        for (UserBoard userBoard : board.getUserBoards()) {
-//            userList.add(new UserResponseDto(userBoard.getCollaborator())); // Assuming UserBoard has a 'User' field
-//        }
         if (board.getColumnLists() != null) { // 추가: 컬럼 리스트가 null이 아닌 경우에만 변환 작업 수행
             this.columList = board.getColumnLists().stream().map(BoardColumnListResponseDto::new).collect(Collectors.toList());
         }
