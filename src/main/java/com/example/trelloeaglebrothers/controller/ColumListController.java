@@ -5,12 +5,14 @@ import com.example.trelloeaglebrothers.dto.ColumnListResponseDto;
 import com.example.trelloeaglebrothers.security.UserDetailsImpl;
 import com.example.trelloeaglebrothers.service.ColumnListService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.RejectedExecutionException;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -61,7 +63,8 @@ public class ColumListController {
                                                     @PathVariable Long column_list_id,
                                                     @AuthenticationPrincipal UserDetailsImpl userDetails,
                                                     @RequestBody ColumnListRequestDto requestDto) {
-
+        log.info("칼럼 이름 수정", board_id);
+        log.info("칼럼 이름 수정", column_list_id);
         return columnListService.modifiedColumnList(board_id, column_list_id, userDetails.getUser(), requestDto);
 
 
@@ -72,6 +75,7 @@ public class ColumListController {
     public ResponseEntity<ColumnListResponseDto> deleteColumnList(@PathVariable Long board_id,
                                                                   @PathVariable Long column_list_id,
                                                                   @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
 
         try {
             columnListService.deleteColumnList(board_id, column_list_id, userDetails.getUser());
