@@ -193,7 +193,7 @@ function Delete() {
   });
 }
 
-function Edite() {
+function Edit() {
   let params = new URLSearchParams(location.search);
   let id = params.get('id');
 

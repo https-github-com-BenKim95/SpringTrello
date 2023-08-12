@@ -26,30 +26,34 @@ public class BoardController {
 
     private final BoardService boardService;
 
-    @GetMapping("/board")
-    public List<BoardResponseDto> getBoards() {
-        return boardService.getBoards();
-    }
+//    //전체 보드 조회 -> 관리자 기능
+//    @GetMapping("/board")
+//    public List<BoardResponseDto> getBoards() {
+//        return boardService.getBoards();
+//    }
 
 
-
+    //보드 생성
     @PostMapping("/board")
     public BoardResponseDto createBoard(@RequestBody @Valid BoardRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
         return boardService.createBoard(requestDto, userDetails.getUser());
     }
 
+    //보드 수정
     @PutMapping("/board/{id}")
     public BoardResponseDto updateBoard(@PathVariable Long id, @RequestBody BoardRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
         return boardService.updateBoard(id, requestDto, userDetails.getUser());
     }
 
+    //보드 삭제
     @DeleteMapping("/board/{id}")
     public ResponseEntity<Message> deleteBoard(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
         return boardService.deleteBoard(id, userDetails.getUser());
     }
 
+    //초대
     @PostMapping("/board/collaborator/{boardId}")
     public ResponseEntity<Message> addCollaborator(@PathVariable Long boardId,
                                                    @RequestBody CollaboratorRequestDto collaboratorRequestDto,
@@ -58,6 +62,7 @@ public class BoardController {
         return   boardService.addCollaborator(boardId, collaboratorRequestDto ,userDetails.getUser());
     }
 
+    //단건조회
 //    @GetMapping("/board/{board_id}")
 //    public ResponseEntity<BoardResponseDto> getBoard(@PathVariable Long board_id) {
 //        BoardResponseDto boardResponseDto = boardService.getBoard(board_id);
@@ -66,9 +71,9 @@ public class BoardController {
 
 
 
-
-    @GetMapping("/myboards")
-    public List<BoardResponseDto> getUserBoards(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    //내 보드만 조회
+    @GetMapping("/board")
+    public List<BoardResponseDto> getBoards(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
         return boardService.getUserBoards(user);
     }
