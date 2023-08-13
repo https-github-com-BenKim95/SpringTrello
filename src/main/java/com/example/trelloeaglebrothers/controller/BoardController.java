@@ -56,7 +56,7 @@ public class BoardController {
             String msg = "보드 삭제 완료";
             return ResponseEntity.ok(new Message(msg, HttpStatus.OK.value()));
         } catch (IllegalArgumentException e) {
-            String errorMsg = e.getMessage(); // 예외 메시지를 가져와서 사용
+            String errorMsg = "보드 삭제 실패";
             return ResponseEntity.badRequest().body(new Message(errorMsg, HttpStatus.BAD_REQUEST.value()));
         }
     }

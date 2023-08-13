@@ -34,7 +34,7 @@ function getBoards() {
 
           let temp_html = `
                            <div class="col mb-5">
-                            <a href="/board/${boardId}">
+                            <a href="/api/board/${boardId}">
                               <div class="card feed border-0 h-100 text-black" id="${cardId}">
                                 <div class="card-body bg-light bg-gradient rounded h-100">
                                   <p class="card-title fw-bold fs-5">보드명: ${title}</p>
@@ -87,23 +87,27 @@ $(document).on('click', '.delete-board-btn', function () {
 });
 
 function deleteBoard(boardId) {
-  fetch(`/api/board/${boardId}`, {
-    method: 'DELETE',
-    headers: {'Content-Type': 'application/json'}
-  })
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error("보드 삭제 요청 실패");
-        }
-      })
-      .then(data => {
-        console.log("보드 삭제 완료");
-        // 보드 삭제 후 보드 목록을 다시 불러옴
-        getBoards();
-      })
-      .catch(error => {
-        console.error("보드 삭제 중 에러 발생:", error);
-      });
+    fetch(`/api/board/${boardId}`, {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'}
+    })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                return response.json().then(data => {
+                    throw new Error(data.message);
+                });
+            }
+        })
+        .then(data => {
+            console.log("보드 삭제 완료");
+            // 보드 삭제 후 보드 목록을 다시 불러옴
+            getBoards();
+        })
+        .catch(error => {
+            console.error("보드 삭제 중 에러 발생:", error);
+        });
 }
+
+

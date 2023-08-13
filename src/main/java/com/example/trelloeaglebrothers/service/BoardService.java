@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.RejectedExecutionException;
 
 @Service
 @RequiredArgsConstructor
@@ -76,8 +77,10 @@ public class BoardService {
             throw new IllegalArgumentException("보드 생성자만 보드를 삭제할 수 있습니다");
         }
 
-        boardRepository.delete(board); // 보드를 삭제합니다.
+        // 삭제 로직 추가
+        boardRepository.delete(board);
     }
+
 
     // 공통 로직
     public Board confirmBoard(Long boardId) {
