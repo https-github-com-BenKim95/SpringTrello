@@ -27,6 +27,17 @@ public class CardController {
         return cardService.createCard(board_id, column_list_id, cardRequestDto, userDetails.getUser());
     }
 
+    //카드 작성2
+    @PostMapping("/board/column_list/card")
+    public String createCard(@RequestParam Long boardId,
+                             @RequestParam Long columnId,
+                             @RequestParam String title, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        CardRequestDto cardRequestDto = new CardRequestDto();
+        cardRequestDto.setTitle(title);
+        cardService.createCard(boardId, columnId, cardRequestDto, userDetails.getUser());
+        return "redirect:/api/board/" + boardId;
+    }
+
 
     // 카드 수정
     @PutMapping("/board/{board_id}/column_list/{column_list_id}/card/{card_id}")
