@@ -1,4 +1,4 @@
-package com.example.trelloeaglebrothers.dto;
+package com.example.trelloeaglebrothers.dto.user;
 
 import lombok.Getter;
 

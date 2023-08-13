@@ -19,6 +19,8 @@ body {
     background-size: cover;
 }
 
+
+
 /* 전체 링크 */
 a {
     text-decoration: none;
@@ -81,7 +83,7 @@ a {
 
 /* 회원가입, 로그인 폼 */
 #username, #password, #checkPassword, #nickName, #email {
-    width: 250px;
+    width: 200px;
     height: 30px;
     border-radius: 10px;
     text-align: center;
@@ -91,14 +93,58 @@ a {
 
 /*제출 버튼*/
 .submit {
-    width: 250px;
+    width: 200px;
     height: 30px;
     border-radius: 10px;
-
-    background-color: darkseagreen;
-    text-align: center;
-    
 }
 
+.columns-container {
+    display: flex;
+    overflow-x: auto; /* 스크롤이 필요할 경우 스크롤 허용 */
+}
+
+.column-box {
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin: 5px;
+    background-color: #f0f0f0;
+    font-size: 14px;
+    width: 200px;
+
+}
+
+.card-box {
+    border: 1px solid #ddd;
+    padding: 5px;
+    margin: 5px;
+    background-color: #fff;
+    font-size: 12px;
+    width: 150px;
+}
+
+/* 메모지 스타일 */
+.memo-box {
+    border: 1px solid #ffcc00;
+    padding: 8px;
+    margin: 5px;
+    background-color: #ffffcc;
+    font-size: 12px;
+    width: 120px;
+}
+
+
+/* 작은 삭제 버튼 스타일 추가 */
+.delete-column-box {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: inline-block;
+    background-color: #ff9999;
+    color: white;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    cursor: pointer;
+}
 
 

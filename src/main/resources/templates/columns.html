@@ -1,103 +1,43 @@
 <!DOCTYPE html>
-
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="styleshee" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
-            integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
-
-    <title>My Trello Board</title>
-    <style>
-        .column-box {
-            border: 1px solid #ccc;
-            padding: 5px;
-            margin: 5px;
-            background-color: #f0f0f0;
-            font-size: 14px;
-            width: 200px;
-        }
-
-        .card-box {
-            border: 1px solid #ddd;
-            padding: 5px;
-            margin: 5px;
-            background-color: #fff;
-            font-size: 12px;
-            width: 150px;
-        }
-
-        /* 메모지 스타일 */
-        .memo-box {
-            border: 1px solid #ffcc00;
-            padding: 8px;
-            margin: 5px;
-            background-color: #ffffcc;
-            font-size: 12px;
-            width: 120px;
-        }
-
-
-        /* 작은 삭제 버튼 스타일 추가 */
-        .delete-column-box {
-            position: absolute;
-            top: 0;
-            right: 0;
-            display: inline-block;
-            background-color: #ff9999;
-            color: white;
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-    </style>
-
-
-</head>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragment/head :: userHead ('메인페이지')}"></head>
 <body>
-
+<div class="container-eagle">
+    <div th:replace="~{fragment/nav :: useNav}">insert</div>
 <div class="board">
     <button class="add-list" th:attr="onclick='addList(' + ${board_id} + ')'">Add List</button>
 </div>
 
 <h1 th:text="${columns.title}">Default Title</h1>
 <input type="hidden" th:value="${columns.boardId}" id="boardId"/>
+<div class="columns-container">
+    <div th:each="column : ${columns.columnLists}">
+        <div class="column-box">
+            <!-- 'x' 버튼 추가 -->
+            <button class="delete-column" th:attr="onclick='deleteColumn(' + ${column.id} + ')'">x</button>
 
-<div th:each="column : ${columns.columnLists}">
-    <div class="column-box">
-        <!-- 'x' 버튼 추가 -->
-        <button class="delete-column" th:attr="onclick='deleteColumn(' + ${column.id} + ')'">x</button>
+            <form method="get" action="/api/board/column_list">
+                <input type="hidden" th:value="${columns.boardId}" th:id="${columns.boardId}" name="boardId">
+                <input type="hidden" th:value="${column.id}" th:id="${column.id}" name="id">
+                <input type="text" th:value="${column.title}" th:id="${column.title}" name="title">
+                <button type="submit">확인</button>
+            </form>
 
-        <div>
-            <input type="hidden" th:value="${column.id}" id="columnId">
-            <input type="text" th:value="${column.title}" id="columnTitle">
-            <button onclick="editName()">확인</button>
-        </div>
-
-        <!-- 카드 -->
-        <div>
-            <div th:each="card : ${column.cardLists}">
-                <div class="card-box">
-                    <h3 th:text="${card.title}">Default Card Title</h3>
-                    <p th:text="${card.description}">No description available.</p>
-                    <p th:text="${card.createdAt}">Creation Date: N/A</p>
-                    <p th:text="${card.workerList}">Assigned Workers: None</p>
+            <!-- 카드 -->
+            <div>
+                <div th:each="card : ${column.cardLists}">
+                    <div class="card-box">
+                        <h3 th:text="${card.title}">Default Card Title</h3>
+                        <p th:text="${card.description}">No description available.</p>
+                        <p th:text="${card.createdAt}">Creation Date: N/A</p>
+                        <p th:text="${card.workerList}">Assigned Workers: None</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-
+</div>
 <script>
     function addList() {
         const boardId = window.location.href.split('/').pop();
@@ -120,34 +60,7 @@
             }
         });
     }
-</script>
 
-<script>
-
-    function editName() {
-        const boardEditId = window.location.href.split('/').pop(); //주소창에서 boardId값 받아오기
-        const columnId = $('#columnId').val();
-        const columnTitle = $('#columnTitle').val();
-        $.ajax({
-            url: `/api/board/${boardEditId}/column_list/${columnId}`,
-            // url: `/api/board/1/column_list/12`,
-            type: 'PUT',
-            contentType: 'application/json',
-            data: JSON.stringify({title: columnTitle}),
-            success: function (columnEditTitle) {
-
-                window.location.reload();
-            },
-            error: function () {
-                alert('Failed to edit column list.');
-            }
-        });
-    }
-
-
-</script>
-
-<script>
     function deleteColumn(columnId) {
         const boardId = window.location.href.split('/').pop(); //주소창에서 boardId값 받아오기
         const columnDeId = columnId;
@@ -166,50 +79,8 @@
         });
     }
 </script>
+
 </body>
 </html>
-<!-- html코드
-     <h1 class="board-title" id="board-title">보드 이름</h1>
-     <input class="board-edit" style="display: none;" th:id="${board.boardId}"> -->
 
-<!-- js코드
-    // 보드 제목과 편집 입력란 엘리먼트 선택
-    const boardTitle = document.querySelector('.board-title');
-    const boardEditInput = document.querySelector('.board-edit');
-
-    // 보드 제목 클릭 이벤트 리스너 추가
-    boardTitle.addEventListener('click', () => {
-        boardTitle.style.display = 'none';
-        boardEditInput.style.display = 'block';
-        boardEditInput.value = boardTitle.textContent.trim();
-        boardEditInput.focus();
-    });
-
-    // 편집 입력란 blur 이벤트 리스너 추가
-    boardEditInput.addEventListener('blur', () => {
-        boardTitle.style.display = 'block';
-        boardEditInput.style.display = 'none';
-        boardTitle.textContent = boardEditInput.value;
-        const title = boardEditInput.value;
-
-        // boardEditInput의 id 값 가져와서 콘솔에 출력
-        const boardEditInputId = boardEditInput.getAttribute('id');
-        console.log('보드 아이디: ', boardEditInputId);
-
-        // 서버쪽으로 수정 내용 전달할 코드 추가하기
-        $.ajax({
-            type: "PATCH",
-            url: `/api/boards/${boardEditInputId}`,
-            contentType: "application/json",
-            data: JSON.stringify({boardTitle: title}),
-            success: function () {
-                window.location.href = `http://localhost:8080/api/boards/${boardEditInputId}`
-            },
-            error: function () {
-                alert("수정 실패");
-                window.location.href = `http://localhost:8080/api/boards/${boardEditInputId}`
-            }
-        })
-    });
--->
 

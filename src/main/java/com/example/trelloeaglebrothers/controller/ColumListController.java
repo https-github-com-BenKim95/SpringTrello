@@ -19,8 +19,6 @@ import java.util.concurrent.RejectedExecutionException;
 public class ColumListController {
 
 
-
-
 //    //칼럼 조회
 
     @GetMapping("/board/{board_id}/column/column_list/{column_list_id}")
@@ -57,18 +55,18 @@ public class ColumListController {
 
     }
 
-    //칼럼 이름 수정
-    @PutMapping("/board/{board_id}/column_list/{column_list_id}")
-    public ColumnListResponseDto modifiedColumnList(@PathVariable Long board_id,
-                                                    @PathVariable Long column_list_id,
-                                                    @AuthenticationPrincipal UserDetailsImpl userDetails,
-                                                    @RequestBody ColumnListRequestDto requestDto) {
-        log.info("칼럼 이름 수정", board_id);
-        log.info("칼럼 이름 수정", column_list_id);
-        return columnListService.modifiedColumnList(board_id, column_list_id, userDetails.getUser(), requestDto);
-
-
-    }
+//    //칼럼 이름 수정
+//    @PutMapping("/board/{board_id}/column_list/{column_list_id}")
+//    public ColumnListResponseDto modifiedColumnList(@PathVariable Long board_id,
+//                                                    @PathVariable Long column_list_id,
+//                                                    @AuthenticationPrincipal UserDetailsImpl userDetails,
+//                                                    @RequestBody ColumnListRequestDto requestDto) {
+//        log.info("칼럼 이름 수정", board_id);
+//        log.info("칼럼 이름 수정", column_list_id);
+//        return columnListService.modifiedColumnList(board_id, column_list_id, userDetails.getUser(), requestDto);
+//
+//
+//    }
 
     //칼럼 삭제
     @DeleteMapping("/board/{board_id}/column_list/{column_list_id}")
@@ -88,9 +86,6 @@ public class ColumListController {
 
     }
 
-    //칼럼 순서 이동
-    // 두 칼럼의  idr값을 받아온다
-    // 두 칼럼의 orderNum을 swap 한다.
 
     @PutMapping("/board/{board_id}/column_list/{forward_order}/{backward_order}")
     public ColumnListResponseDto orderSwap(@PathVariable Long board_id,
