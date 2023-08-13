@@ -62,7 +62,7 @@ public class UserController {
     @GetMapping("/users/logout")
     public String logout(HttpServletResponse response) {
         jwtUtil.expireCookie(response);
-        return "redirect:/index";
+        return "redirect:/";
     }
 
     //비밀번호 확인 페이지 이동
