@@ -10,6 +10,8 @@ import java.util.Optional;
 
 public interface UserBoardRepository extends JpaRepository<UserBoard, Long> {
 
+    Optional<UserBoard> findUserBoardByBoardAndCollaborator(Board board, User user);
+
     void deleteAllByCollaborator(User user);
 
     Optional<UserBoard> findById(Long id);
