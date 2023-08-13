@@ -2,6 +2,7 @@ package com.example.trelloeaglebrothers.controller;
 
 import com.example.trelloeaglebrothers.dto.AllResponseDto;
 import com.example.trelloeaglebrothers.dto.BoardResponseDto;
+import com.example.trelloeaglebrothers.dto.ColumnListRequestDto;
 import com.example.trelloeaglebrothers.entity.User;
 import com.example.trelloeaglebrothers.security.UserDetailsImpl;
 import com.example.trelloeaglebrothers.service.BoardService;
@@ -14,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
@@ -55,6 +57,19 @@ public class ColumnsViewController {
         return "columns";
 
 
+    }
+
+    //칼럼 이름 수정
+    @GetMapping("/board/column_list")
+    public String modifiedColumnList2(@RequestParam("boardId") Long boardId,
+                                      @RequestParam("id") Long column_list_id,
+                                      @RequestParam("title") String title,
+                                      @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+        ColumnListRequestDto requestDto = new ColumnListRequestDto();
+        requestDto.setTitle(title);
+        columnListService.modifiedColumnList(boardId, column_list_id, userDetails.getUser(), requestDto);
+        return "redirect:/api/board/" + boardId;
     }
 
 

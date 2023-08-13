@@ -77,11 +77,12 @@
         <!-- 'x' 버튼 추가 -->
         <button class="delete-column" th:attr="onclick='deleteColumn(' + ${column.id} + ')'">x</button>
 
-        <div>
-            <input type="hidden" th:value="${column.id}" id="columnId">
-            <input type="text" th:value="${column.title}" id="columnTitle">
-            <button onclick="editName()">확인</button>
-        </div>
+        <form method="get" action="/api/board/column_list">
+            <input type="hidden" th:value="${columns.boardId}" th:id="${columns.boardId}" name="boardId">
+            <input type="hidden" th:value="${column.id}" th:id="${column.id}" name="id">
+            <input type="text" th:value="${column.title}" th:id="${column.title}" name="title">
+            <button type="submit">확인</button>
+        </form>
 
         <!-- 카드 -->
         <div>
@@ -96,6 +97,7 @@
         </div>
     </div>
 </div>
+
 
 
 <script>
@@ -120,31 +122,6 @@
             }
         });
     }
-</script>
-
-<script>
-
-    function editName() {
-        const boardEditId = window.location.href.split('/').pop(); //주소창에서 boardId값 받아오기
-        const columnId = $('#columnId').val();
-        const columnTitle = $('#columnTitle').val();
-        $.ajax({
-            url: `/api/board/${boardEditId}/column_list/${columnId}`,
-            // url: `/api/board/1/column_list/12`,
-            type: 'PUT',
-            contentType: 'application/json',
-            data: JSON.stringify({title: columnTitle}),
-            success: function (columnEditTitle) {
-
-                window.location.reload();
-            },
-            error: function () {
-                alert('Failed to edit column list.');
-            }
-        });
-    }
-
-
 </script>
 
 <script>
