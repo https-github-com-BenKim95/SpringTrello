@@ -5,19 +5,7 @@
 
 
 </head>
-<script>
-  // URL 매개변수에서 error 값을 읽어와서 경고창을 띄우는 함수
-  function showAlertFromUrl() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const error = urlParams.get('error');
 
-    if (error === 'true') {
-      alert('아이디 또는 비밀번호가 틀립니다.');
-    }
-  }
-  // 페이지 로드 시 showAlertFromUrl 함수 호출
-  window.onload = showAlertFromUrl;
-</script>
 
 <body>
 <div class="container-eagle">
@@ -33,11 +21,24 @@
 
       <label for="password">비밀번호</label><br>
       <input type="password" id="password" name="password" required><br><br>
-
-      <input type="submit" value="Submit">
+      <input class="btn btn-primary submit" type="submit" value="로그인">
     </form>
   </div>
 
 </div>
+
+<script>
+  // URL 매개변수에서 error 값을 읽어와서 경고창을 띄우는 함수
+  function showAlertFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const error = urlParams.get('error');
+
+    if (error === 'true') {
+      alert('아이디 또는 비밀번호가 틀립니다.');
+    }
+  }
+  // 페이지 로드 시 showAlertFromUrl 함수 호출
+  window.onload = showAlertFromUrl;
+</script>
 </body>
 </html>

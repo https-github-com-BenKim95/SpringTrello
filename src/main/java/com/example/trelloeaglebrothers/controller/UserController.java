@@ -1,8 +1,9 @@
 package com.example.trelloeaglebrothers.controller;
 
-import com.example.trelloeaglebrothers.dto.PasswordRequestDto;
-import com.example.trelloeaglebrothers.dto.SignupDto;
-import com.example.trelloeaglebrothers.dto.UserUpdateResponseDto;
+import com.example.trelloeaglebrothers.dto.user.PasswordRequestDto;
+import com.example.trelloeaglebrothers.dto.user.SignupRequestDto;
+import com.example.trelloeaglebrothers.dto.user.UserUpdateRequestDto;
+import com.example.trelloeaglebrothers.dto.user.UserUpdateResponseDto;
 import com.example.trelloeaglebrothers.entity.User;
 import com.example.trelloeaglebrothers.jwt.JwtUtil;
 import com.example.trelloeaglebrothers.security.UserDetailsImpl;
@@ -27,32 +28,6 @@ public class UserController {
     private final UserService userService;
     private final JwtUtil jwtUtil;
 
-    // 회원가입 페이지 이동
-    @GetMapping("/users/signup")
-    public String signUp(Model model) {
-        model.addAttribute("signupDto", new SignupDto());
-        return "signUp";
-    }
-
-    //회원가입
-    @PostMapping("/api/users/signup")
-    public String signup(@Validated @ModelAttribute SignupDto signupDto, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
-        log.info("signup={}", signupDto);
-
-        if(bindingResult.hasErrors()) {
-            log.info("bindingResult={}", bindingResult);
-            return "signUp";
-        }
-
-        try {
-            userService.signup(signupDto);
-        } catch (Exception e) {
-            return "signUp";
-        }
-
-        return "index";
-    }
-
 
     // 로그인 페이지 이동
     @GetMapping("/users/login")
@@ -60,60 +35,115 @@ public class UserController {
         return "login";
     }
 
-    //비밀번호 확인 페이지 이동
-    @GetMapping("/users/checkPassword")
-    public String checkPassword(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
-
-        model.addAttribute("username", userDetails.getUsername());
-        return "checkPassword";
+    // 회원가입 페이지 이동
+    @GetMapping("/users/signup")
+    public String signUp(Model model) {
+        model.addAttribute("signupRequestDto", new SignupRequestDto());
+        return "signUp";
     }
 
-    // 비밀번호 일치 후 마이페이지로 이동
-    // 비밀번호 불일치 현재 페이지
-    @PostMapping("/api/users/password")
-    public String myPage( @AuthenticationPrincipal UserDetailsImpl userDetails, PasswordRequestDto passwordRequestDto, Model model) {
-        User user = userDetails.getUser();
-        if (userService.checkPassword(user, passwordRequestDto)) {
-            model.addAttribute("user", user);
-            return "myPage";
-        };
-        model.addAttribute("username", user.getUsername());
-        model.addAttribute("error", "비밀번호를 확인해주세요");
-        return "checkPassword";
-    }
-
-
-    // 회원 정보 수정
-    @PostMapping("/api/users/myPage")
-    public String updateUser(@Validated @ModelAttribute SignupDto signupDto, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails, BindingResult bindingResult) {
-        log.info("signup={}", signupDto);
-
-        User user = userDetails.getUser();
-
-        if(bindingResult.hasErrors()) {
+    //회원가입
+    @PostMapping("/api/users/signup")
+    public String signup(@Validated @ModelAttribute SignupRequestDto signupRequestDto, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+        //검증 오류 확인 후 에러 발생시 리턴
+        if (bindingResult.hasErrors()) {
             log.info("bindingResult={}", bindingResult);
-            model.addAttribute("user", user);
-            return "myPage";
+            return "signUp";
         }
-
-        UserUpdateResponseDto userUpdateResponseDto = userService.updateUser(signupDto);
-        model.addAttribute("user", userUpdateResponseDto);
-        return "myPage";
+        //특정 조건 오류 검증 후 실패시 리턴
+        userService.signup(signupRequestDto, bindingResult);
+        if (bindingResult.hasErrors()) {
+            return "signUp";
+        }
+        return "index";
     }
 
     // 로그아웃 API
-    @GetMapping("/users/signout")
-    public String signOut(HttpServletResponse response) {
+    @GetMapping("/users/logout")
+    public String logout(HttpServletResponse response) {
         jwtUtil.expireCookie(response);
         return "redirect:/index";
     }
 
-    //회원탈퇴
-    @GetMapping("/users/delete")
-    public String delete(@AuthenticationPrincipal UserDetailsImpl userDetails, HttpServletResponse response) {
+    //비밀번호 확인 페이지 이동
+    @GetMapping("/users/checkPassword")
+    public String checkPassword(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
+        model.addAttribute("username", userDetails.getUsername());
+        return "user/checkPassword";
+    }
+
+    // 비밀번호 일치 -> 마이페이지로 이동
+    // 비밀번호 불일치 -> 비밀번호 페이지
+    @PostMapping("/api/users/password")
+    public String myPage(@AuthenticationPrincipal UserDetailsImpl userDetails, PasswordRequestDto passwordRequestDto, Model model) {
         User user = userDetails.getUser();
-        userService.delete(user);
-        jwtUtil.expireCookie(response);
-        return "index";
+
+        //비밀번호 일치 -> 마이페이지
+        if (userService.checkPassword(user, passwordRequestDto)) {
+            model.addAttribute("userUpdateRequestDto", new UserUpdateRequestDto(user));
+            return "user/myPage";
+        }
+
+        //비밀번호 불일치 -> 비밀번호  페이지
+        model.addAttribute("username", user.getUsername());
+        model.addAttribute("error", "비밀번호를 확인해주세요");
+        return "user/checkPassword";
+    }
+
+    //정보 수정(닉네임, 이메일)
+    @PostMapping("/api/users/myPage")
+    public String updateUser(@Validated @ModelAttribute UserUpdateRequestDto userUpdateRequestDto, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+            log.info("bindingResult={}", bindingResult);
+            return "user/myPage";
+        }
+
+        UserUpdateResponseDto userUpdateResponseDto = userService.updateUser(userUpdateRequestDto);
+        model.addAttribute("userUpdateRequestDto", userUpdateResponseDto);
+        return "user/myPage";
+    }
+
+    //비밀번호 변경 페이지 이동
+    @GetMapping("/users/updatePassword")
+    public String updateMovePassword(Model model) {
+        model.addAttribute("passwordRequestDto", new PasswordRequestDto());
+        return "user/updatePassword";
+    }
+
+    //비밀번호 변경
+    @PostMapping("/api/users/updatePassword")
+    public String updatePassword(@Validated @ModelAttribute PasswordRequestDto passwordRequestDto, BindingResult bindingResult, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (bindingResult.hasErrors()) {
+            log.info("bindingResult={}", bindingResult);
+            return "user/updatePassword";
+        }
+        userService.updatePassword(passwordRequestDto, userDetails.getUser(), bindingResult);
+        if (bindingResult.hasErrors()) {
+            return "user/updatePassword";
+        }
+        return "redirect:/?success=password";
+    }
+
+    //회원탈퇴 페이지로 이동
+    @GetMapping("/users/delete")
+    public String moveDeleteUser(@AuthenticationPrincipal  UserDetailsImpl userDetails, Model model) {
+        User user = userDetails.getUser();
+        model.addAttribute("username", user.getUsername());
+        return "user/deleteUser";
+    }
+
+    //회원탈퇴
+    @PostMapping("/api/users/delete")
+    public String deleteUser(@AuthenticationPrincipal UserDetailsImpl userDetails,@ModelAttribute PasswordRequestDto passwordRequestDto, Model model, HttpServletResponse response) {
+        User user = userDetails.getUser();
+        if (userService.checkPassword(user, passwordRequestDto)) {
+            userService.delete(user);
+            jwtUtil.expireCookie(response);
+            return "redirect:/?success=delete";
+        }
+        model.addAttribute("username", user.getUsername());
+        model.addAttribute("error", "비밀번호를 확인해주세요");
+        return "user/deleteUser";
     }
 }

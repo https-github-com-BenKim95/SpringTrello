@@ -1,6 +1,7 @@
 package com.example.trelloeaglebrothers.entity;
 
-import com.example.trelloeaglebrothers.dto.SignupDto;
+import com.example.trelloeaglebrothers.dto.user.SignupRequestDto;
+import com.example.trelloeaglebrothers.dto.user.UserUpdateRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -51,8 +52,8 @@ public class User {
     }
 
 
-    public void update(SignupDto signupDto) {
-        this.email = signupDto.getEmail();
-        this.nickName = signupDto.getNickName();
+    public void update(UserUpdateRequestDto userUpdateRequestDto) {
+        this.email = userUpdateRequestDto.getEmail();
+        this.nickName = userUpdateRequestDto.getNickName();
     }
 }
