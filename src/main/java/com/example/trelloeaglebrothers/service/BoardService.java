@@ -2,10 +2,7 @@ package com.example.trelloeaglebrothers.service;
 
 import com.example.trelloeaglebrothers.dto.*;
 import com.example.trelloeaglebrothers.entity.*;
-import com.example.trelloeaglebrothers.repository.BoardRepository;
-import com.example.trelloeaglebrothers.repository.ColumnListRepository;
-import com.example.trelloeaglebrothers.repository.UserBoardRepository;
-import com.example.trelloeaglebrothers.repository.UserRepository;
+import com.example.trelloeaglebrothers.repository.*;
 import com.example.trelloeaglebrothers.status.Message;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +26,7 @@ public class BoardService {
     private final MessageSource messageSource;
     private final UserRepository userRepository;
     private final ColumnListRepository columnListRepository;
+    private final CardRepository cardRepository;
 
     @Transactional(readOnly = true)
     public List<BoardResponseDto> getBoards() {
@@ -63,15 +61,14 @@ public class BoardService {
 
 
     @Transactional
-    public ResponseEntity<Message> deleteBoard(Long boardId, User user) {
+    public void deleteBoard(Long boardId, User user) {
         Board board = confirmBoard(boardId);
-        confirmUser(board, user);
 
-        boardRepository.delete(board);
-        String msg = "삭제 완료";
-        Message message = new Message(msg, HttpStatus.OK.value());
+        if (!board.getAuthor().equals(user)) {
+            throw new IllegalArgumentException("보드 생성자만 보드를 삭제할 수 있습니다");
+        }
 
-        return new ResponseEntity<>(message, HttpStatus.OK);
+        boardRepository.delete(board); // 보드를 삭제합니다.
     }
 
     // 공통 로직
@@ -81,7 +78,7 @@ public class BoardService {
                         new IllegalArgumentException(messageSource.getMessage(
                                 "not.exist.post",
                                 null,
-                                "해당 게시물이 존재하지 않습니다",
+                                "해당 보드가 존재하지 않습니다",
                                 Locale.getDefault()
                         ))
                 );
@@ -94,7 +91,7 @@ public class BoardService {
             throw new IllegalArgumentException(messageSource.getMessage(
                     "not.your.post",
                     null,
-                    "작성자만 수정 및 삭제가 가능합니다",
+                    "생성자만 수정 및 삭제가 가능합니다",
                     Locale.getDefault()
             ));
         }
