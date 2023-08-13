@@ -21,6 +21,6 @@ public class CardViewController {
     public String getCard(@PathVariable Long board_id, @PathVariable Long column_list_id, @PathVariable Long card_id, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         CardResponseDto cardResponseDto = cardService.getCard(board_id,column_list_id,card_id, userDetails.getUser());
         model.addAttribute("card", cardResponseDto);
-        return "showCards";
+        return "editCard";
     }
 }

@@ -3,6 +3,8 @@ editCardForm.addEventListener('submit', async (event) => {
 
     const formData = new FormData(editCardForm);
     const cardIdToEdit = formData.get('cardIdToEdit');
+    const boardId = window.location.href.split('/').pop(); // Assuming you can get boardId
+    const columnListId = window.location.href.split('/').pop(); // Assuming you can get columnId
 
     const cardData = {
         title: formData.get('title'),
