@@ -8,7 +8,6 @@ import java.util.List;
 
 @Setter
 @Getter
-@Setter
 public class CardRequestDto {
     private String title;
     private String description;

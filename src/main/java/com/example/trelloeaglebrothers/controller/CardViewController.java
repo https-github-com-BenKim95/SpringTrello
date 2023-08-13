@@ -11,15 +11,16 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/api")
 public class CardViewController {
 
     private final CardService cardService;
 
     //카드 조회
-    @GetMapping("/board/{board_id}/column_list/{column_list_id}/card/{card_id}")
-    public String getCard(@PathVariable Long board_id, @PathVariable Long column_list_id, @PathVariable Long card_id, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        CardResponseDto cardResponseDto = cardService.getCard(board_id,column_list_id,card_id, userDetails.getUser());
+    @GetMapping("/board/column_list/card_show")
+    public String getCard(@RequestParam Long boardId, @RequestParam Long columnId, @RequestParam Long cardId, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        CardResponseDto cardResponseDto = cardService.getCard(boardId,columnId,cardId, userDetails.getUser());
+        model.addAttribute("boardId",boardId);
+        model.addAttribute("columnId",columnId);
         model.addAttribute("card", cardResponseDto);
         return "editCard";
     }

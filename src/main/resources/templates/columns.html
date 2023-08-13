@@ -40,6 +40,12 @@
                         <p th:text="${card.createdAt}">Creation Date: N/A</p>
 <!--                        <p th:text="${card.workerList}">Assigned Workers: None</p>-->
                     </div>
+                    <form method="GET" action= "/board/column_list/card_show">
+                        <input type="hidden" th:value="${columns.boardId}" name="boardId">
+                        <input type="hidden" th:value="${column.id}"  name="columnId">
+                        <input type="hidden" th:value="${card.card_id}"  name="cardId">
+                        <button type="submit">편집</button>
+                    </form>
                 </div>
             </div>
         </div>

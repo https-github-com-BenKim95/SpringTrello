@@ -50,10 +50,10 @@ public class CardService {
     }
 
     //카드 조회
-    public CardResponseDto getCard(Long boardId, Long columnListId, Long cardId, User user) {
+    public CardResponseDto getCard(Long boardId, Long columnId, Long cardId, User user) {
         checkRole(boardId, user);
-        Optional<ColumnList> columnList = columnListRepository.findColumnListByBoard_IdAndId(boardId, columnListId);
-        Optional<Card> card = cardRepository.findByColumnListIdAndId(columnListId, cardId);
+        Optional<ColumnList> columnList = columnListRepository.findColumnListByBoard_IdAndId(boardId, columnId);
+        Optional<Card> card = cardRepository.findByColumnListIdAndId(columnId, cardId);
         if (columnList.isEmpty()) {
             throw new IllegalArgumentException("해당 컬럼리스트는 존재하지 않습니다.");
         } else if (card.isEmpty()) {
@@ -64,7 +64,7 @@ public class CardService {
 
     //카드 수정
     @Transactional
-    public CardResponseDto editCard(Long boardId, Long columnListId, Long cardId, CardRequestDto cardRequestDto, User user) {
+    public CardResponseDto editCard (Long boardId, Long columnListId, Long cardId, CardRequestDto cardRequestDto, User user) {
         checkRole(boardId, user);
         Optional<ColumnList> columnList = columnListRepository.findColumnListByBoard_IdAndId(boardId, columnListId);
         Optional<Card> card = cardRepository.findByColumnListIdAndId(columnListId, cardId);

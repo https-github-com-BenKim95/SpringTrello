@@ -8,6 +8,9 @@
 <h1>Edit Card</h1>
 <form id="editCardForm">
   <input type="hidden" id="cardIdToEdit" name="cardIdToEdit" th:value="${card.getCard_id()}">
+  <input type="hidden" id="columnIdToEdit" name="columnIdToEdit" th:value="${columnId}">
+  <input type="hidden" id="boardIdToEdit" name="boardIdToEdit" th:value="${boardId}">
+
 
   <label for="title">Title:</label>
   <input type="text" id="title" name="title" th:value="${card.title}" required><br>
@@ -31,8 +34,9 @@
 
 <script>
   function editCard() {
-    const boardId = window.location.href.split('/').pop();
-    const columnId = window.location.href.split('/').pop();
+
+    const boardId =  $('#boardIdToEdit').val();
+    const columnId = $('#columnIdToEdit').val();
     const cardId = $('#cardIdToEdit').val();
     const title = $('#title').val();
     const description = $('#description').val();
@@ -49,11 +53,12 @@
     };
 
     $.ajax({
-      url: `/api/board/${boardId}/column_list/${columnId}/card/${cardId}`,
+      url: `/api/board/${boardId}/column_list/${columnId}/card_edit/${cardId}`,
       type: 'PUT',
       contentType: 'application/json',
       data: JSON.stringify(cardData),
-      success: function (responseData) {
+      success: function () {
+        console.log("a");
         alert('Card updated successfully!');
         window.location.href = `/api/board/${boardId}`;
       },
