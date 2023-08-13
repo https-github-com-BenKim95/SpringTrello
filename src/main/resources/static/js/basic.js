@@ -48,7 +48,7 @@ function getBoards() {
                               <button th:if="${boardId} != null" class="btn btn-light btn-sm" id="member" type="button" onclick="inviteMember()">Member</button>
                               <button th:if="${boardId} != null" class="btn btn-light btn-sm" id="modify-btn" type="button" onclick="enableEdit()">Edit</button>
                               <button th:if="${boardId} != null" class="btn btn-light btn-sm none" id="confirm-btn" type="button" onclick="saveChanges()">Confirm</button>
-                              <button th:if="${boardId} != null" class="btn btn-outline-light btn-sm" type="button" onclick="Delete()">Delete</button>
+                               <button class="btn btn-outline-light btn-sm delete-board-btn" data-boardid="${boardId}" type="button">Delete</button>
                             </div>
                           </div>
                     `;
@@ -75,3 +75,35 @@ $(document).ready(function () {
   $("#board-list").disableSelection();
 });
 
+
+// 게시글 삭제
+// Delete 버튼 클릭 이벤트 리스너 등록
+$(document).on('click', '.delete-board-btn', function () {
+  const boardId = $(this).data('boardid');
+
+  if (confirm("정말로 보드를 삭제하시겠습니까?")) {
+    deleteBoard(boardId);
+  }
+});
+
+function deleteBoard(boardId) {
+  fetch(`/api/board/${boardId}`, {
+    method: 'DELETE',
+    headers: {'Content-Type': 'application/json'}
+  })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("보드 삭제 요청 실패");
+        }
+      })
+      .then(data => {
+        console.log("보드 삭제 완료");
+        // 보드 삭제 후 보드 목록을 다시 불러옴
+        getBoards();
+      })
+      .catch(error => {
+        console.error("보드 삭제 중 에러 발생:", error);
+      });
+}

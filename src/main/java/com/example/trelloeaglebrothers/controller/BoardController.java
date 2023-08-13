@@ -12,6 +12,7 @@ import com.example.trelloeaglebrothers.status.Message;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -48,9 +49,16 @@ public class BoardController {
 
     //보드 삭제
     @DeleteMapping("/board/{id}")
-    public ResponseEntity<Message> deleteBoard(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails)
-    {
-        return boardService.deleteBoard(id, userDetails.getUser());
+    public ResponseEntity<Message> deleteBoard(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        User user = userDetails.getUser();
+        try {
+            boardService.deleteBoard(id, user);
+            String msg = "보드 삭제 완료";
+            return ResponseEntity.ok(new Message(msg, HttpStatus.OK.value()));
+        } catch (IllegalArgumentException e) {
+            String errorMsg = e.getMessage(); // 예외 메시지를 가져와서 사용
+            return ResponseEntity.badRequest().body(new Message(errorMsg, HttpStatus.BAD_REQUEST.value()));
+        }
     }
 
     //초대

@@ -27,54 +27,7 @@ function saveChanges() {
   document.getElementById('save-btn').style.display = 'none';
 }
 
-// 게시글 삭제
-function Delete() {
-  let url = window.location.href;
-  let id = url.replace("http://localhost:8080", "/memberMain");
-  console.log(id);
 
-  $.ajax({
-    type: "DELETE",
-    url: `/api/board/${id}`,
-    contentType: "application/json",
-    success: function(response, status, xhr) {
-      if (xhr.status === 200) {
-        // 요청이 성공한 경우 처리할 로직을 작성합니다.
-        console.log("DELETE 요청이 성공했습니다.");
-        Swal.fire({
-          icon: 'success',
-          title: '보드 삭제 완료!'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            window.location.href = "http://localhost:8080/memberMain";
-          }
-        });
-      } else {
-        Swal.fire({
-          icon: 'error',
-          title: '작성자만 삭제 가능합니다'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            window.location.href = "http://localhost:8080/memberMain";
-          }
-        });
-      }
-    },
-    error: function(xhr, status, error) {
-      // 요청이 실패한 경우 처리할 로직을 작성합니다.
-      console.log("DELETE 요청이 실패했습니다.");
-      console.log(xhr.responseText);
-      Swal.fire({
-        icon: 'error',
-        title: '작성자만 삭제 가능합니다'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          window.location.href = "http://localhost:8080/memberMain";
-        }
-      });
-    }
-  });
-}
 
 // 시게글 정수
 function Edit() {
@@ -122,7 +75,7 @@ function Edit() {
       console.log(xhr.responseText);
       Swal.fire({
         icon: 'error',
-        title: '작성자만 수정 가능합니다'
+        title: '생성자만 수정 가능합니다'
       }).then((result) => {
         if (result.isConfirmed) {
           window.location.href = `http://localhost:8080/memberMain`;
