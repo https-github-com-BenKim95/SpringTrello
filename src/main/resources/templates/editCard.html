@@ -1,9 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Edit Card</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragment/head :: userHead ('카드 수정 페이지 ')}"></head>
 <body>
 <h1>Edit Card</h1>
 <form id="editCardForm">
@@ -28,7 +25,7 @@
   <input type="text" id="workers" name="workers" th:value="${card.workerList}"><br>
 
   <button onclick="editCard()">Save Changes</button>
-  <button type="button" id="cancelButton">Cancel</button>
+  <button type="button" id="cancelButton" >Cancel</button>
 </form>
 
 
