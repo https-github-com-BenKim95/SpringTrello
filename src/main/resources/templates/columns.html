@@ -14,9 +14,17 @@
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"
             integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/base.css}"/>
+
 
     <title>My Trello Board</title>
     <style>
+
+        .columns-container {
+            display: flex;
+            overflow-x: auto; /* 스크롤이 필요할 경우 스크롤 허용 */
+        }
+
         .column-box {
             border: 1px solid #ccc;
             padding: 5px;
@@ -24,6 +32,7 @@
             background-color: #f0f0f0;
             font-size: 14px;
             width: 200px;
+
         }
 
         .card-box {
@@ -63,6 +72,8 @@
 
 
 </head>
+
+
 <body>
 
 <div class="board">
@@ -71,33 +82,33 @@
 
 <h1 th:text="${columns.title}">Default Title</h1>
 <input type="hidden" th:value="${columns.boardId}" id="boardId"/>
+<div class="columns-container">
+    <div th:each="column : ${columns.columnLists}">
+        <div class="column-box">
+            <!-- 'x' 버튼 추가 -->
+            <button class="delete-column" th:attr="onclick='deleteColumn(' + ${column.id} + ')'">x</button>
 
-<div th:each="column : ${columns.columnLists}">
-    <div class="column-box">
-        <!-- 'x' 버튼 추가 -->
-        <button class="delete-column" th:attr="onclick='deleteColumn(' + ${column.id} + ')'">x</button>
+            <form method="get" action="/api/board/column_list">
+                <input type="hidden" th:value="${columns.boardId}" th:id="${columns.boardId}" name="boardId">
+                <input type="hidden" th:value="${column.id}" th:id="${column.id}" name="id">
+                <input type="text" th:value="${column.title}" th:id="${column.title}" name="title">
+                <button type="submit">확인</button>
+            </form>
 
-        <form method="get" action="/api/board/column_list">
-            <input type="hidden" th:value="${columns.boardId}" th:id="${columns.boardId}" name="boardId">
-            <input type="hidden" th:value="${column.id}" th:id="${column.id}" name="id">
-            <input type="text" th:value="${column.title}" th:id="${column.title}" name="title">
-            <button type="submit">확인</button>
-        </form>
-
-        <!-- 카드 -->
-        <div>
-            <div th:each="card : ${column.cardLists}">
-                <div class="card-box">
-                    <h3 th:text="${card.title}">Default Card Title</h3>
-                    <p th:text="${card.description}">No description available.</p>
-                    <p th:text="${card.createdAt}">Creation Date: N/A</p>
-                    <p th:text="${card.workerList}">Assigned Workers: None</p>
+            <!-- 카드 -->
+            <div>
+                <div th:each="card : ${column.cardLists}">
+                    <div class="card-box">
+                        <h3 th:text="${card.title}">Default Card Title</h3>
+                        <p th:text="${card.description}">No description available.</p>
+                        <p th:text="${card.createdAt}">Creation Date: N/A</p>
+                        <p th:text="${card.workerList}">Assigned Workers: None</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 
 
 <script>
@@ -143,6 +154,7 @@
         });
     }
 </script>
+
 </body>
 </html>
 <!-- html코드
