@@ -67,7 +67,12 @@ public class BoardService {
     public void deleteBoard(Long boardId, User user) {
         Board board = confirmBoard(boardId);
 
-        if (!board.getAuthor().equals(user)) {
+        // 예 보드 1에서, 로그인한 유저이름을 권한을 찾음 -> 매니저
+        // 매니저가 아니면 삭제 안됨
+        Optional<UserBoard> findUserBoard= userBoardRepository.findUserBoardByBoardAndCollaborator(board, user);
+        UserBoard userBoard= findUserBoard.get();
+
+        if (!userBoard.getRole().equals(UserRoleEnum.MANAGER)) {
             throw new IllegalArgumentException("보드 생성자만 보드를 삭제할 수 있습니다");
         }
 
