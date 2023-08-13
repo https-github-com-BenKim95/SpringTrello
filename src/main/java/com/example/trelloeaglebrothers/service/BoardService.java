@@ -78,7 +78,6 @@ public class BoardService {
         boardRepository.delete(board);
     }
 
-
     // 공통 로직
     public Board confirmBoard(Long boardId) {
         return boardRepository.findById(boardId)
@@ -93,8 +92,6 @@ public class BoardService {
     }
 
     private void confirmUser(Board board, User user) {
-//        UserRoleEnum userRoleEnum = user.getRole();
-//        if (userRoleEnum == UserRoleEnum.MEMBER && !Objects.equals(board.getAuthor().getId(), user.getId())) {
         if (!Objects.equals(board.getAuthor().getId(), user.getId())) {
             throw new IllegalArgumentException(messageSource.getMessage(
                     "not.your.post",
