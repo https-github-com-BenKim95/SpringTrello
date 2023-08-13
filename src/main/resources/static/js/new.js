@@ -147,7 +147,7 @@ function Create() {
 // 게시글 삭제
 function Delete() {
     let url = window.location.href;
-    let id = url.replace("http://localhost:8080/api/board/", "");
+    let id = url.replace("http://localhost:8080", "");
     console.log(id);
 
     $.ajax({
@@ -172,7 +172,7 @@ function Delete() {
                     title: '작성자만 삭제 가능합니다'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.href = `http://localhost:8080/api/post/${id}`;
+                        window.location.href = `http://localhost:8080`;
                     }
                 });
             }
@@ -186,14 +186,14 @@ function Delete() {
                 title: '작성자만 삭제 가능합니다'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = `http://localhost:8080/api/post/${id}`;
+                    window.location.href = `http://localhost:8080`;
                 }
             });
         }
     });
 }
 
-function Edite() {
+function Edit() {
     let params = new URLSearchParams(location.search);
     let id = params.get('id');
 
@@ -218,7 +218,7 @@ function Edite() {
                     title: '보드 수정 완료!'        // Alert 제목
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.href = `http://localhost:8080/api/board/${id}`;
+                        window.location.href = `http://localhost:8080`;
                     }
                 });
             } else {
@@ -227,7 +227,7 @@ function Edite() {
                     title: '보드 수정 실패'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.href = `http://localhost:8080/api/board/${id}`;
+                        window.location.href = `http://localhost:8080`;
                     }
                 });
             }
@@ -241,7 +241,7 @@ function Edite() {
                 title: '작성자만 수정 가능합니다'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = `http://localhost:8080/api/board/${id}`;
+                    window.location.href = `http://localhost:8080`;
                 }
             });
         }

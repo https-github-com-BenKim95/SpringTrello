@@ -12,9 +12,6 @@
                 <li><a th:href="@{/users/logout}" sec:authorize="isAuthenticated()">로그아웃</a></li>
                 <li><a th:href="@{/memberMain}" sec:authorize="isAuthenticated()">보드목록</a></li>
                 <li><a th:href="@{/newBoard}" sec:authorize="isAuthenticated()">보드작성</a></li>
-
-                <li><a th:href="@{/card}" sec:authorize="isAuthenticated()">카드상세</a></li> <!-- 카드 누르면 나와야댐-->
-
                 <li><a th:href="@{/users/login}" sec:authorize="!isAuthenticated()">로그인</a></li>
                 <li><a th:href="@{/users/signup}" sec:authorize="!isAuthenticated()">회원가입</a></li>
             </ul>
