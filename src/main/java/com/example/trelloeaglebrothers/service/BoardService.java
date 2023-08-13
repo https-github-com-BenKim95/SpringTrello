@@ -166,9 +166,3 @@ public class BoardService {
                 .toList();
     }
 }
-
-//  for(int i = 0; i <= collaborator.getBoards().size(); i++) {
-//          if (collaborator.getBoards().get(i).equals(boardId)) {
-//          throw new IllegalArgumentException("해당 회원 가입 할 수 없습니다");
-//          }
-//          }
