@@ -57,18 +57,18 @@ public class ColumListController {
 
     }
 
-    //칼럼 이름 수정
-    @PutMapping("/board/{board_id}/column_list/{column_list_id}")
-    public ColumnListResponseDto modifiedColumnList(@PathVariable Long board_id,
-                                                    @PathVariable Long column_list_id,
-                                                    @AuthenticationPrincipal UserDetailsImpl userDetails,
-                                                    @RequestBody ColumnListRequestDto requestDto) {
-        log.info("칼럼 이름 수정", board_id);
-        log.info("칼럼 이름 수정", column_list_id);
-        return columnListService.modifiedColumnList(board_id, column_list_id, userDetails.getUser(), requestDto);
-
-
-    }
+//    //칼럼 이름 수정
+//    @PutMapping("/board/{board_id}/column_list/{column_list_id}")
+//    public ColumnListResponseDto modifiedColumnList(@PathVariable Long board_id,
+//                                                    @PathVariable Long column_list_id,
+//                                                    @AuthenticationPrincipal UserDetailsImpl userDetails,
+//                                                    @RequestBody ColumnListRequestDto requestDto) {
+//        log.info("칼럼 이름 수정", board_id);
+//        log.info("칼럼 이름 수정", column_list_id);
+//        return columnListService.modifiedColumnList(board_id, column_list_id, userDetails.getUser(), requestDto);
+//
+//
+//    }
 
     //칼럼 삭제
     @DeleteMapping("/board/{board_id}/column_list/{column_list_id}")
