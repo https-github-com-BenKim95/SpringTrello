@@ -157,48 +157,5 @@
 
 </body>
 </html>
-<!-- html코드
-     <h1 class="board-title" id="board-title">보드 이름</h1>
-     <input class="board-edit" style="display: none;" th:id="${board.boardId}"> -->
 
-<!-- js코드
-    // 보드 제목과 편집 입력란 엘리먼트 선택
-    const boardTitle = document.querySelector('.board-title');
-    const boardEditInput = document.querySelector('.board-edit');
-
-    // 보드 제목 클릭 이벤트 리스너 추가
-    boardTitle.addEventListener('click', () => {
-        boardTitle.style.display = 'none';
-        boardEditInput.style.display = 'block';
-        boardEditInput.value = boardTitle.textContent.trim();
-        boardEditInput.focus();
-    });
-
-    // 편집 입력란 blur 이벤트 리스너 추가
-    boardEditInput.addEventListener('blur', () => {
-        boardTitle.style.display = 'block';
-        boardEditInput.style.display = 'none';
-        boardTitle.textContent = boardEditInput.value;
-        const title = boardEditInput.value;
-
-        // boardEditInput의 id 값 가져와서 콘솔에 출력
-        const boardEditInputId = boardEditInput.getAttribute('id');
-        console.log('보드 아이디: ', boardEditInputId);
-
-        // 서버쪽으로 수정 내용 전달할 코드 추가하기
-        $.ajax({
-            type: "PATCH",
-            url: `/api/boards/${boardEditInputId}`,
-            contentType: "application/json",
-            data: JSON.stringify({boardTitle: title}),
-            success: function () {
-                window.location.href = `http://localhost:8080/api/boards/${boardEditInputId}`
-            },
-            error: function () {
-                alert("수정 실패");
-                window.location.href = `http://localhost:8080/api/boards/${boardEditInputId}`
-            }
-        })
-    });
--->
 
