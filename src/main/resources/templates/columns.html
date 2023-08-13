@@ -44,6 +44,21 @@
             font-size: 12px;
             width: 120px;
         }
+
+
+        /* 작은 삭제 버튼 스타일 추가 */
+        .delete-column-box {
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: inline-block;
+            background-color: #ff9999;
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
     </style>
 
 
@@ -52,20 +67,23 @@
 
 <div class="board">
     <button class="add-list" th:attr="onclick='addList(' + ${board_id} + ')'">Add List</button>
-
 </div>
 
 <h1 th:text="${columns.title}">Default Title</h1>
+<input type="hidden" th:value="${columns.boardId}" id="boardId"/>
 
-<div th:each="column, columnStat : ${columns.columnLists}">
+<div th:each="column : ${columns.columnLists}">
     <div class="column-box">
-        <h3>
-            <div class="column-title-box">
-                <button class="column-button" th:text="${column.title}" onclick="openPopup(this)"></button>
-            </div>
+        <!-- 'x' 버튼 추가 -->
+        <button class="delete-column" th:attr="onclick='deleteColumn(' + ${column.id} + ')'">x</button>
 
+        <div>
+            <input type="hidden" th:value="${column.id}" id="columnId">
+            <input type="text" th:value="${column.title}" id="columnTitle">
+            <button onclick="editName()">확인</button>
+        </div>
 
-        </h3>
+        <!-- 카드 -->
         <div>
             <div th:each="card : ${column.cardLists}">
                 <div class="card-box">
@@ -81,7 +99,7 @@
 
 
 <script>
-    function addList(board_id) {
+    function addList() {
         const boardId = window.location.href.split('/').pop();
 
         const requestData = {
@@ -89,89 +107,109 @@
         };
 
         $.ajax({
-            url: `/api/board/${board_id}/column_list`,
+            url: `/api/board/${boardId}/column_list`,
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(requestData),
             success: function (responseData) {
+
+                window.location.reload();
             },
             error: function () {
                 alert('Failed to create column list.');
             }
         });
     }
+</script>
 
-    let popupWindow;
+<script>
 
-    function openPopup(button) {
-        const title = button.innerText;
-        const popupContent = `
-        <div class="popup-content">
-            <span class="close" onclick="closePopup()">&times;</span>
-            <h2>Edit Title</h2>
-            <input type="text" id="newTitle" value="${title}">
-            <button onclick="saveTitle()">Save</button>
-        </div>
-    `;
+    function editName() {
+        const boardEditId = window.location.href.split('/').pop(); //주소창에서 boardId값 받아오기
+        const columnId = $('#columnId').val();
+        const columnTitle = $('#columnTitle').val();
+        $.ajax({
+            url: `/api/board/${boardEditId}/column_list/${columnId}`,
+            // url: `/api/board/1/column_list/12`,
+            type: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify({title: columnTitle}),
+            success: function (columnEditTitle) {
 
-        popupWindow = window.open('', 'PopupWindow', 'width=400,height=300');
-        popupWindow.document.write(`
-        <html>
-        <head>
-            <title>Edit Title</title>
-            <style>
-                .popup-content {
-                    padding: 20px;
-                    text-align: center;
-                }
-            </style>
-        </head>
-        <body>
-            ${popupContent}
-        </body>
-        </html>
-    `);
-    }
-
-    function closePopup() {
-        if (popupWindow) {
-            popupWindow.close();
-        }
-    }
-
-    function saveTitle() {
-        const newTitle = popupWindow.document.getElementById('newTitle').value;
-        // 여기에서 새로운 타이틀을 저장하고 업데이트하는 로직을 구현
-        closePopup();
+                window.location.reload();
+            },
+            error: function () {
+                alert('Failed to edit column list.');
+            }
+        });
     }
 
 
+</script>
 
+<script>
+    function deleteColumn(columnId) {
+        const boardId = window.location.href.split('/').pop(); //주소창에서 boardId값 받아오기
+        const columnDeId = columnId;
+        $.ajax({
+            // url: `/api/board/${boardId}/column_list/${columnId}`,
+            url: `/api/board/${boardId}/column_list/${columnDeId}`,
+            type: 'DELETE',
+            contentType: 'application/json',
+            success: function (responseData) {
 
-    // function editTitle(column_list_id) {
-    //     const requestData = {
-    //         title: "New Column" // 초기 제목 설정
-    //     };
-
-    // if (newTitle) {
-    //     const updateData = {
-    //         title: newTitle
-    //     };
-
-    // $.ajax({
-    //     url: `/api/board/${boardId}/column_list/${column_list_id}}`,
-    //     type: 'PUT', // 업데이트에는 PUT 사용
-    //     contentType: 'application/json',
-    //     data: JSON.stringify(updateData),
-    //     success: function (responseData) {
-    //         alert(responseData.message);
-    //         // 업데이트 성공 처리
-    //     },
-    //     error: function () {
-    //         alert('Failed to update column title.');
-    //     }
-    // });
-    // }
+                window.location.reload();
+            },
+            error: function () {
+                alert('Failed to delete column list.');
+            }
+        });
+    }
 </script>
 </body>
 </html>
+<!-- html코드
+     <h1 class="board-title" id="board-title">보드 이름</h1>
+     <input class="board-edit" style="display: none;" th:id="${board.boardId}"> -->
+
+<!-- js코드
+    // 보드 제목과 편집 입력란 엘리먼트 선택
+    const boardTitle = document.querySelector('.board-title');
+    const boardEditInput = document.querySelector('.board-edit');
+
+    // 보드 제목 클릭 이벤트 리스너 추가
+    boardTitle.addEventListener('click', () => {
+        boardTitle.style.display = 'none';
+        boardEditInput.style.display = 'block';
+        boardEditInput.value = boardTitle.textContent.trim();
+        boardEditInput.focus();
+    });
+
+    // 편집 입력란 blur 이벤트 리스너 추가
+    boardEditInput.addEventListener('blur', () => {
+        boardTitle.style.display = 'block';
+        boardEditInput.style.display = 'none';
+        boardTitle.textContent = boardEditInput.value;
+        const title = boardEditInput.value;
+
+        // boardEditInput의 id 값 가져와서 콘솔에 출력
+        const boardEditInputId = boardEditInput.getAttribute('id');
+        console.log('보드 아이디: ', boardEditInputId);
+
+        // 서버쪽으로 수정 내용 전달할 코드 추가하기
+        $.ajax({
+            type: "PATCH",
+            url: `/api/boards/${boardEditInputId}`,
+            contentType: "application/json",
+            data: JSON.stringify({boardTitle: title}),
+            success: function () {
+                window.location.href = `http://localhost:8080/api/boards/${boardEditInputId}`
+            },
+            error: function () {
+                alert("수정 실패");
+                window.location.href = `http://localhost:8080/api/boards/${boardEditInputId}`
+            }
+        })
+    });
+-->
+

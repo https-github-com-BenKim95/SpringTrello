@@ -27,6 +27,7 @@ public class ColumnListResponseDto {
 
     public ColumnListResponseDto(ColumnList columnList) {
         this.title = columnList.getTitle();
+        this.id = columnList.getId();
         this.cardLists = columnList.getCards().stream()
                 .map(CardResponseDto::new)
                 .sorted(Comparator.comparing(CardResponseDto::getCreatedAt))

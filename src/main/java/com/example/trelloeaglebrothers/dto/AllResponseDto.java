@@ -14,11 +14,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AllResponseDto {
 
-    String title;
+    private Long boardId; //board id
+    private String title;
     private List<ColumnListResponseDto> columnLists;
 
     public AllResponseDto(Board board, List<ColumnList> columnLists) {
         this.title = board.getTitle();
+        this.boardId = board.getId();
         this.columnLists = columnLists.stream().map(ColumnListResponseDto::new).collect(Collectors.toList());
     }
 }
