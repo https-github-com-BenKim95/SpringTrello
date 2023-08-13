@@ -35,11 +35,11 @@ public class UserTest {
 
 
 
-        Board board1 = new Board("title","");
-
-        ColumnList columnList = new ColumnList(new Board());
-        columnList.setOrderNum(1L);
-        em.persist(columnList);
+//        Board board1 = new Board("title","");
+//
+//        ColumnList columnList = new ColumnList(new Board());
+//        columnList.setOrderNum(1L);
+//        em.persist(columnList);
 
 
 
