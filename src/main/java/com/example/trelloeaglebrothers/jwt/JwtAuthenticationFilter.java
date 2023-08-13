@@ -1,8 +1,6 @@
 package com.example.trelloeaglebrothers.jwt;
 
-import com.example.trelloeaglebrothers.dto.LoginRequestDto;
 import com.example.trelloeaglebrothers.security.UserDetailsImpl;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

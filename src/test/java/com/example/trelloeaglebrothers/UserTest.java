@@ -33,17 +33,12 @@ public class UserTest {
         em.persist(user3);
         em.persist(user4);
 
-
-
-        Board board1 = new Board("title","");
-
-        ColumnList columnList = new ColumnList(new Board());
-        columnList.setOrderNum(1L);
-        em.persist(columnList);
-
-
-
+//        Board board1 = new Board("title","");
 //
+//        ColumnList columnList = new ColumnList(new Board());
+//        columnList.setOrderNum(1L);
+//        em.persist(columnList);
+
 //        Board board2 = new Board("title2", "");
 //        em.persist(board1);
 //        em.persist(board2);
