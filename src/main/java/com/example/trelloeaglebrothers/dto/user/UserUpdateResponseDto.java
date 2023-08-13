@@ -1,7 +1,6 @@
-package com.example.trelloeaglebrothers.dto;
+package com.example.trelloeaglebrothers.dto.user;
 
 import com.example.trelloeaglebrothers.entity.User;
-import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,14 +9,13 @@ import lombok.Setter;
 public class UserUpdateResponseDto {
 
     private String username;
-
+    private String nickName;
     private String email;
 
-    private String nickName;
 
     public UserUpdateResponseDto(User user) {
         this.username = user.getUsername();
-        this.email = user.getEmail();
         this.nickName = user.getNickName();
+        this.email = user.getEmail();
     }
 }

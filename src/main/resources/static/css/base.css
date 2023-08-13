@@ -82,7 +82,7 @@ a {
 
 /* 회원가입, 로그인 폼 */
 #username, #password, #checkPassword, #nickName, #email {
-    width: 250px;
+    width: 200px;
     height: 30px;
     border-radius: 10px;
     text-align: center;
@@ -92,12 +92,9 @@ a {
 
 /*제출 버튼*/
 .submit {
-    width: 250px;
+    width: 200px;
     height: 30px;
     border-radius: 10px;
-
-    background-color: darkseagreen;
-    text-align: center;
 }
 
 
