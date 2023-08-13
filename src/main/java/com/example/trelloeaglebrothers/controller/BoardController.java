@@ -26,7 +26,6 @@ public class BoardController {
     private final BoardService boardService;
 
 
-
     //보드 생성
     @PostMapping("/board")
     public BoardResponseDto createBoard(@RequestBody @Valid BoardRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -68,7 +67,5 @@ public class BoardController {
         User user = userDetails.getUser();
         return boardService.getUserBoards(user);
     }
-
-
 
 }
