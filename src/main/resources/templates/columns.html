@@ -25,12 +25,20 @@
 
             <!-- 카드 -->
             <div>
+            <!-- 카드 생성-->
+                <form method="POST" action= "/api/board/column_list/card">
+                    <input type="hidden" th:value="${columns.boardId}" name="boardId">
+                    <input type="hidden" th:value="${column.id}"  name="columnId">
+                    <input type="text"  name="title">
+                    <button type="submit">확인</button>
+                </form>
+
                 <div th:each="card : ${column.cardLists}">
                     <div class="card-box">
                         <h3 th:text="${card.title}">Default Card Title</h3>
                         <p th:text="${card.description}">No description available.</p>
                         <p th:text="${card.createdAt}">Creation Date: N/A</p>
-                        <p th:text="${card.workerList}">Assigned Workers: None</p>
+<!--                        <p th:text="${card.workerList}">Assigned Workers: None</p>-->
                     </div>
                 </div>
             </div>
