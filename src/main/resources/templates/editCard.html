@@ -39,14 +39,14 @@
     const description = $('#description').val();
     const color = $('#color').val();
     const dueDate = $('#dueDate').val();
-    const workers = $('#workers').val().split(',').map(worker => worker.trim());
+    const members = $('#workers').val().split(',').map(worker => worker.trim());
 
     const cardData = {
       title: title,
       description: description,
       color: color,
       dueDate: dueDate,
-      members: workers // Adjust this to match the property name in CardRequestDto
+      members: members // Adjust this to match the property name in CardRequestDto
     };
 
     $.ajax({
