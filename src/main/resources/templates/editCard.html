@@ -3,66 +3,76 @@
 <head th:replace="~{fragment/head :: userHead ('카드 수정 페이지 ')}"></head>
 <body>
 <h1>Edit Card</h1>
-<form id="editCardForm">
-  <input type="hidden" id="cardIdToEdit" name="cardIdToEdit" th:value="${card.getCard_id()}">
-  <input type="hidden" id="columnIdToEdit" name="columnIdToEdit" th:value="${columnId}">
-  <input type="hidden" id="boardIdToEdit" name="boardIdToEdit" th:value="${boardId}">
+
+<div>
+    <input type="hidden" id="cardIdToEdit" name="cardIdToEdit" th:value="${card.getCard_id()}">
+    <input type="hidden" id="columnIdToEdit" name="columnIdToEdit" th:value="${columnId}">
+    <input type="hidden" id="boardIdToEdit" name="boardIdToEdit" th:value="${boardId}">
 
 
-  <label for="title">Title:</label>
-  <input type="text" id="title" name="title" th:value="${card.title}" required><br>
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" th:value="${card.title}" required><br>
 
-  <label for="description">Description:</label>
-  <input id="description" name="description" th:value="${card.description}"><br>
+    <label for="description">Description:</label>
+    <input id="description" name="description" th:value="${card.description}"><br>
 
-  <label for="color">Color:</label>
-  <input type="color" id="color" name="color" th:value="${card.color}"><br>
+    <label for="color">Color:</label>
+    <input type="color" id="color" name="color" th:value="${card.color}"><br>
 
-  <label for="dueDate">Due Date:</label>
-  <input type="datetime-local" id="dueDate" name="dueDate" th:value="${card.dueDate}"><br>
+    <label for="dueDate">Due Date:</label>
+    <input type="datetime-local" id="dueDate" name="dueDate" th:value="${card.dueDate}"><br>
 
-  <label for="workers">Workers (comma-separated):</label>
-  <input type="text" id="workers" name="workers" th:value="${card.workerList}"><br>
+    <label for="workers">Workers (comma-separated):</label>
+    <input type="text" id="workers" name="workers" th:value="${card.workerList}"><br>
 
-  <button onclick="editCard()">Save Changes</button>
-  <button type="button" id="cancelButton" >Cancel</button>
-</form>
+    <label for="workers">CardComments:</label>
+    <input type="text" id="cardComments" name="workers" th:value="${card.cardCommentList}"><br>
+
+    <button onclick="editCard()">Save Changes</button>
+    <button onclick="cancel()" id="cancelButton">Cancel</button>
+</div>
 
 <script>
-  function editCard() {
-    const boardId =  $('#boardIdToEdit').val();
-    const columnId = $('#columnIdToEdit').val();
-    const cardId = $('#cardIdToEdit').val();
-    const title = $('#title').val();
-    const description = $('#description').val();
-    const color = $('#color').val();
-    const dueDate = $('#dueDate').val();
-    const members = $('#workers').val().split(',').map(worker => worker.trim());
+    function editCard() {
+        const boardId = $('#boardIdToEdit').val();
+        const columnId = $('#columnIdToEdit').val();
+        const cardId = $('#cardIdToEdit').val();
+        const title = $('#title').val();
+        const description = $('#description').val();
+        const color = $('#color').val();
+        const dueDate = $('#dueDate').val();// Parse the input value as Date
+        const members = $('#workers').val().split(',').map(worker => worker.trim());
+        const cardComments = $('#cardComments').val();
 
-    const cardData = {
-      title: title,
-      description: description,
-      color: color,
-      dueDate: dueDate,
-      members: members // Adjust this to match the property name in CardRequestDto
-    };
+        const cardData = {
+            title: title,
+            description: description,
+            color: color,
+            dueDate: dueDate,
+            members: members, // Adjust this to match the property name in CardRequestDto
+            cardComments: cardComments
+        };
 
-    $.ajax({
-      url: `/api/board/${boardId}/column_list/${columnId}/card_edit/${cardId}`,
-      type: 'PUT',
-      contentType: 'application/json',
-      data: JSON.stringify(cardData),
-      success: function () {
-        alert('Card updated successfully!');
-        window.location.href = `/api/board/${boardId}`;
-      },
-      error: function () {
-        alert('Error updating card.');
-      }
-    });
-  }
+        $.ajax({
+            url: `/api/board/${boardId}/column_list/${columnId}/card_edit/${cardId}`,
+            type: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify(cardData),
+            success: function () {
+                alert('Card updated successfully!');
+                window.location.href = `/api/board/${boardId}`;
+            },
+            error: function () {
+                alert('Error updating card.');
+            }
+        });
+    }
+
+    function cancel() {
+        const boardId = $('#boardIdToEdit').val();
+        window.location.href = `/api/board/${boardId}`
+    }
+
 </script>
-
-
 </body>
 </html>

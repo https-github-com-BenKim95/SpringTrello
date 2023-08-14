@@ -3,9 +3,11 @@ package com.example.trelloeaglebrothers.controller;
 import com.example.trelloeaglebrothers.dto.ApiResponseDto;
 import com.example.trelloeaglebrothers.dto.CardCommentRequestDto;
 import com.example.trelloeaglebrothers.dto.CardRequestDto;
+import com.example.trelloeaglebrothers.dto.CardResponseDto;
 import com.example.trelloeaglebrothers.security.UserDetailsImpl;
 import com.example.trelloeaglebrothers.service.CardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -39,14 +41,14 @@ public class CardController {
     // 카드 수정2
     @PutMapping("/board/{boardId}/column_list/{columnId}/card_edit/{cardId}")
     public ResponseEntity editCard(@PathVariable Long boardId, @PathVariable Long columnId, @PathVariable Long cardId,
-                                                    @RequestBody CardRequestDto cardRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-       cardService.editCard(boardId, columnId, cardId, cardRequestDto, userDetails.getUser());
-       return ResponseEntity.ok().body("ok");
+                                   @RequestBody CardRequestDto cardRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        cardService.editCard(boardId, columnId, cardId, cardRequestDto, userDetails.getUser());
+        return ResponseEntity.ok().body("ok");
     }
 
 
-//    // 카드 수정
-//    @PutMapping("/board/{board_id}/column_list/{column_list_id}/card/{card_id}")
+     //카드 수정
+//    @PutMapping("/board/{board_id}/column_list/{column_list_id}/cards/{card_id}")
 //    public ResponseEntity<CardResponseDto> editCard(@PathVariable Long board_id, @PathVariable Long column_list_id, @PathVariable Long card_id,
 //                                                    @RequestBody CardRequestDto cardRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 //        return ResponseEntity.status(HttpStatus.OK).body(cardService.editCard(board_id, column_list_id, card_id, cardRequestDto, userDetails.getUser()));
@@ -72,6 +74,28 @@ public class CardController {
                                                              @RequestBody CardCommentRequestDto cardCommentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return cardService.createCardComments(board_id, column_list_id, card_id, cardCommentRequestDto, userDetails.getUser());
     }
+
+    //카드 댓글 작성 2
+    @PostMapping("/board/column_list/card/comment")
+    public String createCardComments(@RequestParam Long boardId,
+                                     @RequestParam Long columnId,
+                                     @RequestParam Long cardId, @RequestParam String comments, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        CardCommentRequestDto cardCommentRequestDto = new CardCommentRequestDto();
+        cardCommentRequestDto.setComment(comments);
+        cardService.createCardComments(boardId, columnId, cardId, cardCommentRequestDto, userDetails.getUser());
+        return "redirect:/api/board/" + boardId;
+    }
+
+//    @PostMapping("/board/column_list/card")
+//    public String createCard(@RequestParam Long boardId,
+//                             @RequestParam Long columnId,
+//                             @RequestParam String title, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+//        CardRequestDto cardRequestDto = new CardRequestDto();
+//        cardRequestDto.setTitle(title);
+//        cardService.createCard(boardId, columnId, cardRequestDto, userDetails.getUser());
+//        return "redirect:/api/board/" + boardId;
+//    }
+
 
     // 카드 댓글 수정
     @PutMapping("/board/{board_id}/column_list/{column_list_id}/card/{card_id}/comment/{card_comment_id}")

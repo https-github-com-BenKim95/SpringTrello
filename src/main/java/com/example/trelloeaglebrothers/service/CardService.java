@@ -139,7 +139,6 @@ public class CardService {
         } else if (card.isEmpty()) {
             return ResponseEntity.status(400).body(new ApiResponseDto(HttpStatus.BAD_REQUEST, "해당 카드는 존재하지 않습니다."));
         }
-
         cardCommentRepository.save(new CardComment(cardCommentRequestDto, user, card.get()));
         return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK, "카드 댓글이 작성되었습니다."));
     }
