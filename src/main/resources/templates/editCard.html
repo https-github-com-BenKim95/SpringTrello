@@ -22,16 +22,14 @@
   <input type="datetime-local" id="dueDate" name="dueDate" th:value="${card.dueDate}"><br>
 
   <label for="workers">Workers (comma-separated):</label>
-  <input type="text" id="workers" name="workers" th:value="${card.workerList}"><br>
+  <input type="text" id="workers" name="members" th:value="${card.memberList}"><br>
 
   <button onclick="editCard()">Save Changes</button>
   <button type="button" id="cancelButton" >Cancel</button>
 </form>
 
-
 <script>
   function editCard() {
-
     const boardId =  $('#boardIdToEdit').val();
     const columnId = $('#columnIdToEdit').val();
     const cardId = $('#cardIdToEdit').val();
@@ -39,14 +37,14 @@
     const description = $('#description').val();
     const color = $('#color').val();
     const dueDate = $('#dueDate').val();
-    const workers = $('#workers').val().split(',').map(worker => worker.trim());
+    const members = $('#members').val().split(',').map(worker => worker.trim());
 
     const cardData = {
       title: title,
       description: description,
       color: color,
       dueDate: dueDate,
-      members: workers // Adjust this to match the property name in CardRequestDto
+      members: members // Adjust this to match the property name in CardRequestDto
     };
 
     $.ajax({
@@ -55,7 +53,6 @@
       contentType: 'application/json',
       data: JSON.stringify(cardData),
       success: function () {
-        console.log("a");
         alert('Card updated successfully!');
         window.location.href = `/api/board/${boardId}`;
       },
