@@ -126,17 +126,18 @@ public class ColumnListService {
 
 
     //컬럼 순서 변경
+    //컬럼 순서 변경
     @Transactional
-    public ColumnListResponseDto orderSwap(Long boardId, User user, Long forwardOrder, Long backwardOrder) {
+    public ColumnListResponseDto orderSwap(Long boardId, User user, ColumnListRequestDto columnListRequestDto) {
         //보드가 존재 하는지 체크
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 보드가 존재하지 않습니다."));
 
         //바꿀 첫 번째 칼럼이 존재 하는지 체크
-        ColumnList columnList1 = columnListRepository.findById(forwardOrder)
+        ColumnList columnList1 = columnListRepository.findByOrderNum(columnListRequestDto.getForwardOrderNUm())
                 .orElseThrow(() -> new IllegalArgumentException("해당 칼럼이 존재하지 않습니다."));
         //바꿀 두 번째 컬럼이 존재하는지 체크
-        ColumnList columnList2 = columnListRepository.findById(backwardOrder)
+        ColumnList columnList2 = columnListRepository.findByOrderNum(columnListRequestDto.getBackwardOrderNum())
                 .orElseThrow(() -> new IllegalArgumentException("해당 칼럼이 존재하지 않습니다."));
 
         //서로 순서 바꿔서 값 넣어주기

@@ -19,7 +19,7 @@ import java.util.concurrent.RejectedExecutionException;
 public class ColumListController {
 
 
-//    //칼럼 조회
+   //칼럼 조회
 
     @GetMapping("/board/{board_id}/column/column_list/{column_list_id}")
     public ColumnListResponseDto getColumns(@PathVariable Long board_id,
@@ -55,18 +55,6 @@ public class ColumListController {
 
     }
 
-//    //칼럼 이름 수정
-//    @PutMapping("/board/{board_id}/column_list/{column_list_id}")
-//    public ColumnListResponseDto modifiedColumnList(@PathVariable Long board_id,
-//                                                    @PathVariable Long column_list_id,
-//                                                    @AuthenticationPrincipal UserDetailsImpl userDetails,
-//                                                    @RequestBody ColumnListRequestDto requestDto) {
-//        log.info("칼럼 이름 수정", board_id);
-//        log.info("칼럼 이름 수정", column_list_id);
-//        return columnListService.modifiedColumnList(board_id, column_list_id, userDetails.getUser(), requestDto);
-//
-//
-//    }
 
     //칼럼 삭제
     @DeleteMapping("/board/{board_id}/column_list/{column_list_id}")
@@ -87,13 +75,12 @@ public class ColumListController {
     }
 
 
-    @PutMapping("/board/{board_id}/column_list/{forward_order}/{backward_order}")
+    //칼럼 순서 이동
+    @PutMapping("/board/{board_id}/column_list")
     public ColumnListResponseDto orderSwap(@PathVariable Long board_id,
-                                           @PathVariable Long forward_order,
-                                           @PathVariable Long backward_order,
+                                           @RequestBody ColumnListRequestDto columnListRequestDto,
                                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return columnListService.orderSwap(board_id, userDetails.getUser(), forward_order, backward_order);
+        return columnListService.orderSwap(board_id, userDetails.getUser(),columnListRequestDto);
 
     }
-
 }

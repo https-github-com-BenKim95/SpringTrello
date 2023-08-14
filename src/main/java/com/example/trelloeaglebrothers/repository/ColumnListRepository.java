@@ -17,5 +17,7 @@ public interface ColumnListRepository extends JpaRepository<ColumnList, Long> {
 
     List<ColumnList> findByBoard_Id(Long BoardId);
 
+    Optional<ColumnList> findByOrderNum(Long orderNum);
+
 
 }

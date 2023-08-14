@@ -7,6 +7,8 @@ import lombok.Setter;
 @Setter
 public class ColumnListRequestDto {
     private String title;
+    private Long forwardOrderNUm;
+    private Long backwardOrderNum;
 
 
     }
