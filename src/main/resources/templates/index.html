@@ -14,5 +14,22 @@
         </form>
     </div>
 </div>
+
+<script>
+    // URL 매개변수에서 error 값을 읽어와서 경고창을 띄우는 함수
+    function showAlertFromUrl() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const success = urlParams.get('success');
+
+        if (success === 'password') {
+            alert('비밀번호가 변경되었습니다.');
+        } else if(success === 'delete') {
+            alert('회원탈퇴 되었습니다.');
+        }
+    }
+    // 페이지 로드 시 showAlertFromUrl 함수 호출
+    window.onload = showAlertFromUrl;
+</script>
+
 </body>
 </html>
