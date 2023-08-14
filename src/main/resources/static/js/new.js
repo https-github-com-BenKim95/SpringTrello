@@ -115,7 +115,7 @@ function Create() {
                     title: '보드 생성 완료!'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.href = "http://localhost:8080";
+                        window.location.href = "http://localhost:8080/memberMain";
                     }
                 });
             } else {
