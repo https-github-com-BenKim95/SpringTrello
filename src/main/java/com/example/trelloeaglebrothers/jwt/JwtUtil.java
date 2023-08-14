@@ -68,6 +68,7 @@ public class JwtUtil {
 
             Cookie cookie = new Cookie(AUTHORIZATION_HEADER, token);
             cookie.setPath("/");
+            cookie.setMaxAge(3600);
 
             res.addCookie(cookie);
         } catch (UnsupportedEncodingException e) {
