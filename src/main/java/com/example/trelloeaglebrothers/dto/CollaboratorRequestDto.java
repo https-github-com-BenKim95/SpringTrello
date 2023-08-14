@@ -4,5 +4,5 @@ import lombok.Getter;
 
 @Getter
 public class CollaboratorRequestDto {
-    private Long id;
+    private String username;
 }

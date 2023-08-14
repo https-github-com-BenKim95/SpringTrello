@@ -113,11 +113,10 @@ function deleteBoard(boardId) {
 
 
 function inviteMember(boardId) {
-    const collaboratorId = prompt("초대할 사용자의 ID를 입력하세요:");
-    if (collaboratorId) {
+    const collaboratorUsername = prompt("초대할 사용자의 ID를 입력하세요:");
+    if (collaboratorUsername) {
         const collaboratorRequestDto = {
-            id: collaboratorId
-
+            username: collaboratorUsername
         };
 
         fetch(`/api/board/collaborator/${boardId}`, {
@@ -144,6 +143,7 @@ function inviteMember(boardId) {
             });
     }
 }
+
 
 
 function getBoardIdFromUrl() {

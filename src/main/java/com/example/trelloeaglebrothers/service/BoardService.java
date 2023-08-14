@@ -5,10 +5,7 @@ import com.example.trelloeaglebrothers.dto.BoardRequestDto;
 import com.example.trelloeaglebrothers.dto.BoardResponseDto;
 import com.example.trelloeaglebrothers.dto.CollaboratorRequestDto;
 import com.example.trelloeaglebrothers.entity.*;
-import com.example.trelloeaglebrothers.repository.BoardRepository;
-import com.example.trelloeaglebrothers.repository.ColumnListRepository;
-import com.example.trelloeaglebrothers.repository.UserBoardRepository;
-import com.example.trelloeaglebrothers.repository.UserRepository;
+import com.example.trelloeaglebrothers.repository.*;
 import com.example.trelloeaglebrothers.status.Message;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +29,7 @@ public class BoardService {
     private final MessageSource messageSource;
     private final UserRepository userRepository;
     private final ColumnListRepository columnListRepository;
+    private final CardRepository cardRepository;
 
     @Transactional(readOnly = true)
     public List<BoardResponseDto> getBoards() {
@@ -66,15 +64,20 @@ public class BoardService {
 
 
     @Transactional
-    public ResponseEntity<Message> deleteBoard(Long boardId, User user) {
+    public void deleteBoard(Long boardId, User user) {
         Board board = confirmBoard(boardId);
-        confirmUser(board, user);
 
+        // 예 보드 1에서, 로그인한 유저이름을 권한을 찾음 -> 매니저
+        // 매니저가 아니면 삭제 안됨
+        Optional<UserBoard> findUserBoard = userBoardRepository.findUserBoardByBoardAndCollaborator(board, user);
+        UserBoard userBoard = findUserBoard.get();
+
+        if (!userBoard.getRole().equals(UserRoleEnum.MANAGER)) {
+            throw new IllegalArgumentException("보드 생성자만 보드를 삭제할 수 있습니다");
+        }
+
+        // 삭제 로직 추가
         boardRepository.delete(board);
-        String msg = "삭제 완료";
-        Message message = new Message(msg, HttpStatus.OK.value());
-
-        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     // 공통 로직
@@ -84,20 +87,18 @@ public class BoardService {
                         new IllegalArgumentException(messageSource.getMessage(
                                 "not.exist.post",
                                 null,
-                                "해당 게시물이 존재하지 않습니다",
+                                "해당 보드가 존재하지 않습니다",
                                 Locale.getDefault()
                         ))
                 );
     }
 
     private void confirmUser(Board board, User user) {
-//        UserRoleEnum userRoleEnum = user.getRole();
-//        if (userRoleEnum == UserRoleEnum.MEMBER && !Objects.equals(board.getAuthor().getId(), user.getId())) {
         if (!Objects.equals(board.getAuthor().getId(), user.getId())) {
             throw new IllegalArgumentException(messageSource.getMessage(
                     "not.your.post",
                     null,
-                    "작성자만 수정 및 삭제가 가능합니다",
+                    "생성자만 수정 및 삭제가 가능합니다",
                     Locale.getDefault()
             ));
         }
@@ -153,6 +154,24 @@ public class BoardService {
 
         List<ColumnList> columnLists = columnListRepository.findByBoard_Id(id);
         return new AllResponseDto(board.get(), columnLists);
+    }
+
+    @Transactional(readOnly = true)
+    public List<BoardResponseDto> getUserBoards(User user) {
+        // 유저and보드에서, 로그인한 유저가 들어가 있는 모든 보드를 리스트 반환하면 된다.
+        List<UserBoard> userBoards = userBoardRepository.findAllByCollaborator(user);
+
+        List<Board> boards = new ArrayList<>();
+        for (int i = 0; i < userBoards.size(); i++) {
+            UserBoard userBoard1 = userBoards.get(i);
+            Board board = userBoard1.getBoard();
+            boards.add(board);
+        }
+
+        return boards
+                .stream()
+                .map(BoardResponseDto::new)
+                .toList();
     }
 
 }
