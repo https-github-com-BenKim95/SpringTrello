@@ -4,53 +4,60 @@
 <body>
 <div class="container-eagle">
     <div th:replace="~{fragment/nav :: useNav}">insert</div>
-<div class="board">
-    <button class="add-list" th:attr="onclick='addList(' + ${board_id} + ')'">Add List</button>
-</div>
 
-<h1 th:text="${columns.title}">Default Title</h1>
-<input type="hidden" th:value="${columns.boardId}" id="boardId"/>
-<div class="columns-container">
-    <div th:each="column : ${columns.columnLists}">
-        <div class="column-box">
-            <!-- 'x' 버튼 추가 -->
-            <button class="delete-column" th:attr="onclick='deleteColumn(' + ${column.id} + ')'">x</button>
+    <h1 th:text="${columns.title}">Default Title</h1>
+    <input type="hidden" th:value="${columns.boardId}" id="boardId"/>
+    <div class="columns-container">
+        <div th:each="column : ${columns.columnLists}">
+            <div class="column-box">
 
-            <form method="get" action="/api/board/column_list">
-                <input type="hidden" th:value="${columns.boardId}" th:id="${columns.boardId}" name="boardId">
-                <input type="hidden" th:value="${column.id}" th:id="${column.id}" name="id">
-                <input type="text" th:value="${column.title}" th:id="${column.title}" name="title">
-                <button type="submit">확인</button>
-            </form>
+                <!-- 'x' 버튼 추가 -->
+                <button class="delete-column-box" th:attr="onclick='deleteColumn(' + ${column.id} + ')'">
+                    <i class="fa-solid fa-x"></i>
+                </button><br><br>
 
-            <!-- 카드 -->
-            <div>
-            <!-- 카드 생성-->
-                <form method="POST" action= "/api/board/column_list/card">
-                    <input type="hidden" th:value="${columns.boardId}" name="boardId">
-                    <input type="hidden" th:value="${column.id}"  name="columnId">
-                    <input type="text"  name="title">
-                    <button type="submit">확인</button>
+                <!-- 리스트 제목 변경 -->
+                <form method="get" action="/api/board/column_list">
+                    <input type="hidden" th:value="${columns.boardId}" th:id="${columns.boardId}" name="boardId">
+                    <input type="hidden" th:value="${column.id}" th:id="${column.id}" name="id">
+                    <input  class="form-control" type="text" th:value="${column.title}" th:id="${column.title}" name="title">
+                    <button class="btn btn-primary btn-sm" type="submit">이름 변경</button>
                 </form>
+                <br>
 
-                <div th:each="card : ${column.cardLists}">
-                    <div class="card-box">
-                        <h3 th:text="${card.title}">Default Card Title</h3>
-                        <p th:text="${card.description}">No description available.</p>
-                        <p th:text="${card.createdAt}">Creation Date: N/A</p>
-<!--                        <p th:text="${card.workerList}">Assigned Workers: None</p>-->
-                    </div>
-                    <form method="GET" action= "/board/column_list/card_show">
+                <!-- 카드 -->
+                <div>
+                    <!-- 카드 생성-->
+                    <form method="POST" action="/api/board/column_list/card">
                         <input type="hidden" th:value="${columns.boardId}" name="boardId">
-                        <input type="hidden" th:value="${column.id}"  name="columnId">
-                        <input type="hidden" th:value="${card.card_id}"  name="cardId">
-                        <button type="submit">편집</button>
+                        <input type="hidden" th:value="${column.id}" name="columnId">
+                        <input type="text" name="title" class="form-control">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
                     </form>
+
+                    <div th:each="card : ${column.cardLists}">
+                        <div class="card-box">
+                            <h3 th:text="${card.title}">Default Card Title</h3>
+                            <p th:text="${card.description}">No description available.</p>
+                            <p th:text="${card.createdAt}">Creation Date: N/A</p>
+                            <!--                        <p th:text="${card.workerList}">Assigned Workers: None</p>-->
+                        </div>
+                        <form method="GET" action="/board/column_list/card_show">
+                            <input type="hidden" th:value="${columns.boardId}" name="boardId">
+                            <input type="hidden" th:value="${column.id}" name="columnId">
+                            <input type="hidden" th:value="${card.card_id}" name="cardId">
+                            <button type="submit" class="btn btn-primary btn-sm">편집</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
+        <!--  리스트 추가 버튼  -->
+        <button class="list-add" onclick=addList()>Add List</button>
     </div>
-</div>
+
 </div>
 <script>
     function addList() {

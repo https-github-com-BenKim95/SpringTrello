@@ -1,11 +1,22 @@
+/*@font-face {*/
+/*    font-family: 'GmarketSansMedium';*/
+/*    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');*/
+/*    font-weight: normal;*/
+/*    font-style: normal;*/
+/*}*/
+
+/**{font-family: 'GmarketSansMedium', sans-serif;}*/
+/* 폰트굵기는 300, 500, 700 있습니다. */
+
 @font-face {
-    font-family: 'GmarketSansMedium';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
-    font-weight: normal;
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
     font-style: normal;
 }
-*{font-family: 'GmarketSansMedium', sans-serif;}
-/* 폰트굵기는 300, 500, 700 있습니다. */
+
+*{font-family: 'Pretendard-Regular', sans-serif;}
+
 body {
     margin: 0;
     padding: 0;
@@ -99,6 +110,8 @@ a {
 }
 
 .columns-container {
+    width: 1320px;
+    margin: auto;
     display: flex;
     overflow-x: auto; /* 스크롤이 필요할 경우 스크롤 허용 */
 }
@@ -109,17 +122,21 @@ a {
     margin: 5px;
     background-color: #f0f0f0;
     font-size: 14px;
-    width: 200px;
+    border-radius: 10px;
+    width: 250px;
+    text-align: right;
 
 }
 
 .card-box {
     border: 1px solid #ddd;
+    border-radius: 10px;
     padding: 5px;
     margin: 5px;
     background-color: #fff;
     font-size: 12px;
-    width: 150px;
+    text-align: left;
+    width: 200px;
 }
 
 /* 메모지 스타일 */
@@ -135,10 +152,11 @@ a {
 
 /* 작은 삭제 버튼 스타일 추가 */
 .delete-column-box {
-    position: absolute;
-    top: 0;
-    right: 0;
-    display: inline-block;
+    /*position: absolute;*/
+    /*top: 0;*/
+    /*right: 0;*/
+    /*display: inline-block;*/
+    border : 0px;
     background-color: #ff9999;
     color: white;
     font-size: 10px;
@@ -147,4 +165,10 @@ a {
     cursor: pointer;
 }
 
-
+.list-add {
+    width: 250px;
+    height: 100px;
+    font-size: 14px;
+    border-radius: 10px;
+    background-color: rgba(239, 232, 232, 0.62);
+}

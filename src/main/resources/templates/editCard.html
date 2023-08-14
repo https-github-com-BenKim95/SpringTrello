@@ -3,7 +3,7 @@
 <head th:replace="~{fragment/head :: userHead ('카드 수정 페이지 ')}"></head>
 <body>
 <h1>Edit Card</h1>
-<form id="editCardForm">
+<div  id="editCardForm" >
   <input type="hidden" id="cardIdToEdit" name="cardIdToEdit" th:value="${card.getCard_id()}">
   <input type="hidden" id="columnIdToEdit" name="columnIdToEdit" th:value="${columnId}">
   <input type="hidden" id="boardIdToEdit" name="boardIdToEdit" th:value="${boardId}">
@@ -26,7 +26,7 @@
 
   <button onclick="editCard()">Save Changes</button>
   <button type="button" id="cancelButton" >Cancel</button>
-</form>
+<div/>
 
 <script>
   function editCard() {

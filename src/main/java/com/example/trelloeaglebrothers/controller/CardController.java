@@ -38,10 +38,12 @@ public class CardController {
 
     // 카드 수정2
     @PutMapping("/board/{boardId}/column_list/{columnId}/card_edit/{cardId}")
-    public ResponseEntity editCard(@PathVariable Long boardId, @PathVariable Long columnId, @PathVariable Long cardId,
+    public String editCard(@PathVariable("boardId") Long boardId, @PathVariable("columnId") Long columnId, @PathVariable("cardId") Long cardId,
                                                     @RequestBody CardRequestDto cardRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-       cardService.editCard(boardId, columnId, cardId, cardRequestDto, userDetails.getUser());
-       return ResponseEntity.ok().body("ok");
+        System.out.println("boardId = " + boardId);
+        cardService.editCard(boardId, columnId, cardId, cardRequestDto, userDetails.getUser());
+        Long id = boardId;
+       return "redirect:/api/board/" + id;
     }
 
 
