@@ -22,7 +22,7 @@
   <input type="datetime-local" id="dueDate" name="dueDate" th:value="${card.dueDate}"><br>
 
   <label for="workers">Workers (comma-separated):</label>
-  <input type="text" id="workers" name="members" th:value="${card.memberList}"><br>
+  <input type="text" id="workers" name="workers" th:value="${card.workerList}"><br>
 
   <button onclick="editCard()">Save Changes</button>
   <button type="button" id="cancelButton" >Cancel</button>
@@ -37,7 +37,7 @@
     const description = $('#description').val();
     const color = $('#color').val();
     const dueDate = $('#dueDate').val();
-    const members = $('#members').val().split(',').map(worker => worker.trim());
+    const members = $('#workers').val().split(',').map(worker => worker.trim());
 
     const cardData = {
       title: title,

@@ -20,7 +20,7 @@ public class CardResponseDto {
     private LocalDateTime dueDate;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    private List<String> memberList;
+    private List<String> workerList;
 //    private List<CardCommentResponseDto> cardCommentList;
 
 
@@ -32,7 +32,7 @@ public class CardResponseDto {
         this.dueDate = card.getDueDate();
         this.createdAt = card.getCreatedAt();
         this.modifiedAt = card.getModifiedAt();
-        this.memberList = memberList(card.getUserCardList());
+        this.workerList = memberList(card.getUserCardList());
 //        this.cardCommentList = card.getCardComments().stream().map(CardCommentResponseDto::new).collect(Collectors.toList());
     }
 
