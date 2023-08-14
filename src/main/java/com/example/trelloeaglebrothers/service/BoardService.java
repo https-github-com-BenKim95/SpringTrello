@@ -119,7 +119,7 @@ public class BoardService {
     public ResponseEntity<Message> addCollaborator(Long boardId, CollaboratorRequestDto collaboratorRequestDto, User user) {
         // 유저의 게시글 권한을 확인하고,
         Board board = findBoard(boardId);
-        User collaborator = userRepository.findById(collaboratorRequestDto.getId())
+        User collaborator = userRepository.findByUsername(collaboratorRequestDto.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다."));
 
         // 글의 매니저 권한을 확인해서 둘이 같으면 아래 내용이 가능함
