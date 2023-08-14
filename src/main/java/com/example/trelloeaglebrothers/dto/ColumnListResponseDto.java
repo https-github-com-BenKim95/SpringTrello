@@ -17,7 +17,6 @@ public class ColumnListResponseDto {
 
     private Long id;
     private String msg;
-
     private String title;
     private List<CardResponseDto> cardLists = new ArrayList<>();
 

@@ -3,15 +3,12 @@ package com.example.trelloeaglebrothers.controller;
 import com.example.trelloeaglebrothers.dto.ApiResponseDto;
 import com.example.trelloeaglebrothers.dto.CardCommentRequestDto;
 import com.example.trelloeaglebrothers.dto.CardRequestDto;
-import com.example.trelloeaglebrothers.dto.CardResponseDto;
 import com.example.trelloeaglebrothers.security.UserDetailsImpl;
 import com.example.trelloeaglebrothers.service.CardService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -39,13 +36,21 @@ public class CardController {
         return "redirect:/api/board/" + boardId;
     }
 
-
-    // 카드 수정
-    @PutMapping("/board/{board_id}/column_list/{column_list_id}/card/{card_id}")
-    public ResponseEntity<CardResponseDto> editCard(@PathVariable Long board_id, @PathVariable Long column_list_id, @PathVariable Long card_id,
+    // 카드 수정2
+    @PutMapping("/board/{boardId}/column_list/{columnId}/card_edit/{cardId}")
+    public ResponseEntity editCard(@PathVariable Long boardId, @PathVariable Long columnId, @PathVariable Long cardId,
                                                     @RequestBody CardRequestDto cardRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return ResponseEntity.status(HttpStatus.OK).body(cardService.editCard(board_id, column_list_id, card_id, cardRequestDto, userDetails.getUser()));
+       cardService.editCard(boardId, columnId, cardId, cardRequestDto, userDetails.getUser());
+       return ResponseEntity.ok().body("ok");
     }
+
+
+//    // 카드 수정
+//    @PutMapping("/board/{board_id}/column_list/{column_list_id}/card/{card_id}")
+//    public ResponseEntity<CardResponseDto> editCard(@PathVariable Long board_id, @PathVariable Long column_list_id, @PathVariable Long card_id,
+//                                                    @RequestBody CardRequestDto cardRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+//        return ResponseEntity.status(HttpStatus.OK).body(cardService.editCard(board_id, column_list_id, card_id, cardRequestDto, userDetails.getUser()));
+//    }
 
     // 카드 위치 변경
     @PutMapping("/board/{board_id}/column_list/{column_list_id}/card/{forward_order}/{backward_order}")

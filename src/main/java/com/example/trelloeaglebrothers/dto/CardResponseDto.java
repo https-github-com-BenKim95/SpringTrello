@@ -20,8 +20,8 @@ public class CardResponseDto {
     private LocalDateTime dueDate;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    private List<String> memberList;
-    private List<CardCommentResponseDto> cardCommentList;
+    private List<String> workerList;
+//    private List<CardCommentResponseDto> cardCommentList;
 
 
     public CardResponseDto(Card card) {
@@ -32,8 +32,8 @@ public class CardResponseDto {
         this.dueDate = card.getDueDate();
         this.createdAt = card.getCreatedAt();
         this.modifiedAt = card.getModifiedAt();
-        this.memberList = memberList(card.getUserCardList());
-        this.cardCommentList = card.getCardComments().stream().map(CardCommentResponseDto::new).collect(Collectors.toList());
+        this.workerList = memberList(card.getUserCardList());
+//        this.cardCommentList = card.getCardComments().stream().map(CardCommentResponseDto::new).collect(Collectors.toList());
     }
 
     // List<UserCard>를 Response에서 Username만 나오게함
