@@ -28,10 +28,8 @@
   <button type="button" id="cancelButton" >Cancel</button>
 </form>
 
-
 <script>
   function editCard() {
-
     const boardId =  $('#boardIdToEdit').val();
     const columnId = $('#columnIdToEdit').val();
     const cardId = $('#cardIdToEdit').val();
@@ -55,7 +53,6 @@
       contentType: 'application/json',
       data: JSON.stringify(cardData),
       success: function () {
-        console.log("a");
         alert('Card updated successfully!');
         window.location.href = `/api/board/${boardId}`;
       },
